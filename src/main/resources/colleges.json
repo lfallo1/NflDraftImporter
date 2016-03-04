@@ -1,0 +1,3142 @@
+[
+  {
+    "id": "1",
+    "name": "Clemson",
+    "conf": 1
+  },
+  {
+    "id": "2",
+    "name": "Duke",
+    "conf": 1
+  },
+  {
+    "id": "3",
+    "name": "Florida St.",
+    "conf": 1
+  },
+  {
+    "id": "4",
+    "name": "Georgia Tech",
+    "conf": 1
+  },
+  {
+    "id": "5",
+    "name": "Maryland",
+    "conf": 2
+  },
+  {
+    "id": "6",
+    "name": "N.C. State",
+    "conf": 1
+  },
+  {
+    "id": "7",
+    "name": "North Carolina",
+    "conf": 1
+  },
+  {
+    "id": "8",
+    "name": "Virginia",
+    "conf": 1
+  },
+  {
+    "id": "9",
+    "name": "Wake Forest",
+    "conf": 1
+  },
+  {
+    "id": "10",
+    "name": "Baylor",
+    "conf": 3
+  },
+  {
+    "id": "11",
+    "name": "Colorado",
+    "conf": 4
+  },
+  {
+    "id": "12",
+    "name": "Iowa St.",
+    "conf": 3
+  },
+  {
+    "id": "13",
+    "name": "Kansas",
+    "conf": 3
+  },
+  {
+    "id": "14",
+    "name": "Kansas St.",
+    "conf": 3
+  },
+  {
+    "id": "15",
+    "name": "Missouri",
+    "conf": 5
+  },
+  {
+    "id": "16",
+    "name": "Nebraska",
+    "conf": 2
+  },
+  {
+    "id": "17",
+    "name": "Oklahoma",
+    "conf": 3
+  },
+  {
+    "id": "18",
+    "name": "Oklahoma St.",
+    "conf": 3
+  },
+  {
+    "id": "19",
+    "name": "Texas",
+    "conf": 3
+  },
+  {
+    "id": "20",
+    "name": "Texas A&M",
+    "conf": 5
+  },
+  {
+    "id": "21",
+    "name": "Texas Tech",
+    "conf": 3
+  },
+  {
+    "id": "22",
+    "name": "Boston College",
+    "conf": 1
+  },
+  {
+    "id": "23",
+    "name": "Miami",
+    "conf": 1
+  },
+  {
+    "id": "24",
+    "name": "Pittsburgh",
+    "conf": 1
+  },
+  {
+    "id": "25",
+    "name": "Rutgers",
+    "conf": 2
+  },
+  {
+    "id": "26",
+    "name": "Syracuse",
+    "conf": 1
+  },
+  {
+    "id": "27",
+    "name": "Temple",
+    "conf": 6
+  },
+  {
+    "id": "28",
+    "name": "Virginia Tech",
+    "conf": 1
+  },
+  {
+    "id": "29",
+    "name": "West Virginia",
+    "conf": 3
+  },
+  {
+    "id": "30",
+    "name": "Illinois",
+    "conf": 2
+  },
+  {
+    "id": "31",
+    "name": "Indiana",
+    "conf": 2
+  },
+  {
+    "id": "32",
+    "name": "Iowa",
+    "conf": 2
+  },
+  {
+    "id": "33",
+    "name": "Michigan",
+    "conf": 2
+  },
+  {
+    "id": "34",
+    "name": "Michigan St.",
+    "conf": 2
+  },
+  {
+    "id": "35",
+    "name": "Minnesota",
+    "conf": 2
+  },
+  {
+    "id": "36",
+    "name": "Northwestern",
+    "conf": 2
+  },
+  {
+    "id": "37",
+    "name": "Ohio St.",
+    "conf": 2
+  },
+  {
+    "id": "38",
+    "name": "Penn St.",
+    "conf": 2
+  },
+  {
+    "id": "39",
+    "name": "Purdue",
+    "conf": 2
+  },
+  {
+    "id": "40",
+    "name": "Wisconsin",
+    "conf": 2
+  },
+  {
+    "id": "41",
+    "name": "Connecticut",
+    "conf": 6
+  },
+  {
+    "id": "42",
+    "name": "Navy",
+    "conf": 7
+  },
+  {
+    "id": "43",
+    "name": "Notre Dame",
+    "conf": 7
+  },
+  {
+    "id": "44",
+    "name": "Troy",
+    "conf": 8
+  },
+  {
+    "id": "45",
+    "name": "Arizona State",
+    "conf": 4
+  },
+  {
+    "id": "46",
+    "name": "Arizona",
+    "conf": 4
+  },
+  {
+    "id": "47",
+    "name": "California",
+    "conf": 4
+  },
+  {
+    "id": "48",
+    "name": "Oregon",
+    "conf": 4
+  },
+  {
+    "id": "49",
+    "name": "Oregon St.",
+    "conf": 4
+  },
+  {
+    "id": "50",
+    "name": "USC",
+    "conf": 4
+  },
+  {
+    "id": "51",
+    "name": "Stanford",
+    "conf": 4
+  },
+  {
+    "id": "52",
+    "name": "UCLA",
+    "conf": 4
+  },
+  {
+    "id": "53",
+    "name": "Washington",
+    "conf": 4
+  },
+  {
+    "id": "54",
+    "name": "Washington St.",
+    "conf": 4
+  },
+  {
+    "id": "55",
+    "name": "Army",
+    "conf": 7
+  },
+  {
+    "id": "56",
+    "name": "Cincinnati",
+    "conf": 6
+  },
+  {
+    "id": "57",
+    "name": "East Carolina",
+    "conf": 6
+  },
+  {
+    "id": "58",
+    "name": "Houston",
+    "conf": 6
+  },
+  {
+    "id": "59",
+    "name": "Louisville",
+    "conf": 1
+  },
+  {
+    "id": "60",
+    "name": "Memphis",
+    "conf": 6
+  },
+  {
+    "id": "61",
+    "name": "South Florida",
+    "conf": 6
+  },
+  {
+    "id": "62",
+    "name": "Southern Miss",
+    "conf": 9
+  },
+  {
+    "id": "63",
+    "name": "TCU",
+    "conf": 3
+  },
+  {
+    "id": "64",
+    "name": "Tulane",
+    "conf": 6
+  },
+  {
+    "id": "65",
+    "name": "UAB",
+    "conf": 9
+  },
+  {
+    "id": "66",
+    "name": "Arkansas State",
+    "conf": 8
+  },
+  {
+    "id": "67",
+    "name": "Idaho",
+    "conf": 8
+  },
+  {
+    "id": "68",
+    "name": "Louisiana-Lafayette",
+    "conf": 8
+  },
+  {
+    "id": "69",
+    "name": "Louisiana-Monroe",
+    "conf": 8
+  },
+  {
+    "id": "70",
+    "name": "Middle Tennessee St.",
+    "conf": 9
+  },
+  {
+    "id": "71",
+    "name": "New Mexico St.",
+    "conf": 8
+  },
+  {
+    "id": "72",
+    "name": "North Texas",
+    "conf": 9
+  },
+  {
+    "id": "73",
+    "name": "Utah St.",
+    "conf": 10
+  },
+  {
+    "id": "74",
+    "name": "Air Force",
+    "conf": 10
+  },
+  {
+    "id": "75",
+    "name": "BYU",
+    "conf": 7
+  },
+  {
+    "id": "76",
+    "name": "Colorado St.",
+    "conf": 10
+  },
+  {
+    "id": "77",
+    "name": "New Mexico",
+    "conf": 10
+  },
+  {
+    "id": "78",
+    "name": "San Diego St.",
+    "conf": 10
+  },
+  {
+    "id": "79",
+    "name": "UNLV",
+    "conf": 10
+  },
+  {
+    "id": "80",
+    "name": "Utah",
+    "conf": 4
+  },
+  {
+    "id": "81",
+    "name": "Wyoming",
+    "conf": 10
+  },
+  {
+    "id": "82",
+    "name": "Florida",
+    "conf": 5
+  },
+  {
+    "id": "83",
+    "name": "Georgia",
+    "conf": 5
+  },
+  {
+    "id": "84",
+    "name": "Kentucky",
+    "conf": 5
+  },
+  {
+    "id": "85",
+    "name": "South Carolina",
+    "conf": 5
+  },
+  {
+    "id": "86",
+    "name": "Tennessee",
+    "conf": 5
+  },
+  {
+    "id": "87",
+    "name": "Vanderbilt",
+    "conf": 5
+  },
+  {
+    "id": "88",
+    "name": "Alabama",
+    "conf": 5
+  },
+  {
+    "id": "89",
+    "name": "Arkansas",
+    "conf": 5
+  },
+  {
+    "id": "90",
+    "name": "Auburn",
+    "conf": 5
+  },
+  {
+    "id": "91",
+    "name": "LSU",
+    "conf": 5
+  },
+  {
+    "id": "92",
+    "name": "Mississippi St.",
+    "conf": 5
+  },
+  {
+    "id": "93",
+    "name": "Mississippi",
+    "conf": 5
+  },
+  {
+    "id": "94",
+    "name": "Akron",
+    "conf": 11
+  },
+  {
+    "id": "95",
+    "name": "Buffalo",
+    "conf": 11
+  },
+  {
+    "id": "96",
+    "name": "Central Florida",
+    "conf": 6
+  },
+  {
+    "id": "97",
+    "name": "Kent St.",
+    "conf": 11
+  },
+  {
+    "id": "98",
+    "name": "Marshall",
+    "conf": 9
+  },
+  {
+    "id": "99",
+    "name": "Miami (OH)",
+    "conf": 11
+  },
+  {
+    "id": "100",
+    "name": "Ohio",
+    "conf": 11
+  },
+  {
+    "id": "101",
+    "name": "Ball St.",
+    "conf": 11
+  },
+  {
+    "id": "102",
+    "name": "Bowling Green",
+    "conf": 11
+  },
+  {
+    "id": "103",
+    "name": "Central Michigan",
+    "conf": 11
+  },
+  {
+    "id": "104",
+    "name": "Eastern Michigan",
+    "conf": 11
+  },
+  {
+    "id": "105",
+    "name": "Northern Illinois",
+    "conf": 11
+  },
+  {
+    "id": "106",
+    "name": "Toledo",
+    "conf": 11
+  },
+  {
+    "id": "107",
+    "name": "Western Michigan",
+    "conf": 11
+  },
+  {
+    "id": "108",
+    "name": "Boise St.",
+    "conf": 10
+  },
+  {
+    "id": "109",
+    "name": "Fresno St.",
+    "conf": 10
+  },
+  {
+    "id": "110",
+    "name": "Hawaii",
+    "conf": 10
+  },
+  {
+    "id": "111",
+    "name": "Louisiana Tech",
+    "conf": 9
+  },
+  {
+    "id": "113",
+    "name": "Nevada",
+    "conf": 10
+  },
+  {
+    "id": "114",
+    "name": "Rice",
+    "conf": 9
+  },
+  {
+    "id": "115",
+    "name": "San Jose St.",
+    "conf": 10
+  },
+  {
+    "id": "116",
+    "name": "SMU",
+    "conf": 6
+  },
+  {
+    "id": "117",
+    "name": "Texas-El Paso",
+    "conf": 9
+  },
+  {
+    "id": "118",
+    "name": "Tulsa",
+    "conf": 6
+  },
+  {
+    "id": "120",
+    "name": "Abilene Christian",
+    "conf": 12
+  },
+  {
+    "id": "122",
+    "name": "Adams St.",
+    "conf": 13
+  },
+  {
+    "id": "123",
+    "name": "Alabama A&M",
+    "conf": 14
+  },
+  {
+    "id": "124",
+    "name": "Alabama St.",
+    "conf": 14
+  },
+  {
+    "id": "125",
+    "name": "Albany (NY)",
+    "conf": 15
+  },
+  {
+    "id": "126",
+    "name": "Albany St. (GA)",
+    "conf": 16
+  },
+  {
+    "id": "127",
+    "name": "Alcorn St.",
+    "conf": 14
+  },
+  {
+    "id": "128",
+    "name": "Alfred",
+    "conf": 17
+  },
+  {
+    "id": "129",
+    "name": "Angelo St.",
+    "conf": 12
+  },
+  {
+    "id": "130",
+    "name": "Appalachian St.",
+    "conf": 8
+  },
+  {
+    "id": "131",
+    "name": "Arkansas Central",
+    "conf": 18
+  },
+  {
+    "id": "132",
+    "name": "Arkansas Tech",
+    "conf": 19
+  },
+  {
+    "id": "133",
+    "name": "Arkansas-Monticello",
+    "conf": 19
+  },
+  {
+    "id": "134",
+    "name": "Arkansas-Pine Bluff",
+    "conf": 14
+  },
+  {
+    "id": "136",
+    "name": "Augustana (SD)",
+    "conf": 20
+  },
+  {
+    "id": "137",
+    "name": "Austin College",
+    "conf": 21
+  },
+  {
+    "id": "138",
+    "name": "Austin Peay",
+    "conf": 22
+  },
+  {
+    "id": "139",
+    "name": "Averett",
+    "conf": 23
+  },
+  {
+    "id": "140",
+    "name": "Azusa Pacific",
+    "conf": 24
+  },
+  {
+    "id": "141",
+    "name": "Benedict",
+    "conf": 25
+  },
+  {
+    "id": "142",
+    "name": "Bentley",
+    "conf": 26
+  },
+  {
+    "id": "143",
+    "name": "Bethune-Cookman",
+    "conf": 27
+  },
+  {
+    "id": "144",
+    "name": "Bloomsburg",
+    "conf": 28
+  },
+  {
+    "id": "146",
+    "name": "Bowie St.",
+    "conf": 29
+  },
+  {
+    "id": "149",
+    "name": "Brown",
+    "conf": 30
+  },
+  {
+    "id": "150",
+    "name": "Bryant",
+    "conf": 15
+  },
+  {
+    "id": "151",
+    "name": "Bucknell",
+    "conf": 31
+  },
+  {
+    "id": "152",
+    "name": "Buena Vista",
+    "conf": 32
+  },
+  {
+    "id": "153",
+    "name": "Butler",
+    "conf": 33
+  },
+  {
+    "id": "154",
+    "name": "Butte J.C.",
+    "conf": 18
+  },
+  {
+    "id": "155",
+    "name": "C.W. Post",
+    "conf": 26
+  },
+  {
+    "id": "156",
+    "name": "Cal Davis",
+    "conf": 34
+  },
+  {
+    "id": "157",
+    "name": "Cal Poly",
+    "conf": 34
+  },
+  {
+    "id": "159",
+    "name": "Cal St. Northridge",
+    "conf": 18
+  },
+  {
+    "id": "160",
+    "name": "Sacramento St.",
+    "conf": 35
+  },
+  {
+    "id": "162",
+    "name": "Carroll (WI)",
+    "conf": 36
+  },
+  {
+    "id": "163",
+    "name": "Carson Newman",
+    "conf": 37
+  },
+  {
+    "id": "164",
+    "name": "Catawba",
+    "conf": 37
+  },
+  {
+    "id": "165",
+    "name": "Central Arkansas",
+    "conf": 38
+  },
+  {
+    "id": "166",
+    "name": "Central Connecticut St.",
+    "conf": 15
+  },
+  {
+    "id": "168",
+    "name": "Central Methodist",
+    "conf": 39
+  },
+  {
+    "id": "169",
+    "name": "Central Missouri",
+    "conf": 40
+  },
+  {
+    "id": "170",
+    "name": "Central Oklahoma",
+    "conf": 12
+  },
+  {
+    "id": "171",
+    "name": "Central State (OK)",
+    "conf": 18
+  },
+  {
+    "id": "173",
+    "name": "Central Washington",
+    "conf": 41
+  },
+  {
+    "id": "174",
+    "name": "Chadron St.",
+    "conf": 13
+  },
+  {
+    "id": "175",
+    "name": "Chapman",
+    "conf": 42
+  },
+  {
+    "id": "176",
+    "name": "Charleston Southern",
+    "conf": 43
+  },
+  {
+    "id": "177",
+    "name": "Clarion",
+    "conf": 28
+  },
+  {
+    "id": "178",
+    "name": "Colgate",
+    "conf": 31
+  },
+  {
+    "id": "179",
+    "name": "College of New Jersey",
+    "conf": 44
+  },
+  {
+    "id": "180",
+    "name": "Colorado School of Mines",
+    "conf": 13
+  },
+  {
+    "id": "181",
+    "name": "Columbia",
+    "conf": 30
+  },
+  {
+    "id": "183",
+    "name": "Cornell",
+    "conf": 30
+  },
+  {
+    "id": "184",
+    "name": "Dartmouth",
+    "conf": 30
+  },
+  {
+    "id": "185",
+    "name": "Davidson",
+    "conf": 33
+  },
+  {
+    "id": "186",
+    "name": "Dayton",
+    "conf": 33
+  },
+  {
+    "id": "187",
+    "name": "Delaware",
+    "conf": 45
+  },
+  {
+    "id": "188",
+    "name": "Delaware St.",
+    "conf": 27
+  },
+  {
+    "id": "189",
+    "name": "Delta St.",
+    "conf": 19
+  },
+  {
+    "id": "190",
+    "name": "DePauw",
+    "conf": 46
+  },
+  {
+    "id": "191",
+    "name": "Dickinson",
+    "conf": 47
+  },
+  {
+    "id": "192",
+    "name": "Drake",
+    "conf": 33
+  },
+  {
+    "id": "193",
+    "name": "Duquesne",
+    "conf": 15
+  },
+  {
+    "id": "194",
+    "name": "East Central (OK)",
+    "conf": 48
+  },
+  {
+    "id": "196",
+    "name": "East Tennessee St.",
+    "conf": 18
+  },
+  {
+    "id": "197",
+    "name": "East Texas Baptist",
+    "conf": 21
+  },
+  {
+    "id": "198",
+    "name": "Eastern Illinois",
+    "conf": 22
+  },
+  {
+    "id": "199",
+    "name": "Eastern Kentucky",
+    "conf": 22
+  },
+  {
+    "id": "200",
+    "name": "Eastern New Mexico",
+    "conf": 12
+  },
+  {
+    "id": "201",
+    "name": "Eastern Washington",
+    "conf": 35
+  },
+  {
+    "id": "202",
+    "name": "Edinboro",
+    "conf": 28
+  },
+  {
+    "id": "203",
+    "name": "Elizabeth City St.",
+    "conf": 29
+  },
+  {
+    "id": "204",
+    "name": "Elon",
+    "conf": 16
+  },
+  {
+    "id": "205",
+    "name": "Emporia St.",
+    "conf": 40
+  },
+  {
+    "id": "206",
+    "name": "Evangel",
+    "conf": 39
+  },
+  {
+    "id": "207",
+    "name": "Fairmont St.",
+    "conf": 49
+  },
+  {
+    "id": "208",
+    "name": "Fayetteville St.",
+    "conf": 29
+  },
+  {
+    "id": "209",
+    "name": "Ferris St.",
+    "conf": 50
+  },
+  {
+    "id": "210",
+    "name": "Florida A&M",
+    "conf": 27
+  },
+  {
+    "id": "211",
+    "name": "Florida Atlantic",
+    "conf": 9
+  },
+  {
+    "id": "212",
+    "name": "Florida International",
+    "conf": 9
+  },
+  {
+    "id": "213",
+    "name": "Fordham",
+    "conf": 31
+  },
+  {
+    "id": "214",
+    "name": "Fort Hays St.",
+    "conf": 13
+  },
+  {
+    "id": "215",
+    "name": "Fort Lewis",
+    "conf": 13
+  },
+  {
+    "id": "216",
+    "name": "Fort Valley St.",
+    "conf": 25
+  },
+  {
+    "id": "217",
+    "name": "Furman",
+    "conf": 16
+  },
+  {
+    "id": "219",
+    "name": "Gardner-Webb",
+    "conf": 43
+  },
+  {
+    "id": "220",
+    "name": "Georgetown",
+    "conf": 31
+  },
+  {
+    "id": "221",
+    "name": "Georgetown (KY)",
+    "conf": 51
+  },
+  {
+    "id": "222",
+    "name": "Georgia Southern",
+    "conf": 8
+  },
+  {
+    "id": "223",
+    "name": "Graceland",
+    "conf": 39
+  },
+  {
+    "id": "224",
+    "name": "Grambling St.",
+    "conf": 14
+  },
+  {
+    "id": "225",
+    "name": "Grand Valley St.",
+    "conf": 50
+  },
+  {
+    "id": "226",
+    "name": "Grove City (PA)",
+    "conf": 52
+  },
+  {
+    "id": "227",
+    "name": "Gustavus Adolphus",
+    "conf": 53
+  },
+  {
+    "id": "228",
+    "name": "Hampton",
+    "conf": 27
+  },
+  {
+    "id": "229",
+    "name": "Harding",
+    "conf": 48
+  },
+  {
+    "id": "230",
+    "name": "Hardin-Simmons",
+    "conf": 21
+  },
+  {
+    "id": "231",
+    "name": "Harvard",
+    "conf": 30
+  },
+  {
+    "id": "232",
+    "name": "Hastings",
+    "conf": 54
+  },
+  {
+    "id": "233",
+    "name": "Henderson St.",
+    "conf": 19
+  },
+  {
+    "id": "234",
+    "name": "Hillsdale",
+    "conf": 50
+  },
+  {
+    "id": "235",
+    "name": "Hinds C.C.",
+    "conf": 18
+  },
+  {
+    "id": "236",
+    "name": "Hofstra",
+    "conf": 45
+  },
+  {
+    "id": "237",
+    "name": "Holy Cross",
+    "conf": 31
+  },
+  {
+    "id": "238",
+    "name": "Howard",
+    "conf": 27
+  },
+  {
+    "id": "239",
+    "name": "Humboldt St.",
+    "conf": 41
+  },
+  {
+    "id": "240",
+    "name": "Idaho St.",
+    "conf": 35
+  },
+  {
+    "id": "241",
+    "name": "Illinois St.",
+    "conf": 55
+  },
+  {
+    "id": "242",
+    "name": "Indiana (PA)",
+    "conf": 28
+  },
+  {
+    "id": "243",
+    "name": "Indiana St.",
+    "conf": 55
+  },
+  {
+    "id": "244",
+    "name": "Iona",
+    "conf": 56
+  },
+  {
+    "id": "246",
+    "name": "Jackson St.",
+    "conf": 14
+  },
+  {
+    "id": "247",
+    "name": "Jacksonville",
+    "conf": 33
+  },
+  {
+    "id": "248",
+    "name": "Jacksonville St.",
+    "conf": 22
+  },
+  {
+    "id": "249",
+    "name": "James Madison",
+    "conf": 45
+  },
+  {
+    "id": "250",
+    "name": "Jamestown",
+    "conf": 57
+  },
+  {
+    "id": "251",
+    "name": "John Carroll",
+    "conf": 58
+  },
+  {
+    "id": "252",
+    "name": "Kentucky St.",
+    "conf": 25
+  },
+  {
+    "id": "254",
+    "name": "Kutztown (PA)",
+    "conf": 28
+  },
+  {
+    "id": "255",
+    "name": "La Salle",
+    "conf": 56
+  },
+  {
+    "id": "256",
+    "name": "Lafayette",
+    "conf": 31
+  },
+  {
+    "id": "257",
+    "name": "Lambuth",
+    "conf": 59
+  },
+  {
+    "id": "258",
+    "name": "Lane (TN)",
+    "conf": 25
+  },
+  {
+    "id": "259",
+    "name": "Langston",
+    "conf": 60
+  },
+  {
+    "id": "260",
+    "name": "Lehigh",
+    "conf": 31
+  },
+  {
+    "id": "261",
+    "name": "Lenoir-Rhyne",
+    "conf": 37
+  },
+  {
+    "id": "262",
+    "name": "Liberty",
+    "conf": 43
+  },
+  {
+    "id": "263",
+    "name": "Linfield",
+    "conf": 61
+  },
+  {
+    "id": "264",
+    "name": "Livingstone",
+    "conf": 29
+  },
+  {
+    "id": "265",
+    "name": "Louisiana College",
+    "conf": 21
+  },
+  {
+    "id": "266",
+    "name": "Maine",
+    "conf": 45
+  },
+  {
+    "id": "267",
+    "name": "Mansfield (PA)",
+    "conf": 28
+  },
+  {
+    "id": "268",
+    "name": "Mars Hill",
+    "conf": 37
+  },
+  {
+    "id": "269",
+    "name": "Massachusetts",
+    "conf": 62
+  },
+  {
+    "id": "270",
+    "name": "McGill (Canada)",
+    "conf": 18
+  },
+  {
+    "id": "271",
+    "name": "McMaster (CA)",
+    "conf": 18
+  },
+  {
+    "id": "272",
+    "name": "McNeese St.",
+    "conf": 38
+  },
+  {
+    "id": "274",
+    "name": "Menlo",
+    "conf": 61
+  },
+  {
+    "id": "275",
+    "name": "Mercyhurst",
+    "conf": 50
+  },
+  {
+    "id": "276",
+    "name": "Mesa St.",
+    "conf": 13
+  },
+  {
+    "id": "277",
+    "name": "Michigan Tech",
+    "conf": 50
+  },
+  {
+    "id": "278",
+    "name": "Midwestern St.",
+    "conf": 12
+  },
+  {
+    "id": "279",
+    "name": "Millersville (PA)",
+    "conf": 28
+  },
+  {
+    "id": "280",
+    "name": "Millikin",
+    "conf": 63
+  },
+  {
+    "id": "281",
+    "name": "Minnesota-Mankato",
+    "conf": 20
+  },
+  {
+    "id": "283",
+    "name": "Minnesota-Duluth",
+    "conf": 20
+  },
+  {
+    "id": "284",
+    "name": "Minnesota-Morris",
+    "conf": 64
+  },
+  {
+    "id": "285",
+    "name": "Mississippi College",
+    "conf": 21
+  },
+  {
+    "id": "286",
+    "name": "Mississippi Delta CC",
+    "conf": 18
+  },
+  {
+    "id": "287",
+    "name": "Mississippi Valley St.",
+    "conf": 14
+  },
+  {
+    "id": "288",
+    "name": "Missouri Rolla",
+    "conf": 64
+  },
+  {
+    "id": "289",
+    "name": "Missouri Southern St.",
+    "conf": 40
+  },
+  {
+    "id": "290",
+    "name": "Missouri Western",
+    "conf": 40
+  },
+  {
+    "id": "292",
+    "name": "Monmouth (NJ)",
+    "conf": 15
+  },
+  {
+    "id": "293",
+    "name": "Montana",
+    "conf": 35
+  },
+  {
+    "id": "294",
+    "name": "Montana St.",
+    "conf": 35
+  },
+  {
+    "id": "295",
+    "name": "Morehead St.",
+    "conf": 33
+  },
+  {
+    "id": "296",
+    "name": "Morehouse",
+    "conf": 25
+  },
+  {
+    "id": "297",
+    "name": "Morgan St.",
+    "conf": 27
+  },
+  {
+    "id": "298",
+    "name": "Morris Brown",
+    "conf": 18
+  },
+  {
+    "id": "299",
+    "name": "Mount Union",
+    "conf": 58
+  },
+  {
+    "id": "300",
+    "name": "Mt. San Antonio J.C.",
+    "conf": 18
+  },
+  {
+    "id": "301",
+    "name": "Murray St.",
+    "conf": 22
+  },
+  {
+    "id": "302",
+    "name": "Nebraska-Kearney",
+    "conf": 13
+  },
+  {
+    "id": "303",
+    "name": "Nebraska-Omaha",
+    "conf": 20
+  },
+  {
+    "id": "305",
+    "name": "New Hampshire",
+    "conf": 45
+  },
+  {
+    "id": "306",
+    "name": "New Haven",
+    "conf": 18
+  },
+  {
+    "id": "307",
+    "name": "New Mexico Highlands",
+    "conf": 13
+  },
+  {
+    "id": "308",
+    "name": "Newberry",
+    "conf": 37
+  },
+  {
+    "id": "309",
+    "name": "Nicholls St.",
+    "conf": 38
+  },
+  {
+    "id": "311",
+    "name": "Norfolk St.",
+    "conf": 27
+  },
+  {
+    "id": "312",
+    "name": "North Alabama",
+    "conf": 19
+  },
+  {
+    "id": "313",
+    "name": "Northern Arizona",
+    "conf": 35
+  },
+  {
+    "id": "314",
+    "name": "North Carolina A&T",
+    "conf": 27
+  },
+  {
+    "id": "315",
+    "name": "North Carolina Central",
+    "conf": 27
+  },
+  {
+    "id": "316",
+    "name": "North Dakota",
+    "conf": 34
+  },
+  {
+    "id": "317",
+    "name": "North Dakota St.",
+    "conf": 55
+  },
+  {
+    "id": "318",
+    "name": "North Greenville",
+    "conf": 64
+  },
+  {
+    "id": "320",
+    "name": "Northeast Louisiana",
+    "conf": 18
+  },
+  {
+    "id": "321",
+    "name": "Northeastern",
+    "conf": 45
+  },
+  {
+    "id": "323",
+    "name": "NE Oklahoma St.",
+    "conf": 12
+  },
+  {
+    "id": "326",
+    "name": "Northern Colorado",
+    "conf": 35
+  },
+  {
+    "id": "327",
+    "name": "Northern Iowa",
+    "conf": 55
+  },
+  {
+    "id": "328",
+    "name": "Northern Michigan",
+    "conf": 50
+  },
+  {
+    "id": "329",
+    "name": "Northern St.",
+    "conf": 65
+  },
+  {
+    "id": "331",
+    "name": "Northwest Missouri St.",
+    "conf": 40
+  },
+  {
+    "id": "333",
+    "name": "Northwestern Oklahoma St.",
+    "conf": 60
+  },
+  {
+    "id": "334",
+    "name": "Northwestern St. (LA)",
+    "conf": 38
+  },
+  {
+    "id": "335",
+    "name": "Northwood",
+    "conf": 50
+  },
+  {
+    "id": "336",
+    "name": "Occidental",
+    "conf": 66
+  },
+  {
+    "id": "337",
+    "name": "Ohio Northern",
+    "conf": 58
+  },
+  {
+    "id": "338",
+    "name": "Ohio Wesleyan",
+    "conf": 67
+  },
+  {
+    "id": "339",
+    "name": "Olivet",
+    "conf": 68
+  },
+  {
+    "id": "340",
+    "name": "Ottawa (KS)",
+    "conf": 69
+  },
+  {
+    "id": "341",
+    "name": "Ouachita Baptist",
+    "conf": 19
+  },
+  {
+    "id": "343",
+    "name": "Pearl River C.C.",
+    "conf": 18
+  },
+  {
+    "id": "344",
+    "name": "Pennsylvania",
+    "conf": 30
+  },
+  {
+    "id": "345",
+    "name": "Pittsburg St. (KS)",
+    "conf": 40
+  },
+  {
+    "id": "346",
+    "name": "Portland St.",
+    "conf": 35
+  },
+  {
+    "id": "347",
+    "name": "Presbyterian",
+    "conf": 43
+  },
+  {
+    "id": "348",
+    "name": "Princeton",
+    "conf": 30
+  },
+  {
+    "id": "349",
+    "name": "Rhode Island",
+    "conf": 45
+  },
+  {
+    "id": "350",
+    "name": "Richmond",
+    "conf": 45
+  },
+  {
+    "id": "351",
+    "name": "Robert Morris",
+    "conf": 15
+  },
+  {
+    "id": "352",
+    "name": "Rowan",
+    "conf": 44
+  },
+  {
+    "id": "353",
+    "name": "Sacred Heart",
+    "conf": 15
+  },
+  {
+    "id": "354",
+    "name": "Saginaw Valley St.",
+    "conf": 50
+  },
+  {
+    "id": "355",
+    "name": "Salisbury",
+    "conf": 70
+  },
+  {
+    "id": "356",
+    "name": "Sam Houston St.",
+    "conf": 38
+  },
+  {
+    "id": "357",
+    "name": "Samford",
+    "conf": 16
+  },
+  {
+    "id": "358",
+    "name": "San Diego",
+    "conf": 33
+  },
+  {
+    "id": "359",
+    "name": "Savannah St.",
+    "conf": 27
+  },
+  {
+    "id": "360",
+    "name": "Southeast Missouri St.",
+    "conf": 22
+  },
+  {
+    "id": "361",
+    "name": "Southeastern Oklahoma St.",
+    "conf": 12
+  },
+  {
+    "id": "362",
+    "name": "Shaw",
+    "conf": 29
+  },
+  {
+    "id": "363",
+    "name": "Shepherd",
+    "conf": 49
+  },
+  {
+    "id": "364",
+    "name": "Shippensburg",
+    "conf": 28
+  },
+  {
+    "id": "365",
+    "name": "Simon Fraser",
+    "conf": 18
+  },
+  {
+    "id": "366",
+    "name": "Sioux Falls",
+    "conf": 54
+  },
+  {
+    "id": "367",
+    "name": "Slippery Rock",
+    "conf": 28
+  },
+  {
+    "id": "368",
+    "name": "South Carolina St.",
+    "conf": 27
+  },
+  {
+    "id": "369",
+    "name": "South Dakota",
+    "conf": 20
+  },
+  {
+    "id": "370",
+    "name": "South Dakota St.",
+    "conf": 55
+  },
+  {
+    "id": "374",
+    "name": "Southern",
+    "conf": 14
+  },
+  {
+    "id": "375",
+    "name": "Southern Arkansas",
+    "conf": 19
+  },
+  {
+    "id": "377",
+    "name": "Southern Connecticut St.",
+    "conf": 26
+  },
+  {
+    "id": "378",
+    "name": "Southern Illinois",
+    "conf": 55
+  },
+  {
+    "id": "379",
+    "name": "Southern Oregon",
+    "conf": 24
+  },
+  {
+    "id": "380",
+    "name": "Southern Utah",
+    "conf": 34
+  },
+  {
+    "id": "382",
+    "name": "Southwest Missouri St.",
+    "conf": 18
+  },
+  {
+    "id": "385",
+    "name": "St. Cloud State",
+    "conf": 20
+  },
+  {
+    "id": "386",
+    "name": "St. Francis (IN)",
+    "conf": 71
+  },
+  {
+    "id": "387",
+    "name": "St. Norbert",
+    "conf": 36
+  },
+  {
+    "id": "388",
+    "name": "St. Augustine",
+    "conf": 29
+  },
+  {
+    "id": "389",
+    "name": "St. Francis (PA)",
+    "conf": 15
+  },
+  {
+    "id": "390",
+    "name": "St. John Fisher",
+    "conf": 17
+  },
+  {
+    "id": "391",
+    "name": "St. Mary (KS)",
+    "conf": 69
+  },
+  {
+    "id": "392",
+    "name": "St. Thomas (MN)",
+    "conf": 53
+  },
+  {
+    "id": "393",
+    "name": "Stephen F. Austin",
+    "conf": 38
+  },
+  {
+    "id": "394",
+    "name": "Stony Brook",
+    "conf": 43
+  },
+  {
+    "id": "395",
+    "name": "Cortland (SUNY)",
+    "conf": 44
+  },
+  {
+    "id": "397",
+    "name": "Susquehanna",
+    "conf": 72
+  },
+  {
+    "id": "398",
+    "name": "Southwest Baptist",
+    "conf": 40
+  },
+  {
+    "id": "403",
+    "name": "Tarleton St.",
+    "conf": 12
+  },
+  {
+    "id": "404",
+    "name": "Tennessee St.",
+    "conf": 22
+  },
+  {
+    "id": "405",
+    "name": "Tennessee Tech",
+    "conf": 22
+  },
+  {
+    "id": "406",
+    "name": "Tennessee-Martin",
+    "conf": 22
+  },
+  {
+    "id": "408",
+    "name": "Texas A&M-Commerce",
+    "conf": 12
+  },
+  {
+    "id": "409",
+    "name": "Texas A&M-Kingsville",
+    "conf": 12
+  },
+  {
+    "id": "410",
+    "name": "Texas College",
+    "conf": 60
+  },
+  {
+    "id": "412",
+    "name": "Texas Southern",
+    "conf": 14
+  },
+  {
+    "id": "413",
+    "name": "Texas St.",
+    "conf": 8
+  },
+  {
+    "id": "414",
+    "name": "Citadel",
+    "conf": 16
+  },
+  {
+    "id": "415",
+    "name": "Tiffin",
+    "conf": 64
+  },
+  {
+    "id": "416",
+    "name": "Towson",
+    "conf": 45
+  },
+  {
+    "id": "417",
+    "name": "Trinity (IL)",
+    "conf": 18
+  },
+  {
+    "id": "418",
+    "name": "Tusculum",
+    "conf": 37
+  },
+  {
+    "id": "419",
+    "name": "Tuskegee",
+    "conf": 16
+  },
+  {
+    "id": "420",
+    "name": "Urbana (OH)",
+    "conf": 71
+  },
+  {
+    "id": "421",
+    "name": "Tennessee-Chattanooga",
+    "conf": 16
+  },
+  {
+    "id": "422",
+    "name": "Valdosta St.",
+    "conf": 19
+  },
+  {
+    "id": "424",
+    "name": "Valparaiso",
+    "conf": 33
+  },
+  {
+    "id": "425",
+    "name": "Villanova",
+    "conf": 45
+  },
+  {
+    "id": "426",
+    "name": "Virginia St.",
+    "conf": 29
+  },
+  {
+    "id": "427",
+    "name": "Virginia Union",
+    "conf": 29
+  },
+  {
+    "id": "428",
+    "name": "VMI",
+    "conf": 43
+  },
+  {
+    "id": "429",
+    "name": "Wagner",
+    "conf": 15
+  },
+  {
+    "id": "431",
+    "name": "Walsh",
+    "conf": 71
+  },
+  {
+    "id": "432",
+    "name": "Wayne St. (MI)",
+    "conf": 50
+  },
+  {
+    "id": "433",
+    "name": "Wayne St. (NE)",
+    "conf": 65
+  },
+  {
+    "id": "434",
+    "name": "Weber St.",
+    "conf": 35
+  },
+  {
+    "id": "435",
+    "name": "West Alabama",
+    "conf": 19
+  },
+  {
+    "id": "436",
+    "name": "West Georgia",
+    "conf": 19
+  },
+  {
+    "id": "438",
+    "name": "West Texas A&M",
+    "conf": 12
+  },
+  {
+    "id": "439",
+    "name": "West Virginia St.",
+    "conf": 49
+  },
+  {
+    "id": "440",
+    "name": "West Virginia Tech",
+    "conf": 49
+  },
+  {
+    "id": "441",
+    "name": "Western Carolina",
+    "conf": 16
+  },
+  {
+    "id": "442",
+    "name": "Western Connecticut St.",
+    "conf": 44
+  },
+  {
+    "id": "443",
+    "name": "Western Illinois",
+    "conf": 55
+  },
+  {
+    "id": "444",
+    "name": "Western Kentucky",
+    "conf": 9
+  },
+  {
+    "id": "445",
+    "name": "Western New Mexico",
+    "conf": 64
+  },
+  {
+    "id": "446",
+    "name": "Western Oregon",
+    "conf": 41
+  },
+  {
+    "id": "447",
+    "name": "Western St. (CO)",
+    "conf": 13
+  },
+  {
+    "id": "448",
+    "name": "Western Washington",
+    "conf": 41
+  },
+  {
+    "id": "449",
+    "name": "Widener",
+    "conf": 72
+  },
+  {
+    "id": "450",
+    "name": "Wilkes",
+    "conf": 72
+  },
+  {
+    "id": "451",
+    "name": "William & Mary",
+    "conf": 45
+  },
+  {
+    "id": "452",
+    "name": "William Penn",
+    "conf": 73
+  },
+  {
+    "id": "453",
+    "name": "Williams College",
+    "conf": 74
+  },
+  {
+    "id": "454",
+    "name": "Wingate",
+    "conf": 37
+  },
+  {
+    "id": "455",
+    "name": "Winona St.",
+    "conf": 65
+  },
+  {
+    "id": "457",
+    "name": "Winston-Salem St.",
+    "conf": 75
+  },
+  {
+    "id": "458",
+    "name": "Wisconsin-LaCrosse",
+    "conf": 76
+  },
+  {
+    "id": "459",
+    "name": "Wisconsin-Stevens Point",
+    "conf": 76
+  },
+  {
+    "id": "460",
+    "name": "Wisconsin-Stout",
+    "conf": 76
+  },
+  {
+    "id": "461",
+    "name": "Wisconsin-Whitewater",
+    "conf": 76
+  },
+  {
+    "id": "462",
+    "name": "Wofford",
+    "conf": 16
+  },
+  {
+    "id": "463",
+    "name": "Wooster",
+    "conf": 67
+  },
+  {
+    "id": "464",
+    "name": "Yale",
+    "conf": 30
+  },
+  {
+    "id": "465",
+    "name": "Youngstown St.",
+    "conf": 55
+  },
+  {
+    "id": "1001",
+    "name": "Adrian",
+    "conf": 68
+  },
+  {
+    "id": "1002",
+    "name": "Albright",
+    "conf": 72
+  },
+  {
+    "id": "1003",
+    "name": "American International",
+    "conf": 26
+  },
+  {
+    "id": "1004",
+    "name": "Anderson (IN)",
+    "conf": 77
+  },
+  {
+    "id": "1005",
+    "name": "Ashland",
+    "conf": 50
+  },
+  {
+    "id": "1006",
+    "name": "Assumption",
+    "conf": 26
+  },
+  {
+    "id": "1007",
+    "name": "Belhaven",
+    "conf": 59
+  },
+  {
+    "id": "1008",
+    "name": "Bemidji St.",
+    "conf": 65
+  },
+  {
+    "id": "1009",
+    "name": "Bethel (MN)",
+    "conf": 53
+  },
+  {
+    "id": "1010",
+    "name": "Black Hills St",
+    "conf": 57
+  },
+  {
+    "id": "1012",
+    "name": "Carthage",
+    "conf": 63
+  },
+  {
+    "id": "1013",
+    "name": "Cheyney",
+    "conf": 28
+  },
+  {
+    "id": "1014",
+    "name": "Clark Atlanta",
+    "conf": 25
+  },
+  {
+    "id": "1015",
+    "name": "Coastal Carolina",
+    "conf": 43
+  },
+  {
+    "id": "1016",
+    "name": "Concord",
+    "conf": 49
+  },
+  {
+    "id": "1017",
+    "name": "East Stroudsburg",
+    "conf": 28
+  },
+  {
+    "id": "1018",
+    "name": "Frostburg St.",
+    "conf": 78
+  },
+  {
+    "id": "1019",
+    "name": "Gannon",
+    "conf": 50
+  },
+  {
+    "id": "1020",
+    "name": "Glenville St.",
+    "conf": 49
+  },
+  {
+    "id": "1021",
+    "name": "Lake Forest",
+    "conf": 36
+  },
+  {
+    "id": "1023",
+    "name": "Lindenwood",
+    "conf": 39
+  },
+  {
+    "id": "1024",
+    "name": "Mary Hardin-Baylor",
+    "conf": 21
+  },
+  {
+    "id": "1025",
+    "name": "Mary",
+    "conf": 64
+  },
+  {
+    "id": "1026",
+    "name": "Mayville St.",
+    "conf": 57
+  },
+  {
+    "id": "1029",
+    "name": "Merrimack",
+    "conf": 26
+  },
+  {
+    "id": "1030",
+    "name": "Montana Tech",
+    "conf": 79
+  },
+  {
+    "id": "1031",
+    "name": "Mount St. Joseph",
+    "conf": 77
+  },
+  {
+    "id": "1032",
+    "name": "Pikeville",
+    "conf": 51
+  },
+  {
+    "id": "1033",
+    "name": "Prairie View A&M",
+    "conf": 14
+  },
+  {
+    "id": "1034",
+    "name": "Rocky Mountain",
+    "conf": 79
+  },
+  {
+    "id": "1035",
+    "name": "Southeastern Louisiana",
+    "conf": 38
+  },
+  {
+    "id": "1036",
+    "name": "Simpson (IA)",
+    "conf": 32
+  },
+  {
+    "id": "1037",
+    "name": "Southwest Minnesota",
+    "conf": 65
+  },
+  {
+    "id": "1038",
+    "name": "Southwestern Oklahoma St.",
+    "conf": 12
+  },
+  {
+    "id": "1040",
+    "name": "Texas Lutheran",
+    "conf": 21
+  },
+  {
+    "id": "1041",
+    "name": "Thiel",
+    "conf": 52
+  },
+  {
+    "id": "1042",
+    "name": "Truman St.",
+    "conf": 40
+  },
+  {
+    "id": "1043",
+    "name": "Union (NY)",
+    "conf": 80
+  },
+  {
+    "id": "1044",
+    "name": "Washburn",
+    "conf": 40
+  },
+  {
+    "id": "1045",
+    "name": "Wesley",
+    "conf": 70
+  },
+  {
+    "id": "1046",
+    "name": "West Chester",
+    "conf": 28
+  },
+  {
+    "id": "1047",
+    "name": "Wheaton",
+    "conf": 63
+  },
+  {
+    "id": "1048",
+    "name": "Wittenberg",
+    "conf": 67
+  },
+  {
+    "id": "1049",
+    "name": "Hampden-Sydney",
+    "conf": 81
+  },
+  {
+    "id": "1051",
+    "name": "Western Ontario (Canada)",
+    "conf": 18
+  },
+  {
+    "id": "1052",
+    "name": "California (PA)",
+    "conf": 28
+  },
+  {
+    "id": "1053",
+    "name": "Brockport St.",
+    "conf": 42
+  },
+  {
+    "id": "1054",
+    "name": "Washington Jefferson",
+    "conf": 52
+  },
+  {
+    "id": "1055",
+    "name": "Wisconsin-Oshkosh",
+    "conf": 76
+  },
+  {
+    "id": "1056",
+    "name": "Delaware Valley",
+    "conf": 72
+  },
+  {
+    "id": "1057",
+    "name": "Concordia (MN)",
+    "conf": 65
+  },
+  {
+    "id": "1058",
+    "name": "Calgary",
+    "conf": 18
+  },
+  {
+    "id": "1059",
+    "name": "Grossmont J.C.",
+    "conf": 18
+  },
+  {
+    "id": "1060",
+    "name": "Montana Western",
+    "conf": 79
+  },
+  {
+    "id": "1061",
+    "name": "North Central",
+    "conf": 63
+  },
+  {
+    "id": "1062",
+    "name": "Muhlenberg",
+    "conf": 47
+  },
+  {
+    "id": "1063",
+    "name": "St. Joseph (IN)",
+    "conf": 64
+  },
+  {
+    "id": "1064",
+    "name": "Missouri Valley",
+    "conf": 39
+  },
+  {
+    "id": "1066",
+    "name": "Hutchinson J.C.",
+    "conf": 18
+  },
+  {
+    "id": "1067",
+    "name": "George Mason",
+    "conf": 18
+  },
+  {
+    "id": "1068",
+    "name": "Long Beach St.",
+    "conf": 18
+  },
+  {
+    "id": "1069",
+    "name": "Coe",
+    "conf": 32
+  },
+  {
+    "id": "1070",
+    "name": "Tabor",
+    "conf": 69
+  },
+  {
+    "id": "1071",
+    "name": "Bethel (TN)",
+    "conf": 59
+  },
+  {
+    "id": "1072",
+    "name": "Bridgewater St.",
+    "conf": 82
+  },
+  {
+    "id": "1073",
+    "name": "Buffalo St.",
+    "conf": 42
+  },
+  {
+    "id": "1074",
+    "name": "Carnegie Mellon",
+    "conf": 83
+  },
+  {
+    "id": "1075",
+    "name": "Centre",
+    "conf": 84
+  },
+  {
+    "id": "1076",
+    "name": "Charleston",
+    "conf": 49
+  },
+  {
+    "id": "1077",
+    "name": "Cumberland (TN)",
+    "conf": 59
+  },
+  {
+    "id": "1078",
+    "name": "Dana",
+    "conf": 54
+  },
+  {
+    "id": "1079",
+    "name": "Eastern Oregon",
+    "conf": 24
+  },
+  {
+    "id": "1080",
+    "name": "Findlay",
+    "conf": 50
+  },
+  {
+    "id": "1081",
+    "name": "Friends",
+    "conf": 69
+  },
+  {
+    "id": "1082",
+    "name": "Guilford",
+    "conf": 81
+  },
+  {
+    "id": "1083",
+    "name": "Hobart & William Smith",
+    "conf": 80
+  },
+  {
+    "id": "1084",
+    "name": "Howard Payne",
+    "conf": 21
+  },
+  {
+    "id": "1085",
+    "name": "Illinois Wesleyan",
+    "conf": 63
+  },
+  {
+    "id": "1086",
+    "name": "Kansas Wesleyan",
+    "conf": 69
+  },
+  {
+    "id": "1087",
+    "name": "Kentucky Wesleyan",
+    "conf": 64
+  },
+  {
+    "id": "1088",
+    "name": "Lock Haven",
+    "conf": 28
+  },
+  {
+    "id": "1089",
+    "name": "Marist",
+    "conf": 33
+  },
+  {
+    "id": "1091",
+    "name": "Minnesota-Crookston",
+    "conf": 18
+  },
+  {
+    "id": "1092",
+    "name": "Minnesota-Moorhead",
+    "conf": 65
+  },
+  {
+    "id": "1093",
+    "name": "Minot St.",
+    "conf": 57
+  },
+  {
+    "id": "1094",
+    "name": "Missouri St.",
+    "conf": 55
+  },
+  {
+    "id": "1095",
+    "name": "Monmouth (IL)",
+    "conf": 36
+  },
+  {
+    "id": "1096",
+    "name": "Montana St. Northern",
+    "conf": 79
+  },
+  {
+    "id": "1097",
+    "name": "Montclair St.",
+    "conf": 44
+  },
+  {
+    "id": "1099",
+    "name": "Morningside",
+    "conf": 54
+  },
+  {
+    "id": "1100",
+    "name": "Oklahoma Panhandle St.",
+    "conf": 64
+  },
+  {
+    "id": "1101",
+    "name": "Pace",
+    "conf": 26
+  },
+  {
+    "id": "1102",
+    "name": "Puget Sound",
+    "conf": 61
+  },
+  {
+    "id": "1103",
+    "name": "Rensselaer",
+    "conf": 80
+  },
+  {
+    "id": "1104",
+    "name": "St. Pauls",
+    "conf": 29
+  },
+  {
+    "id": "1105",
+    "name": "Southern Nazarene",
+    "conf": 60
+  },
+  {
+    "id": "1106",
+    "name": "St. Anselm",
+    "conf": 26
+  },
+  {
+    "id": "1107",
+    "name": "St. Xavier",
+    "conf": 73
+  },
+  {
+    "id": "1108",
+    "name": "Stillman",
+    "conf": 18
+  },
+  {
+    "id": "1109",
+    "name": "Stonehill",
+    "conf": 26
+  },
+  {
+    "id": "1110",
+    "name": "Taylor",
+    "conf": 71
+  },
+  {
+    "id": "1111",
+    "name": "Trinity (TX)",
+    "conf": 84
+  },
+  {
+    "id": "1112",
+    "name": "West Liberty St.",
+    "conf": 49
+  },
+  {
+    "id": "1113",
+    "name": "Whitworth",
+    "conf": 61
+  },
+  {
+    "id": "1114",
+    "name": "Wisconsin-Platteville",
+    "conf": 76
+  },
+  {
+    "id": "1115",
+    "name": "West Virginia Wesleyan",
+    "conf": 49
+  },
+  {
+    "id": "1116",
+    "name": "St. Peters",
+    "conf": 56
+  },
+  {
+    "id": "1117",
+    "name": "Johnson C Smith",
+    "conf": 29
+  },
+  {
+    "id": "1118",
+    "name": "Indianapolis",
+    "conf": 50
+  },
+  {
+    "id": "1121",
+    "name": "Upper Iowa",
+    "conf": 64
+  },
+  {
+    "id": "1122",
+    "name": "Miles College",
+    "conf": 25
+  },
+  {
+    "id": "1123",
+    "name": "McMurry",
+    "conf": 21
+  },
+  {
+    "id": "1124",
+    "name": "Sul Ross St.",
+    "conf": 21
+  },
+  {
+    "id": "1126",
+    "name": "Gettysburg",
+    "conf": 47
+  },
+  {
+    "id": "1129",
+    "name": "Ursinus College",
+    "conf": 47
+  },
+  {
+    "id": "1131",
+    "name": "Elmhurst",
+    "conf": 63
+  },
+  {
+    "id": "1133",
+    "name": "Hartwick",
+    "conf": 17
+  },
+  {
+    "id": "1136",
+    "name": "Springfield",
+    "conf": 17
+  },
+  {
+    "id": "1139",
+    "name": "Defiance",
+    "conf": 77
+  },
+  {
+    "id": "1140",
+    "name": "Franklin",
+    "conf": 77
+  },
+  {
+    "id": "1149",
+    "name": "Lakeland",
+    "conf": 85
+  },
+  {
+    "id": "1152",
+    "name": "Blackburn",
+    "conf": 42
+  },
+  {
+    "id": "1153",
+    "name": "Chowan",
+    "conf": 42
+  },
+  {
+    "id": "1154",
+    "name": "Colorado College",
+    "conf": 42
+  },
+  {
+    "id": "1156",
+    "name": "Huntingdon",
+    "conf": 42
+  },
+  {
+    "id": "1162",
+    "name": "Nebraska Wesleyan",
+    "conf": 42
+  },
+  {
+    "id": "1165",
+    "name": "Rockford",
+    "conf": 42
+  },
+  {
+    "id": "1167",
+    "name": "Central College",
+    "conf": 32
+  },
+  {
+    "id": "1169",
+    "name": "Dubuque",
+    "conf": 32
+  },
+  {
+    "id": "1171",
+    "name": "Luther",
+    "conf": 32
+  },
+  {
+    "id": "1173",
+    "name": "St. Lawrence",
+    "conf": 80
+  },
+  {
+    "id": "1177",
+    "name": "Albion",
+    "conf": 68
+  },
+  {
+    "id": "1178",
+    "name": "Alma",
+    "conf": 68
+  },
+  {
+    "id": "1179",
+    "name": "Hope",
+    "conf": 68
+  },
+  {
+    "id": "1180",
+    "name": "Kalamazoo",
+    "conf": 68
+  },
+  {
+    "id": "1181",
+    "name": "Tri-State",
+    "conf": 68
+  },
+  {
+    "id": "1185",
+    "name": "Kings College (PA)",
+    "conf": 72
+  },
+  {
+    "id": "1186",
+    "name": "Lebanon Valley",
+    "conf": 72
+  },
+  {
+    "id": "1188",
+    "name": "Moravian",
+    "conf": 72
+  },
+  {
+    "id": "1196",
+    "name": "Augsburg",
+    "conf": 53
+  },
+  {
+    "id": "1197",
+    "name": "Carleton",
+    "conf": 53
+  },
+  {
+    "id": "1200",
+    "name": "St. Johns (MN)",
+    "conf": 53
+  },
+  {
+    "id": "1201",
+    "name": "St. Olaf",
+    "conf": 53
+  },
+  {
+    "id": "1202",
+    "name": "Curry",
+    "conf": 82
+  },
+  {
+    "id": "1209",
+    "name": "Massachusetts-Dartmouth",
+    "conf": 82
+  },
+  {
+    "id": "1210",
+    "name": "Nichols College",
+    "conf": 82
+  },
+  {
+    "id": "1215",
+    "name": "Amherst (MA)",
+    "conf": 74
+  },
+  {
+    "id": "1220",
+    "name": "Middlebury",
+    "conf": 74
+  },
+  {
+    "id": "1222",
+    "name": "Tufts",
+    "conf": 74
+  },
+  {
+    "id": "1224",
+    "name": "Kean",
+    "conf": 44
+  },
+  {
+    "id": "1225",
+    "name": "William Paterson",
+    "conf": 44
+  },
+  {
+    "id": "1228",
+    "name": "Earlham",
+    "conf": 67
+  },
+  {
+    "id": "1231",
+    "name": "Oberlin",
+    "conf": 67
+  },
+  {
+    "id": "1232",
+    "name": "Wabash",
+    "conf": 67
+  },
+  {
+    "id": "1234",
+    "name": "Pacific Lutheran",
+    "conf": 61
+  },
+  {
+    "id": "1235",
+    "name": "Willamette",
+    "conf": 61
+  },
+  {
+    "id": "1236",
+    "name": "Baldwin-Wallace",
+    "conf": 58
+  },
+  {
+    "id": "1237",
+    "name": "Capital",
+    "conf": 58
+  },
+  {
+    "id": "1239",
+    "name": "Marietta",
+    "conf": 58
+  },
+  {
+    "id": "1241",
+    "name": "Otterbein",
+    "conf": 58
+  },
+  {
+    "id": "1243",
+    "name": "Bridgewater (VA)",
+    "conf": 81
+  },
+  {
+    "id": "1247",
+    "name": "Washington and Lee",
+    "conf": 81
+  },
+  {
+    "id": "1250",
+    "name": "Waynesburg",
+    "conf": 52
+  },
+  {
+    "id": "1252",
+    "name": "Cal Lutheran",
+    "conf": 66
+  },
+  {
+    "id": "1254",
+    "name": "La Verne",
+    "conf": 66
+  },
+  {
+    "id": "1256",
+    "name": "Redlands",
+    "conf": 66
+  },
+  {
+    "id": "1258",
+    "name": "Millsaps",
+    "conf": 18
+  },
+  {
+    "id": "1259",
+    "name": "Rhodes",
+    "conf": 84
+  },
+  {
+    "id": "1263",
+    "name": "Ferrum",
+    "conf": 23
+  },
+  {
+    "id": "1264",
+    "name": "Greensboro",
+    "conf": 23
+  },
+  {
+    "id": "1267",
+    "name": "North Carolina Wesleyan",
+    "conf": 23
+  },
+  {
+    "id": "1268",
+    "name": "Shenandoah",
+    "conf": 23
+  },
+  {
+    "id": "1269",
+    "name": "Case Western Reserve",
+    "conf": 83
+  },
+  {
+    "id": "1271",
+    "name": "Rochester",
+    "conf": 83
+  },
+  {
+    "id": "1272",
+    "name": "Washington U (MO)",
+    "conf": 83
+  },
+  {
+    "id": "1274",
+    "name": "Wisconsin-River Falls",
+    "conf": 76
+  },
+  {
+    "id": "1277",
+    "name": "Peru St.",
+    "conf": 60
+  },
+  {
+    "id": "1282",
+    "name": "Carroll (MT)",
+    "conf": 79
+  },
+  {
+    "id": "1284",
+    "name": "Concordia (NE)",
+    "conf": 54
+  },
+  {
+    "id": "1290",
+    "name": "Benedictine (KS)",
+    "conf": 39
+  },
+  {
+    "id": "1292",
+    "name": "Mid-America Nazarene",
+    "conf": 39
+  },
+  {
+    "id": "1295",
+    "name": "Bethel (KS)",
+    "conf": 69
+  },
+  {
+    "id": "1298",
+    "name": "Sterling",
+    "conf": 69
+  },
+  {
+    "id": "1299",
+    "name": "Univ. of the Cumberlands",
+    "conf": 51
+  },
+  {
+    "id": "1302",
+    "name": "Virginia-Wise",
+    "conf": 51
+  },
+  {
+    "id": "1305",
+    "name": "Malone College",
+    "conf": 71
+  },
+  {
+    "id": "1307",
+    "name": "Quincy (IL)",
+    "conf": 71
+  },
+  {
+    "id": "1310",
+    "name": "McKendree (IL)",
+    "conf": 73
+  },
+  {
+    "id": "1311",
+    "name": "Olivet Nazarene",
+    "conf": 73
+  },
+  {
+    "id": "1312",
+    "name": "St. Ambrose",
+    "conf": 73
+  },
+  {
+    "id": "1327",
+    "name": "Dixie St.",
+    "conf": 41
+  },
+  {
+    "id": "1328",
+    "name": "Waterloo",
+    "conf": 18
+  },
+  {
+    "id": "1329",
+    "name": "Saskatchewan",
+    "conf": 18
+  },
+  {
+    "id": "1330",
+    "name": "Northwest Mississippi C.C.",
+    "conf": 18
+  },
+  {
+    "id": "1332",
+    "name": "Apprentice",
+    "conf": 18
+  },
+  {
+    "id": "1333",
+    "name": "LaGrange",
+    "conf": 18
+  },
+  {
+    "id": "1334",
+    "name": "Regina",
+    "conf": 86
+  },
+  {
+    "id": "1335",
+    "name": "Beloit College",
+    "conf": 87
+  },
+  {
+    "id": "1336",
+    "name": "Old Dominion",
+    "conf": 9
+  },
+  {
+    "id": "1337",
+    "name": "Georgia State",
+    "conf": 8
+  },
+  {
+    "id": "1880",
+    "name": "South Alabama",
+    "conf": 8
+  },
+  {
+    "id": "6919",
+    "name": "Texas-San Antonio",
+    "conf": 9
+  },
+  {
+    "id": "6920",
+    "name": "Wisconsin-Milwaukee",
+    "conf": 88
+  },
+  {
+    "id": "6921",
+    "name": "Colorado State-Pueblo",
+    "conf": 13
+  },
+  {
+    "id": "6922",
+    "name": "Manitoba (Canada)",
+    "conf": 18
+  },
+  {
+    "id": "6923",
+    "name": "Lincoln",
+    "conf": 89
+  },
+  {
+    "id": "6924",
+    "name": "Notre Dame College",
+    "conf": 90
+  },
+  {
+    "id": "6925",
+    "name": "Queens (Canada)",
+    "conf": 18
+  },
+  {
+    "id": "6926",
+    "name": "Campbell",
+    "conf": 33
+  }
+]
