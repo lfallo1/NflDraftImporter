@@ -13,7 +13,7 @@ import com.combine.model.WorkoutResult;
 
 public class CombineDao {
 
-	private static final String INSERT_PARTICIPANT = "INSERT INTO participant( id, firstname, lastname, position, height, weight, hands, overview, strengths, weaknesses, comparision, bottom_line, what_scouts_say, college, expert_grade, link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String INSERT_PARTICIPANT = "INSERT INTO participant( id, firstname, lastname, position, height, weight, hands, overview, strengths, weaknesses, comparision, bottom_line, what_scouts_say, college, expert_grade, link, pick) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String INSERT_WORKOUTRESULT = "INSERT INTO workout_result(participant, result, workout) VALUES (?, ?, ?);";
 	private static final String INSERT_CONFERENCE = "INSERT INTO conf (id, name) VALUES (?,?)";
 	private static final String INSERT_COLLEGE = "INSERT INTO college (id, conf, name) VALUES (?,?,?)";
@@ -44,7 +44,7 @@ public class CombineDao {
 				participant.getPosition(), participant.getHeight(), participant.getWeight(), participant.getHands(),
 				participant.getOverview(), participant.getStrengths(), participant.getWeaknesses(), participant.getComparision(), 
 				participant.getBottom_line(), participant.getWhatScoutsSay(), participant.getCollege(),
-				participant.getExpertGrade(), participant.getLink()});
+				participant.getExpertGrade(), participant.getLink(), participant.getPick()});
 	}
 
 	public void insertWorkoutResult(WorkoutResult workoutResult) {

@@ -18,13 +18,14 @@ public class Participant {
 	private String whatScoutsSay;
 	private Double expertGrade;
 	private String link;
+	private Integer pick;
 
 	public Participant() {
 	}
 
 	public Participant(Integer id, String firstname, String lastname, Integer position, Double height,
 			Integer weight, Double hands, Double armLength, String overview, String strengths, String weaknesses,
-			String comparision, String bottom_line, String whatScoutsSay, Double expertGrade, Integer college, String link) {
+			String comparision, String bottom_line, String whatScoutsSay, Double expertGrade, Integer college, String link, Integer pick) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -42,6 +43,7 @@ public class Participant {
 		this.whatScoutsSay = whatScoutsSay;
 		this.expertGrade = expertGrade;
 		this.link = link;
+		this.pick = pick;
 	}
 
 	public Integer getId() {
@@ -178,6 +180,14 @@ public class Participant {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public Integer getPick() {
+		return pick;
+	}
+
+	public void setPick(Integer pick) {
+		this.pick = pick;
 	}
 
 }

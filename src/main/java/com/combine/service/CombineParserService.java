@@ -3,7 +3,6 @@ package com.combine.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -12,7 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.client.RestTemplate;
 
 import com.combine.dal.DataSourceLayer;
@@ -31,11 +29,13 @@ public class CombineParserService {
 	private RestTemplate restTemplate;
 	private DataSourceLayer dataSourceLayer;
 	private ConversionService conversionService;
+	private JSONService jsonService;
 
 	public CombineParserService(DataSourceLayer dataSourceLayer) {
 		this.restTemplate = new RestTemplate();
 		this.conversionService = new ConversionService();
 		this.dataSourceLayer = dataSourceLayer;
+		this.jsonService = new JSONService();
 	}
 
 	public void parse() {
@@ -45,9 +45,9 @@ public class CombineParserService {
 		this.dataSourceLayer.addParticipants(participants);
 		this.dataSourceLayer.addWorkoutResults(workoutResults);
 	}
-	
-	public void insertColleges(){
-		String conferenceResponse = this.loadJson("conferences.json");
+
+	public void insertColleges() {
+		String conferenceResponse = this.jsonService.loadJson("conferences.json");
 		List<Conference> conferences = new ArrayList<>();
 		JSONArray confArray = new JSONArray(conferenceResponse);
 		for (int i = 0; i < confArray.length(); i++) {
@@ -57,8 +57,8 @@ public class CombineParserService {
 			conf.setName(obj.getString("conf"));
 			conferences.add(conf);
 		}
-		
-		String collegeResponse = this.loadJson("colleges.json");
+
+		String collegeResponse = this.jsonService.loadJson("colleges.json");
 		List<College> colleges = new ArrayList<>();
 		JSONArray collegesArray = new JSONArray(collegeResponse);
 		for (int i = 0; i < collegesArray.length(); i++) {
@@ -69,7 +69,7 @@ public class CombineParserService {
 			college.setName(obj.getString("name"));
 			colleges.add(college);
 		}
-		
+
 		this.dataSourceLayer.addConferences(conferences);
 		this.dataSourceLayer.addColleges(colleges);
 	}
@@ -112,9 +112,9 @@ public class CombineParserService {
 	}
 
 	public List<Participant> retrieveParticipants() {
-		
-		String response = this.loadJson("nfl_draft_2016_data.json");
-		
+
+		String response = this.jsonService.loadJson("nfl_draft_2016_data.json");
+
 		List<Participant> participants = new ArrayList<>();
 		JSONObject obj = new JSONObject(response);
 		JSONArray prospects = null;
@@ -126,22 +126,23 @@ public class CombineParserService {
 		}
 
 		for (int i = 0; i < prospects.length(); i++) {
-			System.out.println("parsing participant " + (i+1) + " of " + prospects.length());
+			System.out.println("parsing participant " + (i + 1) + " of " + prospects.length());
 			JSONObject prospect = prospects.getJSONObject(i);
 			Participant p = new Participant();
 			try {
-				p.setId(prospect.getInt("personId"));
-				p.setFirstname(prospect.getString("firstName"));
-				p.setLastname(prospect.getString("lastName"));
-				p.setPosition(Position.stringToId(prospect.getString("pos"),
+				p.setId(this.jsonService.getIntFromJSON(prospect, "personId"));
+				p.setFirstname(this.jsonService.getStringFromJSON(prospect, "firstName"));
+				p.setLastname(this.jsonService.getStringFromJSON(prospect, "lastName"));
+				p.setPosition(Position.stringToId(this.jsonService.getStringFromJSON(prospect, "pos"),
 						this.dataSourceLayer.getCombineDao().getPositions()));
-				p.setCollege(prospect.getInt("collegeid"));
-				p.setWeight(prospect.getInt("weight"));
-				p.setHeight(this.conversionService.toRawInches(prospect.getString("height")));
-				p.setHands(this.conversionService.toRawInches(prospect.getString("handSize")));
-				p.setArmLength(this.conversionService.toRawInches(prospect.getString("armLength")));
-				p.setLink(prospect.getString("linkName"));
-				p.setExpertGrade(prospect.getDouble("expertGrade"));
+				p.setCollege(this.jsonService.getIntFromJSON(prospect, "collegeid"));
+				p.setWeight(this.jsonService.getIntFromJSON(prospect, "weight"));
+				p.setHeight(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "height")));
+				p.setHands(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize")));
+				p.setArmLength(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength")));
+				p.setLink(this.jsonService.getStringFromJSON(prospect, "linkName"));
+				p.setExpertGrade(this.jsonService.getDoubleFromJSON(prospect, "expertGrade"));
+				p.setPick(this.jsonService.getIntFromJSON(prospect, "pick"));
 				this.parsePlayerInfo(p);
 				participants.add(p);
 			} catch (Exception e) {
@@ -169,11 +170,16 @@ public class CombineParserService {
 			playerInfoSections = playerInfo.select("section");
 
 			// set overview text
-			Element overviewSection = playerInfoSections.get(0);
-			String overviewText = overviewSection.select("h3").get(0).siblingElements().get(0).html();
-			participant.setOverview(overviewText);
+			int sectionIndex = 0;
+			Element overviewSection = playerInfoSections.get(sectionIndex);
+			if (overviewSection.select("h3").html().equals("Overview")) {
+				String overviewText = overviewSection.select("h3").get(0).siblingElements().get(0).html();
+				participant.setOverview(overviewText);
+				sectionIndex++;
+			}
 
-			Element analysysSection = playerInfoSections.get(1);
+			// set additional analysis text
+			Element analysysSection = playerInfoSections.get(sectionIndex);
 			Elements analysysSub = analysysSection.select("article");
 			for (int i = 0; i < analysysSub.size() - 1; i++) {
 				Element mainElement = analysysSub.get(i);
@@ -195,21 +201,6 @@ public class CombineParserService {
 		} catch (Exception e) {
 			logger.warn("error loading player info for " + playerInfoSections.toString() + ". " + e.getMessage());
 		}
-	}
-
-	public String loadJson(String filename) {
-		StringBuilder sb = new StringBuilder();
-		try {
-			Scanner scanner = new Scanner(new ClassPathResource(filename).getFile());
-			while (scanner.hasNextLine()) {
-				sb.append(scanner.nextLine());
-			}
-
-			scanner.close();
-		} catch (Exception e) {
-			logger.warn(e.toString());
-		}
-		return sb.toString();
 	}
 
 }
