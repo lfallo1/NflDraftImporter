@@ -69,6 +69,8 @@ public class JSONService {
 		HSSFSheet sheet = workbook.createSheet(primaryObject);
 		
 		JSONArray freeAgentsArray = new JSONObject(data).getJSONArray(primaryObject);
+		
+		//create header row, and column map
 		Row header = sheet.createRow(0);
 		JSONArray fields = freeAgentsArray.getJSONObject(0).names();
 		int idx = 0;
@@ -80,6 +82,8 @@ public class JSONService {
 			}
 		}
 		
+		//iterate over each object in the array, create a new row for each object,
+		//and use the column mapper to set cell values at appropriate column index
 		for (int i = 0; i < freeAgentsArray.length(); i++) {
 			Row row = sheet.createRow(i+1);
 			JSONObject player = freeAgentsArray.getJSONObject(i);
@@ -108,6 +112,7 @@ public class JSONService {
 			}
 		}
 		
+		//write to file
 		FileOutputStream fos = new FileOutputStream(new File(outputFile));
 		workbook.write(fos);
 		fos.close();
