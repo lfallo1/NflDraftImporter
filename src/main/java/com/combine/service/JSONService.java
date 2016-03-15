@@ -1,8 +1,19 @@
 package com.combine.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
@@ -48,5 +59,57 @@ public class JSONService {
 			logger.warn(e.toString());
 		}
 		return sb.toString();
+	}
+	
+	public void jsonToExcel(String inputFile, String outputFile, String primaryObject, List<String> ignoreList) throws IOException{
+		Map<String, Integer> columnMap = new HashMap<>();
+		String data = this.loadJson(inputFile);
+
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		HSSFSheet sheet = workbook.createSheet(primaryObject);
+		
+		JSONArray freeAgentsArray = new JSONObject(data).getJSONArray(primaryObject);
+		Row header = sheet.createRow(0);
+		JSONArray fields = freeAgentsArray.getJSONObject(0).names();
+		int idx = 0;
+		for (int i = 0; i < fields.length(); i++) {
+			if(!ignoreList.contains(fields.getString(i))){
+				header.createCell(idx).setCellValue(fields.getString(i));
+				columnMap.put(fields.getString(i), idx);
+				idx++;
+			}
+		}
+		
+		for (int i = 0; i < freeAgentsArray.length(); i++) {
+			Row row = sheet.createRow(i+1);
+			JSONObject player = freeAgentsArray.getJSONObject(i);
+			for (int j = 0; j < fields.length(); j++) {
+				if(!ignoreList.contains(fields.getString(j))){
+					try{
+						Cell cell = row.createCell(columnMap.get(fields.getString(j)));
+						
+						if(player.get(fields.getString(j)) instanceof String){
+							cell.setCellValue(player.getString(fields.getString(j)));
+						}
+						else if(player.get(fields.getString(j)) instanceof Boolean){
+							cell.setCellValue(player.getBoolean(fields.getString(j)));
+						}
+						else if(player.get(fields.getString(j)) instanceof Double){
+							cell.setCellValue(player.getDouble(fields.getString(j)));
+						}
+						else{
+							cell.setCellValue("");
+						}
+					}
+					catch(JSONException e){
+						System.out.println(e.getMessage());
+					}
+				}
+			}
+		}
+		
+		FileOutputStream fos = new FileOutputStream(new File(outputFile));
+		workbook.write(fos);
+		fos.close();
 	}
 }

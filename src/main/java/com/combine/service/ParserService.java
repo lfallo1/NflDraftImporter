@@ -21,9 +21,9 @@ import com.combine.model.Position;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
 
-public class CombineParserService {
+public class ParserService {
 
-	private static final Logger logger = Logger.getLogger(CombineParserService.class);
+	private static final Logger logger = Logger.getLogger(ParserService.class);
 	private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2016/";
 	private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
 	private RestTemplate restTemplate;
@@ -31,7 +31,7 @@ public class CombineParserService {
 	private ConversionService conversionService;
 	private JSONService jsonService;
 
-	public CombineParserService(DataSourceLayer dataSourceLayer) {
+	public ParserService(DataSourceLayer dataSourceLayer) {
 		this.restTemplate = new RestTemplate();
 		this.conversionService = new ConversionService();
 		this.dataSourceLayer = dataSourceLayer;
@@ -202,5 +202,4 @@ public class CombineParserService {
 			logger.warn("error loading player info for " + playerInfoSections.toString() + ". " + e.getMessage());
 		}
 	}
-
 }
