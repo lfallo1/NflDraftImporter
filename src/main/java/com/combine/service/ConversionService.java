@@ -12,11 +12,13 @@ public class ConversionService {
 		Pattern p2 = Pattern.compile("(\\d{1,2})(\\s)(\\d{1})/(\\d{1})\"");
 		Pattern p3 = Pattern.compile("(\\d{1,2})\"");
 		Pattern p4 = Pattern.compile("(\\d+)(\\s)(\\d+)/(\\d+)");
+		Pattern p5 = Pattern.compile("(\\d+)-(\\d+)");
 		
 		Matcher m1 = p1.matcher(formattedInches);
 		Matcher m2 = p2.matcher(formattedInches);
 		Matcher m3 = p3.matcher(formattedInches);
 		Matcher m4 = p4.matcher(formattedInches);
+		Matcher m5 = p5.matcher(formattedInches);
 		
 		Double result = null;
 		if(m1.matches()){
@@ -30,6 +32,9 @@ public class ConversionService {
 		}
 		else if(m4.matches()){
 			result = Double.parseDouble(m4.group(1)) + ( Double.parseDouble(m4.group(3)) / Double.parseDouble(m4.group(4)) );
+		}
+		else if(m5.matches()){
+			result = Double.parseDouble(m5.group(1)) * 12 + Double.parseDouble(m5.group(2));
 		}
 		return result;
 	}

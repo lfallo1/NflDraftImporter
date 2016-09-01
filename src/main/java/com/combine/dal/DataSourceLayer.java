@@ -12,6 +12,7 @@ import com.combine.dao.CombineDao;
 import com.combine.model.College;
 import com.combine.model.Conference;
 import com.combine.model.Participant;
+import com.combine.model.Player;
 import com.combine.model.WorkoutResult;
 
 public class DataSourceLayer {
@@ -56,6 +57,12 @@ public class DataSourceLayer {
 	public void clearDb(){
 		this.combineDao.deleteWorkoutResult();
 		this.combineDao.deleteParticipant();
+	}
+	
+	public void addPlayers(List<Player> players){
+		for (int i = 0; i < players.size(); i++) {
+			this.combineDao.insertPlayer(players.get(i));
+		}		
 	}
 	
 	public void addParticipants(List<Participant> participants){

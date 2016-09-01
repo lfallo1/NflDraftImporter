@@ -3,6 +3,7 @@ package com.combine.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -11,12 +12,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.combine.dal.DataSourceLayer;
 import com.combine.model.College;
 import com.combine.model.Conference;
 import com.combine.model.Participant;
+import com.combine.model.Player;
 import com.combine.model.Position;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
@@ -26,10 +29,22 @@ public class ParserService {
 	private static final Logger logger = Logger.getLogger(ParserService.class);
 	private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2016/";
 	private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
+	private static final String ASP_EXT = ".asp";
+	private static final String DRAFT_TEK = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017";
+	private static final String DRAFT_TEK_PAGE = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017-Page-";
+	
+	private static final String CBS_SPORTS_DRAFT = "http://www.cbssports.com/nfl/draft/prospect-rankings-results/2017/all/overall?&print_rows=9999";
 	private RestTemplate restTemplate;
 	private DataSourceLayer dataSourceLayer;
 	private ConversionService conversionService;
 	private JSONService jsonService;
+	
+	private List<Player> players = new ArrayList<>();;
+	
+	public ParserService(){
+		this.conversionService = new ConversionService();
+		this.jsonService = new JSONService();
+	}
 
 	public ParserService(DataSourceLayer dataSourceLayer) {
 		this.restTemplate = new RestTemplate();
@@ -73,6 +88,8 @@ public class ParserService {
 		this.dataSourceLayer.addConferences(conferences);
 		this.dataSourceLayer.addColleges(colleges);
 	}
+	
+
 
 	private List<WorkoutResult> getWorkoutResults() {
 		List<WorkoutResult> results = new ArrayList<WorkoutResult>();
@@ -151,6 +168,121 @@ public class ParserService {
 			}
 		}
 		return participants;
+	}
+	
+	public void loadCbsSportsDraft() throws IOException{
+
+		Document doc = Jsoup.connect(CBS_SPORTS_DRAFT).get();
+		Element table = doc.getElementById("prospectRankingsTable");
+		List<Element> rows = table.getElementsByTag("tr");
+		for(int i = 1; i < rows.size(); i++){
+			Element row = rows.get(i);
+			List<Element> tdElements = row.getElementsByTag("td");
+			Player player = new Player();
+			for(int j = 0; j < tdElements.size(); j++){
+				String value = tdElements.get(j).html();
+				if(!StringUtils.isEmpty(value)){
+						switch (j) {
+						case 0:
+							try{
+								player.setRank(Integer.parseInt(value));
+							} catch(NumberFormatException ex){
+								player.setRank(players.get(i-2).getRank() + 1);
+							}
+							break;
+						case 1:
+							if(value.contains("href=")){
+								player.setName(tdElements.get(j).getElementsByTag("a").get(0).html());
+							} else{
+								player.setName(value);
+							}
+							
+							break;
+						case 2:
+							player.setPosition(value);
+							break;
+						case 3:
+							try{
+								player.setPositionRank(Integer.parseInt(value));
+							} catch(NumberFormatException ex){
+								player.setPositionRank(players.get(i-2).getPositionRank() + 1);
+							}
+							break;	
+						case 4:
+							player.setCollege(value);
+							break;
+						case 5:
+							player.setYearClass(value);
+							break;
+						case 6:
+							player.setHeight(this.conversionService.toRawInches(value));
+							break;
+						case 7:
+							player.setWeight(Double.parseDouble(value));
+							break;
+						case 8:
+							if(value.contains("&#x")){
+								player.setProjectedRound("Undrafted");
+							} else{
+								player.setProjectedRound(value);
+							}
+						default:
+							break;
+						}
+				}
+			}
+			player.setYear(2017);
+			this.players.add(player);
+		}
+		
+		this.dataSourceLayer.addPlayers(players);
+		System.out.println(players.size() + " records retrieved");		
+	}
+	
+	public void loadDraftTek() throws IOException{
+		
+		for (int i = 1; i <= 3; i++) {
+			String url = (i > 1 ? DRAFT_TEK_PAGE + i : DRAFT_TEK) + ASP_EXT;
+			Document doc = Jsoup.connect(url).get();
+			Element wrapper = doc.getElementById("content");
+			List<Element> rows = wrapper.getElementsByClass("BigBoardColor1");
+			for(Element row : rows){
+				List<Element> tdElements = row.getElementsByTag("td");
+				Player player = new Player();
+				for(int j = 0; j < tdElements.size(); j++){
+					String value = tdElements.get(j).html();
+					if(!StringUtils.isEmpty(value)){
+						switch (j) {
+						case 0:
+							player.setRank(Integer.parseInt(value));
+							break;
+						case 2:
+							player.setName(value);
+							break;
+						case 3:
+							player.setCollege(value);
+							break;
+						case 4:
+							player.setPosition(value);
+							break;
+						case 5:
+							player.setHeight(this.conversionService.toRawInches(value));
+							break;
+						case 6:
+							player.setWeight(Double.parseDouble(value));
+							break;
+						default:
+							break;
+						}
+					}
+				}
+				
+				if(this.players.stream().filter(p->p.getName() == null || player.getName() == null || p.getName().toLowerCase().equals(player.getName().toLowerCase())).collect(Collectors.toList()).isEmpty()){
+					players.add(player);
+				}
+			}
+		}
+		System.out.println(players.size());
 	}
 
 	/**

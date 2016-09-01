@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.combine.model.College;
 import com.combine.model.Conference;
 import com.combine.model.Participant;
+import com.combine.model.Player;
 import com.combine.model.Position;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
@@ -17,6 +18,8 @@ public class CombineDao {
 	private static final String INSERT_WORKOUTRESULT = "INSERT INTO workout_result(participant, result, workout) VALUES (?, ?, ?);";
 	private static final String INSERT_CONFERENCE = "INSERT INTO conf (id, name) VALUES (?,?)";
 	private static final String INSERT_COLLEGE = "INSERT INTO college (id, conf, name) VALUES (?,?,?)";
+	private static final String INSERT_PLAYER = "INSERT INTO player (college, height, name, position, position_rank, projected_round, rank, weight, year_class, year) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	
 	private JdbcTemplate jdbcTemplate;
 	
 	public CombineDao(JdbcTemplate jdbcTemplate){
@@ -59,5 +62,9 @@ public class CombineDao {
 
 	public void insertCollege(College college) {
 		this.jdbcTemplate.update(INSERT_COLLEGE, new Object[]{college.getId(), college.getConf(), college.getName()});
+	}
+	
+	public void insertPlayer(Player player) {
+		this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear()});
 	}
 }
