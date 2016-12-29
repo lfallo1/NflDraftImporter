@@ -59,10 +59,17 @@ public class DataSourceLayer {
 		this.combineDao.deleteParticipant();
 	}
 	
-	public void addPlayers(List<Player> players){
+	/**
+	 * add list of players to db
+	 * @param players
+	 * @return total number of players added
+	 */
+	public int addPlayers(List<Player> players){
+		int count = 0;
 		for (int i = 0; i < players.size(); i++) {
-			this.combineDao.insertPlayer(players.get(i));
-		}		
+			count += this.combineDao.insertPlayer(players.get(i));
+		}
+		return count;
 	}
 	
 	public void addParticipants(List<Participant> participants){

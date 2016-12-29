@@ -20,7 +20,7 @@ public class CombineDao {
 	private static final String INSERT_WORKOUTRESULT = "INSERT INTO workout_result(participant, result, workout) VALUES (?, ?, ?);";
 	private static final String INSERT_CONFERENCE = "INSERT INTO conf (id, name) VALUES (?,?)";
 	private static final String INSERT_COLLEGE = "INSERT INTO college (id, conf, name) VALUES (?,?,?)";
-	private static final String INSERT_PLAYER = "INSERT INTO player (college, height, name, position, position_rank, projected_round, rank, weight, year_class, year) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	private static final String INSERT_PLAYER = "INSERT INTO player (college, height, name, position, position_rank, projected_round, rank, weight, year_class, year) VALUES (?,?,?,public.fn_positionid_by_position(?),?,?,?,?,?,?)";
 	
 	private JdbcTemplate jdbcTemplate;
 	
@@ -66,12 +66,18 @@ public class CombineDao {
 		this.jdbcTemplate.update(INSERT_COLLEGE, new Object[]{college.getId(), college.getConf(), college.getName()});
 	}
 	
-	public void insertPlayer(Player player) {
+	/**
+	 * insert a single player.
+	 * @param player
+	 * @return 1 if inserted, 0 if error
+	 */
+	public int insertPlayer(Player player) {
 		try{
-			this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear()});
+			return this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear()});
 		}
 		catch(DuplicateKeyException e){
 			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 	
