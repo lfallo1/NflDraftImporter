@@ -175,6 +175,7 @@ public class ParserService {
 		return participants;
 	}
 	
+	//given a string, variable name (the field to be interpolated), and a value, perform some dirty interpolation
 	private String interpolate(String string, String target, String value){
 		String interpolated = string.replaceAll(Pattern.quote("${"+ target +"}"), value);
 		return interpolated;
