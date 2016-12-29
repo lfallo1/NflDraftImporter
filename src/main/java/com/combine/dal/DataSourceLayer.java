@@ -88,4 +88,8 @@ public class DataSourceLayer {
 			this.combineDao.insertCollege(colleges.get(i));
 		}
 	}
+	
+	public void clearPlayersByYear(int year){
+		this.combineDao.clearPlayersByYear(year);
+	}
 }

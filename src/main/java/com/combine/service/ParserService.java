@@ -2,7 +2,11 @@ package com.combine.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -33,7 +37,8 @@ public class ParserService {
 	private static final String DRAFT_TEK = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017";
 	private static final String DRAFT_TEK_PAGE = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017-Page-";
 	
-	private static final String CBS_SPORTS_DRAFT = "http://www.cbssports.com/nfl/draft/prospect-rankings-results/2017/all/overall?&print_rows=9999";
+	private static final String CBS_SPORTS_DRAFT = "http://www.cbssports.com/nfl/draft/prospect-rankings-results/${year}/${pos}/overall?&print_rows=9999";
+	private static final List<String> ALL_POSITIONS = Arrays.asList("C","CB","DE", "DT", "FB", "FS", "ILB", "K", "LS", "OG", "OLB", "OT", "P", "QB", "RB", "SS", "TE", "WR");
 	private RestTemplate restTemplate;
 	private DataSourceLayer dataSourceLayer;
 	private ConversionService conversionService;
@@ -170,73 +175,105 @@ public class ParserService {
 		return participants;
 	}
 	
+	private String interpolate(String string, String target, String value){
+		String interpolated = string.replaceAll(Pattern.quote("${"+ target +"}"), value);
+		return interpolated;
+	}
+	
 	public void loadCbsSportsDraft() throws IOException{
-
-		Document doc = Jsoup.connect(CBS_SPORTS_DRAFT).get();
-		Element table = doc.getElementById("prospectRankingsTable");
-		List<Element> rows = table.getElementsByTag("tr");
-		for(int i = 1; i < rows.size(); i++){
-			Element row = rows.get(i);
-			List<Element> tdElements = row.getElementsByTag("td");
-			Player player = new Player();
-			for(int j = 0; j < tdElements.size(); j++){
-				String value = tdElements.get(j).html();
-				if(!StringUtils.isEmpty(value)){
-						switch (j) {
-						case 0:
-							try{
-								player.setRank(Integer.parseInt(value));
-							} catch(NumberFormatException ex){
-								player.setRank(players.get(i-2).getRank() + 1);
-							}
-							break;
-						case 1:
-							if(value.contains("href=")){
-								player.setName(tdElements.get(j).getElementsByTag("a").get(0).html());
-							} else{
-								player.setName(value);
-							}
+		for(int year = 2017; year <= 2020; year++){
+			
+			//determine how many iterations are necessary.
+			//for 2017 all prospects can be retrieved with a single call. after that, must
+			//query by position to get all results
+			String url = interpolate(CBS_SPORTS_DRAFT, "year", String.valueOf(year));
+			List<String> positionCategories = Arrays.asList("all");
+			if(year > 2017){
+				positionCategories = ALL_POSITIONS;
+			}
+			for(String positionCategory : positionCategories){
+				Document doc = Jsoup.connect(interpolate(url.toString(), "pos", positionCategory)).get();
+				Element table = doc.getElementById("prospectRankingsTable");
+				List<Element> rows = table.getElementsByTag("tr");
+				
+				//for the first row, map headers
+				Map<Integer,String> headers = new HashMap<>();
+				for(int i = 0; i < rows.get(0).getElementsByTag("td").size(); i++){
+					String header = rows.get(0).getElementsByTag("td").get(i).getElementsByTag("a").html();
+					headers.put(i, header);
+				}
+	
+				//for all other rows, create player from data and add to array list
+				for(int i = 1; i < rows.size(); i++){
+					Element row = rows.get(i);
+					List<Element> tdElements = row.getElementsByTag("td");
+					Player player = new Player();
+					for(int j = 0; j < tdElements.size(); j++){
+						
+						//get value & null check
+						String value = tdElements.get(j).html();
+						if(!StringUtils.isEmpty(value)){
 							
-							break;
-						case 2:
-							player.setPosition(value);
-							break;
-						case 3:
-							try{
-								player.setPositionRank(Integer.parseInt(value));
-							} catch(NumberFormatException ex){
-								player.setPositionRank(players.get(i-2).getPositionRank() + 1);
+							//determine what field on the player object should be set to the current value
+							String currentHeader = headers.get(j);
+							if("Rank".equals(headers.get(j))){
+								try{
+									player.setRank(Integer.parseInt(value));
+								} catch(NumberFormatException ex){
+									player.setRank(0);
+								}
 							}
-							break;	
-						case 4:
-							player.setCollege(value);
-							break;
-						case 5:
-							player.setYearClass(value);
-							break;
-						case 6:
-							player.setHeight(this.conversionService.toRawInches(value));
-							break;
-						case 7:
-							player.setWeight(Double.parseDouble(value));
-							break;
-						case 8:
-							if(value.contains("&#x")){
-								player.setProjectedRound("Undrafted");
-							} else{
-								player.setProjectedRound(value);
+							else if("Player".equals(currentHeader)){
+								if(value.contains("href=")){
+									player.setName(tdElements.get(j).getElementsByTag("a").get(0).html());
+								} else if(value.contains("<img")){
+									player.setName(value.substring(0,value.indexOf("<")));
+								} else{
+									player.setName(value);
+								}
+								
 							}
-						default:
-							break;
+							else if("Pos.".equals(currentHeader)){
+								player.setPosition(value);
+							}
+							else if("Pos. Rank".equals(currentHeader)){
+								try{
+									player.setPositionRank(Integer.parseInt(value));
+								} catch(NumberFormatException ex){
+									player.setPositionRank(0);
+								}
+							}
+							else if("School".equals(currentHeader)){
+								player.setCollege(value);
+							}
+							else if("Class".equals(currentHeader)){
+								player.setYearClass(value);
+							}
+							//0=Rank, 1=Player, 2=Pos., 3=Pos. Rank, 4=School, 5=Class, 6=Ht., 7=Wt., 8=Proj. Round
+							else if("Ht.".equals(currentHeader)){
+								player.setHeight(this.conversionService.toRawInches(value));
+							}
+							else if("Wt.".equals(currentHeader)){
+								player.setWeight(Double.parseDouble(value));
+							}
+							else if("Proj. Round".equals(currentHeader)){
+								if(value.contains("&#x")){
+									player.setProjectedRound("Undrafted");
+								} else{
+									player.setProjectedRound(value);
+								}
+							}
 						}
+					}
+					player.setYear(year);
+					this.players.add(player);
 				}
 			}
-			player.setYear(2017);
-			this.players.add(player);
+			
+			this.dataSourceLayer.clearPlayersByYear(year);
+			this.dataSourceLayer.addPlayers(players);
+			System.out.println(players.size() + " records retrieved for " + year);	
 		}
-		
-		this.dataSourceLayer.addPlayers(players);
-		System.out.println(players.size() + " records retrieved");		
 	}
 	
 	public void loadDraftTek() throws IOException{

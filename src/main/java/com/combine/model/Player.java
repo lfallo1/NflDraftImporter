@@ -14,6 +14,7 @@ public class Player {
 	private Integer year;
 
 	public Player() {
+		this.rank = 0;
 	}
 
 	public Player(Integer rank, String name, String college, String position,
