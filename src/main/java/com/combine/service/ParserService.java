@@ -184,15 +184,8 @@ public class ParserService {
 	public void loadCbsSportsDraft() throws IOException{
 		for(int year = 2017; year <= 2020; year++){
 			
-			//determine how many iterations are necessary.
-			//for 2017 all prospects can be retrieved with a single call. after that, must
-			//query by position to get all results
 			String url = interpolate(CBS_SPORTS_DRAFT, "year", String.valueOf(year));
-			List<String> positionCategories = Arrays.asList("all");
-			if(year > 2017){
-				positionCategories = ALL_POSITIONS;
-			}
-			for(String positionCategory : positionCategories){
+			for(String positionCategory : ALL_POSITIONS){
 				Document doc = Jsoup.connect(interpolate(url.toString(), "pos", positionCategory)).get();
 				Element table = doc.getElementById("prospectRankingsTable");
 				List<Element> rows = table.getElementsByTag("tr");
@@ -232,10 +225,6 @@ public class ParserService {
 								} else{
 									player.setName(value);
 								}
-								
-							}
-							else if("Pos.".equals(currentHeader)){
-								player.setPosition(value);
 							}
 							else if("Pos. Rank".equals(currentHeader)){
 								try{
@@ -266,14 +255,20 @@ public class ParserService {
 							}
 						}
 					}
-					player.setYear(year);
-					this.players.add(player);
+					
+					//if not a bogus record, add to list
+					if(!StringUtils.isEmpty(player.getName()) && player.getName().length() > 2){
+						player.setYear(year);
+						player.setPosition(positionCategory);
+						this.players.add(player);
+					}
+					
 				}
 			}
 			
 			this.dataSourceLayer.clearPlayersByYear(year);
-			this.dataSourceLayer.addPlayers(players);
-			System.out.println(players.size() + " records retrieved for " + year);	
+			int count = this.dataSourceLayer.addPlayers(players);
+			System.out.println(count + " records retrieved for " + year);	
 		}
 	}
 	
