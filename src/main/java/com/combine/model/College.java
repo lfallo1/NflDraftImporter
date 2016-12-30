@@ -9,7 +9,7 @@ public class College {
 	public College() {
 	}
 
-	public College(Integer id, Integer conf, String name) {
+	public College(Integer id, String name, Integer conf) {
 		this.id = id;
 		this.conf = conf;
 		this.name = name;

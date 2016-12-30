@@ -1,5 +1,6 @@
 package com.combine.dal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -17,6 +18,8 @@ import com.combine.model.WorkoutResult;
 
 public class DataSourceLayer {
 	private static DataSourceLayer instance;
+	
+	private List<College> collegesCache = new ArrayList<>();
 	
 	private CombineDao combineDao;
 	
@@ -98,5 +101,12 @@ public class DataSourceLayer {
 	
 	public void clearPlayersByYear(int year){
 		this.combineDao.clearPlayersByYear(year);
+	}
+	
+	public List<College> allColleges(){
+		if(collegesCache.size() == 0){
+			this.collegesCache = this.combineDao.allColleges();
+		}
+		return this.collegesCache;
 	}
 }

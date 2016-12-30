@@ -4,7 +4,8 @@ public class Player {
 
 	private Integer rank;
 	private String name;
-	private String college;
+	private Integer college;
+	private String collegeText;
 	private String position;
 	private Double height;
 	private Double weight;
@@ -17,12 +18,12 @@ public class Player {
 		this.rank = 0;
 	}
 
-	public Player(Integer rank, String name, String college, String position,
-			Double height, Double weight, Integer positionRank,
-			String projectedRound, String yearClass, Integer year) {
+	public Player(Integer rank, String name, Integer college, String collegeText, String position, Double height,
+			Double weight, Integer positionRank, String projectedRound, String yearClass, Integer year) {
 		this.rank = rank;
 		this.name = name;
 		this.college = college;
+		this.collegeText = collegeText;
 		this.position = position;
 		this.height = height;
 		this.weight = weight;
@@ -48,12 +49,20 @@ public class Player {
 		this.name = name;
 	}
 
-	public String getCollege() {
+	public Integer getCollege() {
 		return college;
 	}
 
-	public void setCollege(String college) {
+	public void setCollege(Integer college) {
 		this.college = college;
+	}
+
+	public String getCollegeText() {
+		return collegeText;
+	}
+
+	public void setCollegeText(String collegeText) {
+		this.collegeText = collegeText;
 	}
 
 	public String getPosition() {
