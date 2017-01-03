@@ -61,7 +61,7 @@ public class ConversionService {
 	 * @param value
 	 * @return
 	 */
-	public Integer findCollege(String value) {
+	public Integer collegeNameToId(String value) {
 		List<College> colleges = this.dataSourceLayer.allColleges();
 		
 		Optional<Integer> id = colleges.stream()
@@ -73,7 +73,14 @@ public class ConversionService {
 			}
 			
 		//specific mappings
-		if(value.equals("Brigham Young")){
+		if(value.equals("Southern Methodist")){
+			return colleges.stream()
+					.filter(c-> c.getName().equals("SMU"))
+					.map(c->c.getId())
+					.findFirst()
+					.get();
+		}
+		else if(value.equals("Brigham Young")){
 			return colleges.stream()
 					.filter(c-> c.getName().equals("BYU"))
 					.map(c->c.getId())
@@ -94,6 +101,36 @@ public class ConversionService {
 		} else if(value.equals("UCF")){
 			return colleges.stream()
 					.filter(c-> c.getName().equals("Central Florida"))
+					.map(c->c.getId())
+					.findFirst()
+					.get();
+		} else if(value.equals("UL Lafayette")){
+			return colleges.stream()
+					.filter(c-> c.getName().equals("Louisiana-Lafayette"))
+					.map(c->c.getId())
+					.findFirst()
+					.get();
+		} else if(value.equals("Stephen F. Austin")){
+			return colleges.stream()
+					.filter(c-> c.getName().equals("Stephen F Austin"))
+					.map(c->c.getId())
+					.findFirst()
+					.get();
+		} else if(value.equals("UC Davis")){
+			return colleges.stream()
+					.filter(c-> c.getName().equals("Cal Davis"))
+					.map(c->c.getId())
+					.findFirst()
+					.get();
+		} else if(value.equals("UT Martin")){
+			return colleges.stream()
+					.filter(c-> c.getName().equals("Tennessee-Martin"))
+					.map(c->c.getId())
+					.findFirst()
+					.get();
+		} else if(value.equals("UTSA")){
+			return colleges.stream()
+					.filter(c-> c.getName().equals("Texas-San Antonio"))
 					.map(c->c.getId())
 					.findFirst()
 					.get();
