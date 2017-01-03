@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -240,13 +237,12 @@ public class ParserService {
 								}
 							}
 							else if("School".equals(currentHeader)){
-								player.setCollege(this.conversionService.findCollege(value.replace("amp;", "")));
+								player.setCollege(this.conversionService.collegeNameToId(value.replace("amp;", "")));
 								player.setCollegeText(value.replace("amp;", ""));
 							}
 							else if("Class".equals(currentHeader)){
 								player.setYearClass(value);
 							}
-							//0=Rank, 1=Player, 2=Pos., 3=Pos. Rank, 4=School, 5=Class, 6=Ht., 7=Wt., 8=Proj. Round
 							else if("Ht.".equals(currentHeader)){
 								player.setHeight(this.conversionService.toRawInches(value));
 							}
@@ -273,7 +269,7 @@ public class ParserService {
 				}
 			}
 			
-			this.dataSourceLayer.clearPlayersByYear(year);
+//			this.dataSourceLayer.clearPlayersByYear(year);
 			int count = this.dataSourceLayer.addPlayers(players);
 			System.out.println(count + " records retrieved for " + year);	
 		}
@@ -300,7 +296,7 @@ public class ParserService {
 							player.setName(value);
 							break;
 						case 3:
-							player.setCollege(this.conversionService.findCollege(value));
+							player.setCollege(this.conversionService.collegeNameToId(value));
 							break;
 						case 4:
 							player.setPosition(value);
