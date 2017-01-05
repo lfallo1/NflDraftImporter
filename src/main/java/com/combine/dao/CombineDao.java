@@ -90,8 +90,12 @@ public class CombineDao {
 			return this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getCollegeText(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear()});
 		}
 		catch(DuplicateKeyException e){
+			if(player.getName().contains("Charles Harris")){
+				System.out.println("pause...");
+			}
 			Player existingPlayer = this.getByNameAndYear(player);
-			if(!existingPlayer.getPositionRank().equals(player.getPositionRank())){
+			if(!existingPlayer.getPositionRank().equals(player.getPositionRank()) &&
+					(existingPlayer.getYear() >= player.getYear())){
 				return this.updatePlayer(player);
 			}
 			return 0;
