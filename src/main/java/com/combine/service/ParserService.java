@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -185,6 +186,9 @@ public class ParserService {
 	}
 	
 	public void loadCbsSportsDraft() throws IOException{
+		
+		String importUUID = UUID.randomUUID().toString();
+		
 		for(int year = 2017; year <= 2020; year++){
 			
 			String url = interpolate(CBS_SPORTS_DRAFT, "year", String.valueOf(year));
@@ -263,6 +267,7 @@ public class ParserService {
 					if(!StringUtils.isEmpty(player.getName()) && player.getName().length() > 2){
 						player.setYear(year);
 						player.setPosition(positionCategory);
+						player.setImportUUID(importUUID);
 						this.players.add(player);
 					}
 					
