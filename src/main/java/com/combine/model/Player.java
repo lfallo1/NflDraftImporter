@@ -13,13 +13,15 @@ public class Player {
 	private String projectedRound;
 	private String yearClass;
 	private Integer year;
+	private String importUUID;
 
 	public Player() {
 		this.rank = 0;
 	}
 
 	public Player(Integer rank, String name, Integer college, String collegeText, String position, Double height,
-			Double weight, Integer positionRank, String projectedRound, String yearClass, Integer year) {
+			Double weight, Integer positionRank, String projectedRound, String yearClass, Integer year,
+			String importUUID) {
 		this.rank = rank;
 		this.name = name;
 		this.college = college;
@@ -31,6 +33,7 @@ public class Player {
 		this.projectedRound = projectedRound;
 		this.yearClass = yearClass;
 		this.year = year;
+		this.importUUID = importUUID;
 	}
 
 	public Integer getRank() {
@@ -119,6 +122,14 @@ public class Player {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public String getImportUUID() {
+		return importUUID;
+	}
+
+	public void setImportUUID(String importUUID) {
+		this.importUUID = importUUID;
 	}
 
 }

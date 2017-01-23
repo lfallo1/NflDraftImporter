@@ -27,14 +27,15 @@ public class CombineDao {
 	static final String PLAYER_COL_PROJECTED_ROUND = "projected_round";
 	static final String PLAYER_COL_YEAR_CLASS = "year_class";
 	static final String PLAYER_COL_YEAR = "year";
+	static final String PLAYER_COL_UUID = "import_uuid";
 
 	private static final String DELETE_PLAYERS_BY_YEAR = "delete from player where year = ?";
 	private static final String INSERT_PARTICIPANT = "INSERT INTO participant( id, firstname, lastname, position, height, weight, hands, overview, strengths, weaknesses, comparision, bottom_line, what_scouts_say, college, expert_grade, link, pick) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String INSERT_WORKOUTRESULT = "INSERT INTO workout_result(participant, result, workout) VALUES (?, ?, ?);";
 	private static final String INSERT_CONFERENCE = "INSERT INTO conf (id, name) VALUES (?,?)";
 	private static final String INSERT_COLLEGE = "INSERT INTO college (id, conf, name) VALUES (?,?,?)";
-	private static final String INSERT_PLAYER = "INSERT INTO player (college, college_text, height, name, position, position_rank, projected_round, rank, weight, year_class, year) VALUES (?,?,?,?,public.fn_positionid_by_position(?),?,?,?,?,?,?)";
-	private static final String UPDATE_PLAYER = "update player set position_rank = ?, projected_round = ?, rank = ?, year_class = ?, year = ? where name = ?";
+	private static final String INSERT_PLAYER = "INSERT INTO player (college, college_text, height, name, position, position_rank, projected_round, rank, weight, year_class, year, import_uuid) VALUES (?,?,?,?,public.fn_positionid_by_position(?),?,?,?,?,?,?,?)";
+	private static final String UPDATE_PLAYER = "update player set position_rank = ?, projected_round = ?, rank = ?, year_class = ?, year = ?, import_uuid = ? where name = ?";
 	
 	private JdbcTemplate jdbcTemplate;
 	
@@ -87,11 +88,11 @@ public class CombineDao {
 	 */
 	public int insertPlayer(Player player) {
 		try{
-			return this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getCollegeText(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear()});
+			return this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getCollegeText(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear(), player.getImportUUID()});
 		}
 		catch(DuplicateKeyException e){
 			Player existingPlayer = this.getByNameAndYear(player);
-			if(!existingPlayer.getPositionRank().equals(player.getPositionRank())){
+			if(!existingPlayer.getImportUUID().equals(player.getImportUUID())){
 				return this.updatePlayer(player);
 			}
 			return 0;
@@ -110,6 +111,7 @@ public class CombineDao {
 				player.setProjectedRound(rs.getString(PLAYER_COL_PROJECTED_ROUND));
 				player.setYear(rs.getInt(PLAYER_COL_YEAR));
 				player.setYearClass(PLAYER_COL_YEAR_CLASS);
+				player.setImportUUID(rs.getString(PLAYER_COL_UUID));
 				return player;				
 			}
 
@@ -118,7 +120,7 @@ public class CombineDao {
 	
 	public int updatePlayer(Player player) {
 		try{
-			return this.jdbcTemplate.update(UPDATE_PLAYER, new Object[]{player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getYearClass(), player.getYear(), player.getName()});
+			return this.jdbcTemplate.update(UPDATE_PLAYER, new Object[]{player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getYearClass(), player.getYear(), player.getImportUUID(), player.getName()});
 		}
 		catch(DuplicateKeyException e){
 			System.out.println(e.getMessage());
