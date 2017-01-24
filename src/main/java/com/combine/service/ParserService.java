@@ -1,8 +1,13 @@
 package com.combine.service;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +33,8 @@ import com.combine.model.Player;
 import com.combine.model.Position;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
+import com.combine.model.profootballref.StatField;
+import com.combine.model.profootballref.WeeklyStatsQuarterback;
 
 public class ParserService {
 
@@ -37,6 +44,9 @@ public class ParserService {
 	private static final String ASP_EXT = ".asp";
 	private static final String DRAFT_TEK = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017";
 	private static final String DRAFT_TEK_PAGE = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017-Page-";
+	
+	private static final String PRO_FOOTBALL_REF_WEEKLY = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=17&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rec&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rec_yds&from_link=1";
+	private static final String OFFSET = "&offset=";
 	
 	private static final String CBS_SPORTS_DRAFT = "http://www.cbssports.com/nfl/draft/prospect-rankings-results/${year}/${pos}/overall?&print_rows=9999";
 	private static final List<String> ALL_POSITIONS = Arrays.asList("C","CB","DE", "DT", "FB", "FS", "ILB", "K", "LS", "OG", "OLB", "OT", "P", "QB", "RB", "SS", "TE", "WR");
@@ -179,6 +189,95 @@ public class ParserService {
 	private String interpolate(String string, String target, String value){
 		String interpolated = string.replaceAll(Pattern.quote("${"+ target +"}"), value);
 		return interpolated;
+	}
+	
+	public void loadProFootballReferenceQuarterbackStats() {
+		String base = PRO_FOOTBALL_REF_WEEKLY;
+		Map<Integer,String> headers = new HashMap<>();
+		List<WeeklyStatsQuarterback> players = new ArrayList<>();
+		for(int i = 2016; i >= 1960; i--){
+			boolean data = true;
+			int counter = 0;
+			
+			while(data){
+				String url = base;
+				if(counter > 0){
+					base += OFFSET + counter * 100; 
+				}
+
+				try {
+					
+					//make request and get table
+					Document doc = Jsoup.connect(interpolate(url, "year", String.valueOf(i))).get();
+					Element table = doc.getElementById("results");
+					List<Element> rows = table.getElementsByTag("tr");
+					
+					//if header row has not been created, do it here
+					if(headers.size() == 0){
+						for(int j = 0; j < rows.get(1).getElementsByTag("th").size(); j++){
+							String header = j==1 ? "Name" : rows.get(1).getElementsByTag("th").get(j).html();							
+							headers.put(j, header);
+						}		
+					}
+					
+					for(int j = 2; j  <rows.size(); j++){
+						Element row = rows.get(j);
+						List<Element> tdElements = row.getElementsByTag("td");
+						WeeklyStatsQuarterback player = new WeeklyStatsQuarterback();
+
+						String value = "";
+						for(int k = 0; k < tdElements.size(); k++){
+							try {
+								if(tdElements.get(k).getElementsByTag("a").size() > 0){
+									value = tdElements.get(k).getElementsByTag("a").get(0).html();
+								} else{
+									value = tdElements.get(k).html();
+								}
+								
+								if(!StringUtils.isEmpty(value)){
+									Field field = getField(WeeklyStatsQuarterback.class, headers.get(k+1));
+									field.setAccessible(true);
+									if(field.getType().equals(String.class)){
+										field.set(player, value);
+									} else if(field.getType().equals(Integer.class)){
+										field.set(player, Integer.valueOf(value));
+									} else if(field.getType().equals(Double.class)){
+										field.set(player, Double.valueOf(value));
+									} else if(field.getType().equals(Date.class)){
+										DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+									    Date date = df.parse(value);									
+										field.set(player, date);
+									}	
+								}
+								
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						players.add(player);
+					}
+					
+				} catch (IOException e) {
+					System.out.println("No data for " + url);
+				}	
+			}			
+		}
+	}
+	
+	public <T> Field getField(Class<T> myClass, String fieldName) throws Exception{
+		Field[] fields = myClass.getDeclaredFields();
+		for(Field field : fields){
+			Annotation[] annotations = field.getDeclaredAnnotations(); 
+			for(Annotation annotation : annotations){
+				if(annotation.annotationType().equals(StatField.class)){
+					StatField fieldAnnotation = (StatField)annotation;
+					if(fieldAnnotation.value().endsWith(fieldName)){
+						return field;
+					}
+				}
+			}	
+		}
+		throw new Exception("Field not found");
 	}
 	
 	public void loadCbsSportsDraft() throws IOException{
