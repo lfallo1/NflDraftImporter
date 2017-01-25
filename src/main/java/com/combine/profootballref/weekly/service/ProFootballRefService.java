@@ -41,6 +41,7 @@ public class ProFootballRefService {
 	private static final String PRO_FOOTBALL_REF_WEEKLY_RUSHING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rush_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rush_yds&from_link=1";
 	private static final String PRO_FOOTBALL_REF_WEEKLY_RECEIVING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rec&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rec_yds&from_link=1";
 	private static final String PRO_FOOTBALL_REF_WEEKLY_DEFENSE = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=0&pos=0&game_type=R&career_game_num_min=0&career_game_num_max=499&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&c1stat=tackles_solo&c1comp=gt&c1val=0&c2stat=def_int&c2comp=gt&c2val=0&c3stat=choose&c3comp=gt&c4stat=choose&c4comp=gt&c5comp=choose&c5gtlt=lt&c6mult=1.0&c6comp=choose";
+	private static final int URL_REQUEST_ATTEMPTS = 3;
 	
 	private TableMapperService tableMapperService;
 	private GenericService genericService;
@@ -89,8 +90,12 @@ public class ProFootballRefService {
 				
 				try {
 					
-					//make request and get table
-					Document doc = Jsoup.connect(genericService.interpolate(url, YEAR, String.valueOf(i))).get();
+					//make request & verify data returned
+					Document doc = makeUrlRequest(genericService.interpolate(url, YEAR, String.valueOf(i)));
+					if(doc == null) 
+						continue;
+					
+					//load the table
 					Element table = doc.getElementById(ELEMENT_ID_RESULTS);
 					List<Element> rows = table.getElementsByTag(ELEMENT_TR);
 					
@@ -117,12 +122,26 @@ public class ProFootballRefService {
 						}
 					}
 					
-				} catch (IOException | InstantiationException | IllegalAccessException e) {
-					System.out.println("No data for " + url);
+				} catch (InstantiationException | IllegalAccessException | IOException e) {
+					System.out.println("No data, check logs");
 				}	
 			}			
 		}
 		return results;
+	}
+
+	private Document makeUrlRequest(String url) throws IOException {
+		Document doc = null;
+		int attempt = 0;
+		while(attempt < URL_REQUEST_ATTEMPTS){
+			try{
+				doc = Jsoup.connect(url).get();
+				return doc;
+			} catch(IOException e){
+				attempt++;
+			}
+		}
+		throw new IOException("Unable to fetch " + url);
 	}
 	
 }

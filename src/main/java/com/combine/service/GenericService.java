@@ -1,7 +1,10 @@
 package com.combine.service;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import com.combine.annotations.StatField;
@@ -17,21 +20,40 @@ public class GenericService {
 		return clazz.newInstance();
 	}
 	
-	public <T> Field getField(Class<T> myClass, String fieldName) throws Exception {
-		Field[] fields = myClass.getDeclaredFields();
-		for (Field field : fields) {
-			Annotation[] annotations = field.getDeclaredAnnotations();
-			for (Annotation annotation : annotations) {
-				if (annotation.annotationType().equals(StatField.class)) {
-					StatField fieldAnnotation = (StatField) annotation;
-					if (fieldAnnotation.value().equals(fieldName)) {
-						return field;
-					}
-				}
-			}
-		}
+	/**
+	 * combine a list of native arrays
+	 * @param list
+	 * @param clazz
+	 * @return
+	 */
+	public <T> T[] combineArrays(List<T[]> list, Class<T> clazz){
 		
-		fields = myClass.getSuperclass().getDeclaredFields();
+		//get length of array and declare new array of that size
+		int length = list.stream().mapToInt(l->l.length).sum();
+		@SuppressWarnings({ "unchecked" })
+		T[] combined = (T[]) Array.newInstance(clazz, length);
+		
+		//combine arrays into a single array
+		int position = 0;
+		for(T[] item : list){
+			System.arraycopy(item, 0, combined, position, item.length);
+			position += item.length;
+		}
+		return combined;
+	}
+	
+	/**
+	 * return the field object on a specified class by its annotated field name
+	 * @param myClass
+	 * @param fieldName
+	 * @return
+	 * @throws Exception
+	 */
+	public <T> Field getField(Class<T> myClass, String fieldName) throws Exception {
+		
+		//add a list of fields and fields in immediate super class
+		Field[] fields = this.<Field>combineArrays(Arrays.asList(myClass.getDeclaredFields(), myClass.getSuperclass().getDeclaredFields()), Field.class);
+		
 		for (Field field : fields) {
 			Annotation[] annotations = field.getDeclaredAnnotations();
 			for (Annotation annotation : annotations) {
@@ -47,7 +69,13 @@ public class GenericService {
 		throw new Exception("Field not found");
 	}
 	
-	//given a string, variable name (the field to be interpolated), and a value, perform some dirty interpolation
+	/**
+	 * given a string, variable name (the field to be interpolated), and a value, perform some dirty interpolation
+	 * @param string
+	 * @param target
+	 * @param value
+	 * @return
+	 */
 	public String interpolate(String string, String target, String value){
 		String interpolated = string.replaceAll(Pattern.quote("${"+ target +"}"), value);
 		return interpolated;
