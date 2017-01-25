@@ -1,25 +1,22 @@
 package com.combine.driver;
 
 import java.io.IOException;
+import java.util.List;
 
-import com.combine.dal.DataSourceLayer;
-import com.combine.service.ParserService;
+import com.combine.profootballref.weekly.model.WeeklyStatsRushing;
+import com.combine.profootballref.weekly.service.ProFootballRefService;
+import com.combine.service.GenericService;
+import com.combine.service.TableMapperService;
 
 public class Driver {
 
-	public static void main(String[] args) throws IOException{		
-		DataSourceLayer dataSource = DataSourceLayer.getInstance();
-		ParserService parser = new ParserService(dataSource);		
-//		parser.insertColleges();
-//		parser.parse();
-		
-//		ParserService parser = new ParserService();
-		parser.loadProFootballReferenceQuarterbackStats();
-//		parser.loadCbsSportsDraft();
-//		parser.loadDraftTek();
-		
-//		JSONService jsonService = new JSONService();
-//		jsonService.jsonToExcel("fatracker.json", "/Users/lancefallon/Desktop/FreeAgents2016.xls", "freeAgents", Arrays.asList("videoId", "contentId", "gsisPlayerId", "ex", "th", "id", "rankOrder", "playerId", "lastUpdate", "analysis"));
+	public static void main(String[] args) throws IOException {
+		GenericService genericService = new GenericService();
+		TableMapperService tableMapperService = new TableMapperService(genericService);
+		ProFootballRefService proFootballRefService = new ProFootballRefService(tableMapperService, genericService);
+//		List<WeeklyStatsQuarterback> quarterbacks = proFootballRefService.loadWeeklyStatsQuarterback();
+		List<WeeklyStatsRushing> rushing = proFootballRefService.loadWeeklyStatsRushing();
+		System.out.println(rushing.size());
 	}
-	
+
 }

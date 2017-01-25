@@ -1,1 +1,0 @@
-alter table participant add column pick integer;

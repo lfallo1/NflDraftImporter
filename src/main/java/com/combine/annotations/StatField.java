@@ -1,4 +1,4 @@
-package com.combine.model.profootballref;
+package com.combine.annotations;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
