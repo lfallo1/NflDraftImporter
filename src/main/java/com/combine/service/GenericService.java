@@ -6,6 +6,11 @@ import java.util.regex.Pattern;
 
 import com.combine.annotations.StatField;
 
+/**
+ * utilities related to generics / reflection
+ * @author lancefallon
+ *
+ */
 public class GenericService {
 	
 	public <E> E createInstance(Class<E> clazz) throws InstantiationException, IllegalAccessException {

@@ -17,8 +17,25 @@ import com.combine.profootballref.weekly.model.WeeklyStatsRushing;
 import com.combine.service.GenericService;
 import com.combine.service.TableMapperService;
 
+/**
+ * Service to retrieve data from Pro football reference
+ * @author lancefallon
+ *
+ */
 public class ProFootballRefService {
 	
+	//HTML CONSTANTS
+	private static final String ELEMENT_TD = "td";
+	private static final String ELEMENT_TH = "th";
+	private static final String ELEMENT_TR = "tr";
+	private static final String ELEMENT_ID_RESULTS = "results";
+	
+	//MISC CONSTANTS
+	private static final String YEAR = "year";
+	private static final int YEAR_END = 1960;
+	private static final int YEAR_START = 2016;
+	
+	//URL CONSTANTS
 	private static final String OFFSET = "&offset=";
 	private static final String PRO_FOOTBALL_REF_WEEKLY_QB = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=pass_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=pass_rating&from_link=1";
 	private static final String PRO_FOOTBALL_REF_WEEKLY_RUSHING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rush_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rush_yds&from_link=1";
@@ -49,10 +66,16 @@ public class ProFootballRefService {
 		return this.<WeeklyStatsDefense>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_DEFENSE, WeeklyStatsDefense.class);
 	}
 
+	/**
+	 * generic loader to retrieve weekly stats from pro football reference
+	 * @param baseUrl
+	 * @param clazz
+	 * @return
+	 */
 	private <T> List<T> loadWeeklyStats(String baseUrl, Class<T> clazz){
 		Map<Integer,String> headers = new HashMap<>();
 		List<T> results = new ArrayList<>();
-		for(int i = 2016; i >= 1960; i--){
+		for(int i = YEAR_START; i >= YEAR_END; i--){
 			
 			int page = 0;
 			while(true){
@@ -68,9 +91,9 @@ public class ProFootballRefService {
 					
 					
 					//make request and get table
-					Document doc = Jsoup.connect(genericService.interpolate(url, "year", String.valueOf(i))).get();
-					Element table = doc.getElementById("results");
-					List<Element> rows = table.getElementsByTag("tr");
+					Document doc = Jsoup.connect(genericService.interpolate(url, YEAR, String.valueOf(i))).get();
+					Element table = doc.getElementById(ELEMENT_ID_RESULTS);
+					List<Element> rows = table.getElementsByTag(ELEMENT_TR);
 					
 					//immediately exit page loop once there is no data left
 					if(rows.size() < 3)
@@ -78,12 +101,12 @@ public class ProFootballRefService {
 					
 					//if header row has not been created, do it here
 					if(headers.size() == 0){
-						headers = tableMapperService.parseTableHeaderRow(rows.get(1).getElementsByTag("th"));
+						headers = tableMapperService.parseTableHeaderRow(rows.get(1).getElementsByTag(ELEMENT_TH));
 					}
 					
 					for(int j = 2; j  <rows.size(); j++){
 						Element row = rows.get(j);
-						List<Element> tdElements = row.getElementsByTag("td");
+						List<Element> tdElements = row.getElementsByTag(ELEMENT_TD);
 						
 						if(tdElements.size() > 0){
 							T result = genericService.createInstance(clazz);

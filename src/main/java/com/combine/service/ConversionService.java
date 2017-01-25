@@ -3,6 +3,11 @@ package com.combine.service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * handle various conversions (text to inches, text to raw lbs, etc.)
+ * @author lancefallon
+ *
+ */
 public class ConversionService {
 	
 	public ConversionService(){

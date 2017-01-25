@@ -12,6 +12,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.StringUtils;
 
+/**
+ * Handle conversion of html tables to java objects
+ * @author lancefallon
+ *
+ */
 public class TableMapperService {
 	
 	private GenericService genericService;
