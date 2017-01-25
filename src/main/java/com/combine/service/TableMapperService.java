@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,8 @@ import org.springframework.util.StringUtils;
  *
  */
 public class TableMapperService {
+	
+	Logger LOGGER = Logger.getLogger(TableMapperService.class);
 	
 	private GenericService genericService;
 	
@@ -62,7 +66,7 @@ public class TableMapperService {
 				}
 
 			} catch (Exception e) {
-				System.out.println("Field not available");
+				LOGGER.log(Level.DEBUG, e.getMessage());
 			}
 		}
 	}

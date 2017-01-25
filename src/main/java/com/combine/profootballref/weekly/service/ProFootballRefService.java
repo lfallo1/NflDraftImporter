@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,6 +25,8 @@ import com.combine.service.TableMapperService;
  *
  */
 public class ProFootballRefService {
+	
+	Logger LOGGER = Logger.getLogger(ProFootballRefService.class);
 	
 	//HTML CONSTANTS
 	private static final String ELEMENT_TD = "td";
@@ -121,10 +125,10 @@ public class ProFootballRefService {
 							results.add(result);
 						}
 					}
-					
+					System.out.println("Iteration summary: Current Year=> " + i +", Current Page: " + page + ", total results: " + results.size());
 				} catch (InstantiationException | IllegalAccessException | IOException e) {
-					System.out.println("No data, check logs");
-				}	
+					LOGGER.log(Level.WARN, e.getMessage());
+				}
 			}			
 		}
 		return results;
