@@ -80,7 +80,7 @@ public class ProFootballRefService {
 			int page = 0;
 			while(true){
 				
-				//set the url (append the offset query string if not on first page)
+				//set the url (append the offset query string if not on first page), and then increment page count
 				String url = baseUrl;
 				if(page > 0){
 					url = baseUrl + OFFSET + page * 100; 
@@ -88,7 +88,6 @@ public class ProFootballRefService {
 				page++;
 				
 				try {
-					
 					
 					//make request and get table
 					Document doc = Jsoup.connect(genericService.interpolate(url, YEAR, String.valueOf(i))).get();
@@ -104,11 +103,14 @@ public class ProFootballRefService {
 						headers = tableMapperService.parseTableHeaderRow(rows.get(1).getElementsByTag(ELEMENT_TH));
 					}
 					
+					//for all other rows, convert the record into an object and add to list
 					for(int j = 2; j  <rows.size(); j++){
 						Element row = rows.get(j);
 						List<Element> tdElements = row.getElementsByTag(ELEMENT_TD);
 						
+						//ensure the row has elements (only <td> elements qualify. if it's a random <th> row, the row is skipped)
 						if(tdElements.size() > 0){
+							//parse and add the object
 							T result = genericService.createInstance(clazz);
 							tableMapperService.parseTableRow(headers, tdElements, result);
 							results.add(result);
