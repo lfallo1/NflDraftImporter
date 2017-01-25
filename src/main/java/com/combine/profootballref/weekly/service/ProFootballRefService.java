@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.combine.profootballref.weekly.model.WeeklyStatsDefense;
-import com.combine.profootballref.weekly.model.WeeklyStatsQuarterback;
+import com.combine.profootballref.weekly.model.WeeklyStatsPassing;
 import com.combine.profootballref.weekly.model.WeeklyStatsReceiving;
 import com.combine.profootballref.weekly.model.WeeklyStatsRushing;
 import com.combine.service.GenericService;
@@ -51,8 +51,8 @@ public class ProFootballRefService {
 		this.genericService = genericService;
 	}
 	
-	public List<WeeklyStatsQuarterback> loadWeeklyStatsQuarterback(){
-		return this.<WeeklyStatsQuarterback>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_QB, WeeklyStatsQuarterback.class);
+	public List<WeeklyStatsPassing> loadWeeklyStatsPassing(){
+		return this.<WeeklyStatsPassing>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_QB, WeeklyStatsPassing.class);
 	}
 	
 	public List<WeeklyStatsRushing> loadWeeklyStatsRushing(){

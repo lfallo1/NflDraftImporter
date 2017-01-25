@@ -2,7 +2,7 @@ package com.combine.profootballref.weekly.model;
 
 import com.combine.annotations.StatField;
 
-public class WeeklyStatsQuarterback extends WeeklyStats {
+public class WeeklyStatsPassing extends WeeklyStats {
 
 	@StatField("Cmp")
 	private Integer completions;
