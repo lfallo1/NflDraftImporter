@@ -38,19 +38,19 @@ public class TableMapperService {
 		return headers;
 	}
 
-	public <T> void parseTableRow(Map<Integer, String> headers, List<Element> tdElements, T obj) {
+	public <T> void parseTableRow(Map<Integer, String> headers, List<Element> tdElements, T obj, int firstColumnOffset) {
 		String value = "";
 		for (int k = 0; k < tdElements.size(); k++) {
 			try {
 				if (tdElements.get(k).getElementsByTag("a").size() > 0) {
-					value = tdElements.get(k).getElementsByTag("a").get(0).html();
+					value = tdElements.get(k).getElementsByTag("a").html();
 				} else {
 					value = tdElements.get(k).html();
 				}
 
 				if (!StringUtils.isEmpty(value)) {
 					value = value.replace("%", "");
-					Field field = genericService.getField(obj.getClass(), headers.get(k + 1));
+					Field field = genericService.getField(obj.getClass(), headers.get(k + firstColumnOffset));
 					field.setAccessible(true);
 					if (field.getType().equals(String.class)) {
 						field.set(obj, value);

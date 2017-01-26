@@ -10,6 +10,9 @@ public abstract class WeeklyStats {
 
 	//identifier props
 	private String gameIdentifier;
+	private String gameLink;
+	private String playerIdentifier;
+	private String playerLink;
 	
 	@StatField("game_date")
 	private Date date;
@@ -29,8 +32,22 @@ public abstract class WeeklyStats {
 	private Integer week;
 	@StatField("game_day_of_week")
 	private String day;
+	
+	/**
+	 * Constructor
+	 */
+	public WeeklyStats() {
+		this.league = LEAGUE_DEFAULT_NFL;
+	}
+	
+	public String getPlayerLink() {
+		return playerLink;
+	}
 
-	private String playerIdentifier;
+	public void setPlayerLink(String playerLink) {
+		this.playerLink = playerLink;
+	}
+
 	public String getPlayerIdentifier() {
 		return playerIdentifier;
 	}
@@ -39,16 +56,20 @@ public abstract class WeeklyStats {
 		this.playerIdentifier = playerIdentifier;
 	}
 
-	public WeeklyStats() {
-		this.league = LEAGUE_DEFAULT_NFL;
-	}
-
 	public String getGameIdentifier() {
 		return gameIdentifier;
 	}
 
 	public void setGameIdentifier(String gameIdentifier) {
 		this.gameIdentifier = gameIdentifier;
+	}
+
+	public String getGameLink() {
+		return gameLink;
+	}
+
+	public void setGameLink(String gameLink) {
+		this.gameLink = gameLink;
 	}
 
 	public Date getDate() {

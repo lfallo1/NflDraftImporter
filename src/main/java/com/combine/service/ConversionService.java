@@ -1,5 +1,7 @@
 package com.combine.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,4 +51,8 @@ public class ConversionService {
 		return Integer.parseInt(val.replaceAll("\\D+", ""));
 	}
 	
+	public String formatDate(Date date, String format){
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		return formatter.format(date);
+	}
 }

@@ -1,9 +1,12 @@
 package com.combine.profootballref.weekly.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.combine.annotations.StatField;
 
 public class WeeklyStatsTeam extends WeeklyStats {
-	
+
 	@StatField("year_id")
 	private Integer year_id;
 	@StatField("gametime")
@@ -112,6 +115,8 @@ public class WeeklyStatsTeam extends WeeklyStats {
 	private String roof;
 	@StatField("temperature")
 	private Double temperature;
+
+	private List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
 
 	public Integer getYear_id() {
 		return year_id;
@@ -543,6 +548,14 @@ public class WeeklyStatsTeam extends WeeklyStats {
 
 	public void setTemperature(Double temperature) {
 		this.temperature = temperature;
+	}
+
+	public List<WeeklyStatsIndividualPlay> getPlays() {
+		return plays;
+	}
+
+	public void setPlays(List<WeeklyStatsIndividualPlay> plays) {
+		this.plays = plays;
 	}
 
 }

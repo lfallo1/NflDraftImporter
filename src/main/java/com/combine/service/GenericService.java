@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -53,18 +52,20 @@ public class GenericService {
 	 */
 	public <T> Field getField(Class<T> myClass, String fieldName) throws Exception {
 		
-		//add a list of declare fields and fields in super class(es)
-		
+		//add a list of declare fields and fields in super classes
 		List<Field[]> fieldsArrayList = new ArrayList<>();
 		fieldsArrayList.add(myClass.getDeclaredFields());
 		
+		//adding super classes here
 		while(myClass.getSuperclass() != null){
 			fieldsArrayList.add(myClass.getSuperclass().getDeclaredFields());
 			myClass = (Class<T>) myClass.getSuperclass();
 		}
 		
+		//combine all fields
 		Field[] fields = this.<Field>combineArrays(fieldsArrayList, Field.class);
 		
+		//find field by annotation value
 		for (Field field : fields) {
 			Annotation[] annotations = field.getDeclaredAnnotations();
 			for (Annotation annotation : annotations) {
