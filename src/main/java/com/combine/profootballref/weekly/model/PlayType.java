@@ -5,5 +5,7 @@ public enum PlayType {
 	PASS,
 	PUNT,
 	KICKOFF,
-	FIELD_GOAL
+	FIELD_GOAL,
+	EXTRA_POINT,
+	TWO_POINT
 }

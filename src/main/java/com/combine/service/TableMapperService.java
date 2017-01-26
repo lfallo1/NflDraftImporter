@@ -29,6 +29,11 @@ public class TableMapperService {
 		this.genericService = genericService;
 	}
 
+	/**
+	 * parse a single row and return the result as a map<integer,string>, where the integer is the index and string the text value
+	 * @param elements
+	 * @return
+	 */
 	public Map<Integer, String> parseTableHeaderRow(Elements elements) {
 		Map<Integer, String> headers = new HashMap<>();
 		for (int i = 0; i < elements.size(); i++) {
@@ -45,12 +50,12 @@ public class TableMapperService {
 	 * @param obj
 	 * @param firstColumnOffset
 	 */
-	public <T> void parseTableRow(Map<Integer, String> headers, List<Element> tdElements, T obj, int firstColumnOffset) {
+	public <T> void parseTableRow(Map<Integer, String> headers, List<Element> tdElements, T obj, int firstColumnOffset, boolean stripTags) {
 		String value = "";
 		for (int k = 0; k < tdElements.size(); k++) {
 			try {
 				if (tdElements.get(k).getElementsByTag("a").size() > 0) {
-					value = tdElements.get(k).getElementsByTag("a").html();
+					value = stripTags(tdElements.get(k).html());
 				} else {
 					value = tdElements.get(k).html();
 				}
@@ -77,4 +82,16 @@ public class TableMapperService {
 			}
 		}
 	}
+
+	public String stripTags(String html){
+		StringBuilder sb = new StringBuilder();
+		int pos = 1;
+		while(html.indexOf(">",pos) > -1 && html.indexOf("<", pos) > -1){
+			sb.append(html.substring(html.indexOf(">", pos)+1, html.indexOf("<", pos)));
+			pos = html.indexOf(">", html.indexOf("<", pos)+1); //move cursor past closing tag
+		}
+		//add remainder
+		sb.append(html.substring(pos+1));
+		return sb.toString();
+	};
 }

@@ -117,6 +117,7 @@ public class WeeklyStatsTeam extends WeeklyStats {
 	private Double temperature;
 
 	private List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
+	private List<GameScore> scoringSummary = new ArrayList<>();
 
 	public Integer getYear_id() {
 		return year_id;
@@ -556,6 +557,14 @@ public class WeeklyStatsTeam extends WeeklyStats {
 
 	public void setPlays(List<WeeklyStatsIndividualPlay> plays) {
 		this.plays = plays;
+	}
+
+	public List<GameScore> getScoringSummary() {
+		return scoringSummary;
+	}
+
+	public void setScoringSummary(List<GameScore> scoringSummary) {
+		this.scoringSummary = scoringSummary;
 	}
 
 }

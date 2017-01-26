@@ -25,7 +25,10 @@ public class WeeklyStatsIndividualPlay {
 	@StatField("home_wp")
 	private Double homeWinProbability;
 
-	private IndividualPlayDetails individualPlayDetails;
+	// individual play details / description
+	private String description;
+	private Integer yardsGained;
+	private PlayType playType;
 
 	public Integer getQuarter() {
 		return quarter;
@@ -107,12 +110,28 @@ public class WeeklyStatsIndividualPlay {
 		this.homeWinProbability = homeWinProbability;
 	}
 
-	public IndividualPlayDetails getIndividualPlayDetails() {
-		return individualPlayDetails;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setIndividualPlayDetails(IndividualPlayDetails individualPlayDetails) {
-		this.individualPlayDetails = individualPlayDetails;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getYardsGained() {
+		return yardsGained;
+	}
+
+	public void setYardsGained(Integer yards) {
+		this.yardsGained = yards;
+	}
+
+	public PlayType getPlayType() {
+		return playType;
+	}
+
+	public void setPlayType(PlayType playType) {
+		this.playType = playType;
 	}
 
 }
