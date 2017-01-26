@@ -34,7 +34,7 @@ public class ProFootballRefService {
 	private static final String ELEMENT_TD = "td";
 	private static final String ELEMENT_TH = "th";
 	private static final String ELEMENT_TR = "tr";
-	private static final String ELEMENT_ID_RESULTS = "results";
+	private static final String RESULTS_TABLE = "results";
 	
 	//MISC CONSTANTS
 	private static final String YEAR = "year";
@@ -107,7 +107,7 @@ public class ProFootballRefService {
 						continue;
 					
 					//load the table
-					Element table = doc.getElementById(ELEMENT_ID_RESULTS);
+					Element table = doc.getElementById(RESULTS_TABLE);
 					if(table == null)
 						break;
 					
