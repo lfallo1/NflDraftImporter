@@ -25,6 +25,8 @@ public class WeeklyStatsIndividualPlay {
 	@StatField("home_wp")
 	private Double homeWinProbability;
 
+	private IndividualPlayDetails individualPlayDetails;
+
 	public Integer getQuarter() {
 		return quarter;
 	}
@@ -103,6 +105,14 @@ public class WeeklyStatsIndividualPlay {
 
 	public void setHomeWinProbability(Double homeWinProbability) {
 		this.homeWinProbability = homeWinProbability;
+	}
+
+	public IndividualPlayDetails getIndividualPlayDetails() {
+		return individualPlayDetails;
+	}
+
+	public void setIndividualPlayDetails(IndividualPlayDetails individualPlayDetails) {
+		this.individualPlayDetails = individualPlayDetails;
 	}
 
 }

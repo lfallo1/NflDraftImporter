@@ -12,8 +12,11 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
+import org.springframework.util.StringUtils;
 
+import com.combine.profootballref.weekly.model.IndividualPlayDetails;
 import com.combine.profootballref.weekly.model.WeeklyStats;
 import com.combine.profootballref.weekly.model.WeeklyStatsDefense;
 import com.combine.profootballref.weekly.model.WeeklyStatsIndividualPlay;
@@ -129,6 +132,7 @@ public class ProFootballRefService {
 					//parse and add the object
 					WeeklyStatsIndividualPlay play = new WeeklyStatsIndividualPlay();
 					tableMapperService.parseTableRow(headers, tdElements, play, 0);
+					analyzePlayDetails(tdElements, "detail", play);
 					plays.add(play);
 				}
 			}
@@ -138,6 +142,35 @@ public class ProFootballRefService {
 		game.setPlays(plays);
 	}
 	
+	private void analyzePlayDetails(Elements tdElements, String attributeValue, WeeklyStatsIndividualPlay play) {
+		
+		//get the element with a data-stat attribute value equal to the attributeValue param
+		Optional<Element> element = tdElements.stream()
+				.filter(e-> e != null && !StringUtils.isEmpty(e.attr("data-stat")) && e.attr("data-stat").equals(attributeValue))
+				.findFirst();
+		if(!element.isPresent()){
+			return;
+		}
+		
+		//if an element is present, loop over the child nodes and parse the play description
+		StringBuilder playDescription = new StringBuilder();
+		for(int i = 1; i < element.get().childNodes().size(); i++){
+			Node node = element.get().childNodes().get(i);
+			if(node.childNodes().size() > 0){
+				playDescription.append(" " + node.childNode(0).toString() + " ");
+			} else{
+				playDescription.append(node.toString().trim());
+			}
+		}
+		
+		//add play description to IndividualPlayDetails object
+		IndividualPlayDetails individualPlayDetails = new IndividualPlayDetails();
+		individualPlayDetails.setDescription(playDescription.toString().trim());
+		play.setIndividualPlayDetails(individualPlayDetails);
+		
+		//TODO analyze play
+	}
+
 	/**
 	 * generic loader to retrieve weekly stats from pro football reference
 	 * @param baseUrl

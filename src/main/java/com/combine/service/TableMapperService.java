@@ -38,6 +38,13 @@ public class TableMapperService {
 		return headers;
 	}
 
+	/**
+	 * parse table row by field level annotation value
+	 * @param headers
+	 * @param tdElements
+	 * @param obj
+	 * @param firstColumnOffset
+	 */
 	public <T> void parseTableRow(Map<Integer, String> headers, List<Element> tdElements, T obj, int firstColumnOffset) {
 		String value = "";
 		for (int k = 0; k < tdElements.size(); k++) {

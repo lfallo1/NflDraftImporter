@@ -3,6 +3,7 @@ package com.combine.service;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,37 @@ public class GenericService {
 		
 		throw new Exception("Field not found");
 	}
+	
+	public <T> Method getMethod(Class<T> myClass, String fieldName) throws Exception {
+		
+		//add a list of declare fields and fields in super classes
+		List<Method[]> methodsArrayList = new ArrayList<>();
+		methodsArrayList.add(myClass.getDeclaredMethods());
+		
+		//adding super classes here
+		while(myClass.getSuperclass() != null){
+			methodsArrayList.add(myClass.getSuperclass().getDeclaredMethods());
+			myClass = (Class<T>) myClass.getSuperclass();
+		}
+		
+		//combine all fields
+		Method[] methods = this.<Method>combineArrays(methodsArrayList, Method.class);
+		
+		//find field by annotation value
+		for (Method method : methods) {
+			Annotation[] annotations = method.getDeclaredAnnotations();
+			for (Annotation annotation : annotations) {
+				if (annotation.annotationType().equals(StatField.class)) {
+					StatField fieldAnnotation = (StatField) annotation;
+					if (fieldAnnotation.value().equals(fieldName)) {
+						return method;
+					}
+				}
+			}
+		}
+		
+		throw new Exception("Field not found");
+	}	
 	
 	/**
 	 * given a string, variable name (the field to be interpolated), and a value, perform some dirty interpolation
