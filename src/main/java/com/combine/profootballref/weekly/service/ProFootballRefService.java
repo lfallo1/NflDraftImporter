@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -12,12 +13,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.combine.profootballref.weekly.model.WeeklyStatsTeam;
 import com.combine.profootballref.weekly.model.WeeklyStats;
 import com.combine.profootballref.weekly.model.WeeklyStatsDefense;
 import com.combine.profootballref.weekly.model.WeeklyStatsPassing;
 import com.combine.profootballref.weekly.model.WeeklyStatsReceiving;
 import com.combine.profootballref.weekly.model.WeeklyStatsRushing;
+import com.combine.profootballref.weekly.model.WeeklyStatsTeam;
 import com.combine.service.GenericService;
 import com.combine.service.TableMapperService;
 
@@ -141,6 +142,7 @@ public class ProFootballRefService {
 							T result = genericService.createInstance(clazz);
 							tableMapperService.parseTableRow(headers, tdElements, result);
 							result.setGameIdentifier(result.getDate().getTime()+result.getTeam());
+							setPlayerId(row,result); //set the player id
 							results.add(result);
 						}
 					}
@@ -151,6 +153,15 @@ public class ProFootballRefService {
 			}			
 		}
 		return results;
+	}
+
+	private <T extends WeeklyStats>void setPlayerId(Element row, T result) {
+		Optional<Element> playerElement = row.getElementsByAttribute("data-stat")
+					.stream()
+					.filter(e->e.attr("data-stat").equals("player"))
+					.findFirst();
+		String playerIdentifier = playerElement.isPresent() ? playerElement.get().attr("data-append-csv") : "";
+		result.setPlayerIdentifier(playerIdentifier);
 	}
 
 	private Document makeUrlRequest(String url) throws IOException {

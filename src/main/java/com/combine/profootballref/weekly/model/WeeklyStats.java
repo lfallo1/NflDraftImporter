@@ -7,8 +7,11 @@ import com.combine.annotations.StatField;
 public abstract class WeeklyStats {
 
 	private static final String LEAGUE_DEFAULT_NFL = "NFL";
-	
+
+	//identifier props
 	private String gameIdentifier;
+	private String playerIdentifier;
+	
 	@StatField("game_date")
 	private Date date;
 	@StatField("league_id")
@@ -27,8 +30,16 @@ public abstract class WeeklyStats {
 	private Integer week;
 	@StatField("game_day_of_week")
 	private String day;
-	
-	public WeeklyStats(){
+
+	public String getPlayerIdentifier() {
+		return playerIdentifier;
+	}
+
+	public void setPlayerIdentifier(String playerIdentifier) {
+		this.playerIdentifier = playerIdentifier;
+	}
+
+	public WeeklyStats() {
 		this.league = LEAGUE_DEFAULT_NFL;
 	}
 
