@@ -10,7 +10,6 @@ public abstract class WeeklyStats {
 
 	//identifier props
 	private String gameIdentifier;
-	private String playerIdentifier;
 	
 	@StatField("game_date")
 	private Date date;
@@ -31,6 +30,7 @@ public abstract class WeeklyStats {
 	@StatField("game_day_of_week")
 	private String day;
 
+	private String playerIdentifier;
 	public String getPlayerIdentifier() {
 		return playerIdentifier;
 	}
