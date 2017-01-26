@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.combine.annotations.StatField;
@@ -76,8 +77,10 @@ public class GenericService {
 	 * @param value
 	 * @return
 	 */
-	public String interpolate(String string, String target, String value){
-		String interpolated = string.replaceAll(Pattern.quote("${"+ target +"}"), value);
-		return interpolated;
+	public String interpolate(String targetString, Map<String, String> interpolationMap){
+		for(String entry : interpolationMap.keySet()){
+			targetString = targetString.replaceAll(Pattern.quote("${"+ entry +"}"), interpolationMap.get(entry));
+		}
+		return targetString;
 	}
 }

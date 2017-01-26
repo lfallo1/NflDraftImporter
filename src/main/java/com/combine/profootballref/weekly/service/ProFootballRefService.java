@@ -27,6 +27,9 @@ import com.combine.service.TableMapperService;
  *
  */
 public class ProFootballRefService {
+
+	public static final String SEASON_TYPE_REGULAR = "R";
+	public static final String SEASON_TYPE_PLAYOFFS = "P";
 	
 	Logger LOGGER = Logger.getLogger(ProFootballRefService.class);
 	
@@ -38,17 +41,19 @@ public class ProFootballRefService {
 	
 	//MISC CONSTANTS
 	private static final String YEAR = "year";
-	private static final int YEAR_END = 2016;
-	private static final int YEAR_START = 2016;
+	private static final String GAME_TYPE = "gameType";
+	private static final int YEAR_END = 2012;
+	private static final int YEAR_START = 2012;
 	
 	//URL CONSTANTS
 	private static final String OFFSET = "&offset=";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_QB = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=pass_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=pass_rating&from_link=1";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_RUSHING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rush_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rush_yds&from_link=1";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_RECEIVING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=18&age_min=0&age_max=99&game_type=A&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rec&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rec_yds&from_link=1";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_DEFENSE = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=17&age_min=0&pos=0&league_id=&team_id=&opp_id=&career_game_num_min=0&career_game_num_max=499&game_num_min=0&game_num_max=99&week_num_min=1&week_num_max=1&stadium_id=&game_day_of_week=&game_month=&c1stat=tackles_solo&c1comp=gt&c2stat=def_int&c2comp=gt&c3stat=sacks&c3comp=gt&c4comp=gt&c5comp=choose&c5gtlt=lt&c6mult=1.0&c6comp=choose&order_by=sacks";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE = "http://www.pro-football-reference.com/play-index/tgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&game_type=R&game_num_min=0&game_num_max=99&week_num_min=0&week_num_max=99&temperature_gtlt=lt&temperature=999&team_conf_id=All+Conferences&team_div_id=All+Divisions&opp_conf_id=All+Conferences&opp_div_id=All+Divisions&team_off_scheme=Any+Scheme&team_def_align=Any+Alignment&opp_off_scheme=Any+Scheme&opp_def_align=Any+Alignment&c1stat=quarter_1_score_tgl&c1comp=gt&c2stat=pass_cmp&c2comp=gt&c3stat=first_down&c3comp=gt&c4stat=penalties&c4comp=gt&c5comp=rush_att&c5gtlt=gte&c6mult=0&c6comp=turnovers&order_by=game_date&order_by_asc=Y";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_QB = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=9999&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=9999&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=pass_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=pass_rating&from_link=1";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_RUSHING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=9999&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=9999&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rush_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rush_yds&from_link=1";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_RECEIVING = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=9999&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=9999&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rec&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rec_yds&from_link=1";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_DEFENSE = "http://www.pro-football-reference.com/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&age_min=0&pos=0&league_id=&opp_id=&game_type=${gameType}&game_num_min=0&game_num_max=9999&week_num_min=1&week_num_max=9999&stadium_id=&game_day_of_week=&game_month=&c1stat=tackles_solo&c1comp=gt&c2stat=def_int&c2comp=gt&c3stat=sacks&c3comp=gt&c4comp=gt&c5comp=choose&c5gtlt=lt&c6mult=1.0&c6comp=choose&order_by=sacks";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE = "http://www.pro-football-reference.com/play-index/tgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&game_type=${gameType}&game_num_min=0&game_num_max=9999&week_num_min=0&week_num_max=9999&temperature_gtlt=lt&temperature=999&team_conf_id=All+Conferences&team_div_id=All+Divisions&opp_conf_id=All+Conferences&opp_div_id=All+Divisions&team_off_scheme=Any+Scheme&team_def_align=Any+Alignment&opp_off_scheme=Any+Scheme&opp_def_align=Any+Alignment&c1stat=quarter_1_score_tgl&c1comp=gt&c2stat=pass_cmp&c2comp=gt&c3stat=first_down&c3comp=gt&c4stat=penalties&c4comp=gt&c5comp=rush_att&c5gtlt=gte&c6mult=0&c6comp=turnovers&order_by=game_date&order_by_asc=Y";
 	private static final int URL_REQUEST_ATTEMPTS = 5;
+	
 	
 	private TableMapperService tableMapperService;
 	private GenericService genericService;
@@ -58,24 +63,24 @@ public class ProFootballRefService {
 		this.genericService = genericService;
 	}
 	
-	public List<WeeklyStatsPassing> loadWeeklyStatsPassing(){
-		return this.<WeeklyStatsPassing>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_QB, WeeklyStatsPassing.class);
+	public List<WeeklyStatsPassing> loadWeeklyStatsPassing(String gameType){
+		return this.<WeeklyStatsPassing>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_QB, gameType, WeeklyStatsPassing.class);
 	}
 	
-	public List<WeeklyStatsRushing> loadWeeklyStatsRushing(){
-		return this.<WeeklyStatsRushing>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_RUSHING, WeeklyStatsRushing.class);
+	public List<WeeklyStatsRushing> loadWeeklyStatsRushing(String gameType){
+		return this.<WeeklyStatsRushing>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_RUSHING, gameType, WeeklyStatsRushing.class);
 	}
 	
-	public List<WeeklyStatsReceiving> loadWeeklyStatsReceiving(){
-		return this.<WeeklyStatsReceiving>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_RECEIVING, WeeklyStatsReceiving.class);
+	public List<WeeklyStatsReceiving> loadWeeklyStatsReceiving(String gameType){
+		return this.<WeeklyStatsReceiving>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_RECEIVING, gameType, WeeklyStatsReceiving.class);
 	}
 	
-	public List<WeeklyStatsDefense> loadWeeklyStatsDefense(){
-		return this.<WeeklyStatsDefense>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_DEFENSE, WeeklyStatsDefense.class);
+	public List<WeeklyStatsDefense> loadWeeklyStatsDefense(String gameType){
+		return this.<WeeklyStatsDefense>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_DEFENSE, gameType, WeeklyStatsDefense.class);
 	}
 	
-	public List<WeeklyStatsTeam> loadWeeklyStatsTeam(){
-		return this.<WeeklyStatsTeam>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE, WeeklyStatsTeam.class);
+	public List<WeeklyStatsTeam> loadWeeklyStatsTeam(String gameType){
+		return this.<WeeklyStatsTeam>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE, gameType, WeeklyStatsTeam.class);
 	}
 
 	/**
@@ -84,7 +89,7 @@ public class ProFootballRefService {
 	 * @param clazz
 	 * @return
 	 */
-	private <T extends WeeklyStats> List<T> loadWeeklyStats(String baseUrl, Class<T> clazz){
+	private <T extends WeeklyStats> List<T> loadWeeklyStats(String baseUrl, String gameType, Class<T> clazz){
 		Map<Integer,String> headers = new HashMap<>();
 		List<T> results = new ArrayList<>();
 		for(int i = YEAR_START; i >= YEAR_END; i--){
@@ -102,7 +107,10 @@ public class ProFootballRefService {
 				try {
 					
 					//make request & verify data returned
-					Document doc = makeUrlRequest(genericService.interpolate(url, YEAR, String.valueOf(i)));
+					Map<String, String> interpolationMap = new HashMap<>();
+					interpolationMap.put(YEAR, String.valueOf(i));
+					interpolationMap.put(GAME_TYPE, gameType);
+					Document doc = makeUrlRequest(genericService.interpolate(url, interpolationMap));
 					if(doc == null) 
 						continue;
 					

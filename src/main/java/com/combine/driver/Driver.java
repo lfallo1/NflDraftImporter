@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 
-import com.combine.profootballref.weekly.model.WeeklyStatsTeam;
+import com.combine.profootballref.weekly.model.WeeklyStatsPassing;
 import com.combine.profootballref.weekly.service.ProFootballRefService;
 import com.combine.service.GenericService;
 import com.combine.service.TableMapperService;
@@ -17,9 +17,10 @@ public class Driver {
 		TableMapperService tableMapperService = new TableMapperService(genericService);
 		ProFootballRefService proFootballRefService = new ProFootballRefService(tableMapperService, genericService);
 		
-		List<WeeklyStatsTeam> teamStats = proFootballRefService.loadWeeklyStatsTeam();
-		JSONArray freeAgentsArray = new JSONArray(teamStats);
-		System.out.println(freeAgentsArray.toString());
+//		List<WeeklyStatsTeam> teamStats = proFootballRefService.loadWeeklyStatsTeam(ProFootballRefService.SEASON_TYPE_REGULAR);
+		List<WeeklyStatsPassing> passing = proFootballRefService.loadWeeklyStatsPassing(ProFootballRefService.SEASON_TYPE_REGULAR);
+		JSONArray jsonArray = new JSONArray(passing);
+		System.out.println(jsonArray.toString());
 	}
 
 }
