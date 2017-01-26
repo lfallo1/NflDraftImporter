@@ -4,27 +4,49 @@ import com.combine.annotations.StatField;
 
 public class WeeklyStatsPassing extends WeeklyStats {
 
-	@StatField("Cmp")
+	@StatField("player")
+	private String name;
+	@StatField("age")
+	private String age;
+	@StatField("pass_cmp")
 	private Integer completions;
-	@StatField("Att")
+	@StatField("pass_att")
 	private Integer attempts;
-	@StatField("Cmp%")
+	@StatField("pass_cmp_perc")
 	private Double completionPercentage;
-	@StatField("Yds")
+	@StatField("pass_yds")
 	private Integer yards;
-	@StatField("TD")
+	@StatField("pass_td")
 	private Integer touchdowns;
-	@StatField("Int")
+	@StatField("pass_int")
 	private Integer interceptions;
-	@StatField("Rate")
+	@StatField("pass_rating")
 	private Double rating;
-	@StatField("Sk")
+	@StatField("pass_sacked")
 	private Integer sacks;
-	@StatField("Y/A")
+	@StatField("pass_sacked_yds")
+	private Integer sackYards;
+	@StatField("pass_yds_per_att")
 	private Double yardsPerAttempt;
-	@StatField("AY/A")
+	@StatField("pass_adj_yds_per_att")
 	private Double adjustedYardsPerAttempt;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+	
 	public Integer getCompletions() {
 		return completions;
 	}
@@ -87,6 +109,14 @@ public class WeeklyStatsPassing extends WeeklyStats {
 
 	public void setSacks(Integer sacks) {
 		this.sacks = sacks;
+	}
+
+	public Integer getSackYards() {
+		return sackYards;
+	}
+
+	public void setSackYards(Integer sackYards) {
+		this.sackYards = sackYards;
 	}
 
 	public Double getYardsPerAttempt() {

@@ -32,7 +32,7 @@ public class TableMapperService {
 	public Map<Integer, String> parseTableHeaderRow(Elements elements) {
 		Map<Integer, String> headers = new HashMap<>();
 		for (int i = 0; i < elements.size(); i++) {
-			String header = i == 1 ? "Name" : elements.get(i).html();
+			String header = elements.get(i).attr("data-stat");
 			headers.put(i, header);
 		}
 		return headers;

@@ -3,8 +3,9 @@ package com.combine.driver;
 import java.io.IOException;
 import java.util.List;
 
-import com.combine.profootballref.weekly.model.WeeklyStatsPassing;
-import com.combine.profootballref.weekly.model.WeeklyStatsRushing;
+import org.json.JSONArray;
+
+import com.combine.profootballref.weekly.model.WeeklyStatsTeam;
 import com.combine.profootballref.weekly.service.ProFootballRefService;
 import com.combine.service.GenericService;
 import com.combine.service.TableMapperService;
@@ -15,11 +16,10 @@ public class Driver {
 		GenericService genericService = new GenericService();
 		TableMapperService tableMapperService = new TableMapperService(genericService);
 		ProFootballRefService proFootballRefService = new ProFootballRefService(tableMapperService, genericService);
-		List<WeeklyStatsPassing> passing = proFootballRefService.loadWeeklyStatsPassing();
-		List<WeeklyStatsRushing> rushing = proFootballRefService.loadWeeklyStatsRushing();
 		
-		System.out.println("Passing stats retrieved: " + passing.size());
-		System.out.println("Rushing stats retrieved: " + rushing.size());
+		List<WeeklyStatsTeam> teamStats = proFootballRefService.loadWeeklyStatsTeam();
+		JSONArray freeAgentsArray = new JSONArray(teamStats);
+		System.out.println(freeAgentsArray.toString());
 	}
 
 }

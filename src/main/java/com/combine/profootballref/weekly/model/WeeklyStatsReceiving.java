@@ -4,21 +4,41 @@ import com.combine.annotations.StatField;
 
 public class WeeklyStatsReceiving extends WeeklyStats {
 
-	@StatField("Tgt")
+	@StatField("player")
+	private String name;
+	@StatField("age")
+	private String age;
+	@StatField("targets")
 	private Integer targets;
-	@StatField("Rec")
+	@StatField("rec")
 	private Integer receptions;
-	@StatField("Yds")
+	@StatField("rec_yds")
 	private Integer yards;
-	@StatField("Y/R")
+	@StatField("rec_yds_per_rec")
 	private Double yardsPerReception;
-	@StatField("TD")
+	@StatField("rec_td")
 	private Integer touchdowns;
-	@StatField("Ctch%")
+	@StatField("catch_pct")
 	private Double catchPercentage;
-	@StatField("Y/Tgt")
+	@StatField("rec_yds_per_tgt")
 	private Double yardsPerTarget;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+	
 	public Integer getTargets() {
 		return targets;
 	}

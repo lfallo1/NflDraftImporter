@@ -4,15 +4,35 @@ import com.combine.annotations.StatField;
 
 public class WeeklyStatsRushing extends WeeklyStats {
 
-	@StatField("Att")
+	@StatField("player")
+	private String name;
+	@StatField("age")
+	private String age;
+	@StatField("rush_att")
 	private Integer rushingAttempts;
-	@StatField("Yds")
+	@StatField("rush_yds")
 	private Integer rushingYards;
-	@StatField("Y/A")
+	@StatField("rush_yds_per_att")
 	private Double rushingYardsPerAttempt;
-	@StatField("TD")
+	@StatField("rush_td")
 	private Integer rushingTouchdowns;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+	
 	public Integer getRushingAttempts() {
 		return rushingAttempts;
 	}

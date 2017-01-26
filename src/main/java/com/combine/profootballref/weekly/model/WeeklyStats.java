@@ -6,41 +6,38 @@ import com.combine.annotations.StatField;
 
 public abstract class WeeklyStats {
 
-	@StatField("Name")
-	private String name;
-	@StatField("Age")
-	private String age;
-	@StatField("Date")
+	private static final String LEAGUE_DEFAULT_NFL = "NFL";
+	
+	private String gameIdentifier;
+	@StatField("game_date")
 	private Date date;
-	@StatField("Lg")
+	@StatField("league_id")
 	private String league;
-	@StatField("Tm")
+	@StatField("team")
 	private String team;
-	@StatField("Opp")
+	@StatField("game_location")
+	private String gameLocation;
+	@StatField("opp")
 	private String opponent;
-	@StatField("Result")
+	@StatField("game_result")
 	private String result;
-	@StatField("G#")
+	@StatField("game_num")
 	private Integer gameNumber;
-	@StatField("Week")
+	@StatField("week_num")
 	private Integer week;
-	@StatField("Day")
+	@StatField("game_day_of_week")
 	private String day;
-
-	public String getName() {
-		return name;
+	
+	public WeeklyStats(){
+		this.league = LEAGUE_DEFAULT_NFL;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getGameIdentifier() {
+		return gameIdentifier;
 	}
 
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
+	public void setGameIdentifier(String gameIdentifier) {
+		this.gameIdentifier = gameIdentifier;
 	}
 
 	public Date getDate() {
@@ -65,6 +62,14 @@ public abstract class WeeklyStats {
 
 	public void setTeam(String team) {
 		this.team = team;
+	}
+
+	public String getGameLocation() {
+		return gameLocation;
+	}
+
+	public void setGameLocation(String gameLocation) {
+		this.gameLocation = gameLocation;
 	}
 
 	public String getOpponent() {
