@@ -1,4 +1,4 @@
-package com.combine.profootballref.weekly.model;
+package com.combine.profootballref.weekly.dto;
 
 import java.util.Date;
 
@@ -13,9 +13,13 @@ public abstract class WeeklyStats {
 	private String gameLink;
 	private String playerIdentifier;
 	private String playerLink;
+	private Team teamObject;
+	private Team opponentObject;
 
 	private String teamName;
+	private String teamIdentifier;
 	private String opponentName;
+	private String opponentIdentifier;
 
 	@StatField("game_date")
 	private Date date;
@@ -73,6 +77,22 @@ public abstract class WeeklyStats {
 
 	public void setGameLink(String gameLink) {
 		this.gameLink = gameLink;
+	}
+
+	public Team getTeamObject() {
+		return teamObject;
+	}
+
+	public void setTeamObject(Team teamObject) {
+		this.teamObject = teamObject;
+	}
+
+	public Team getOpponentObject() {
+		return opponentObject;
+	}
+
+	public void setOpponentObject(Team opponentObject) {
+		this.opponentObject = opponentObject;
 	}
 
 	public Date getDate() {
@@ -155,12 +175,28 @@ public abstract class WeeklyStats {
 		this.teamName = teamName;
 	}
 
+	public String getTeamIdentifier() {
+		return teamIdentifier;
+	}
+
+	public void setTeamIdentifier(String teamIdentifier) {
+		this.teamIdentifier = teamIdentifier;
+	}
+
 	public String getOpponentName() {
 		return opponentName;
 	}
 
 	public void setOpponentName(String opponentName) {
 		this.opponentName = opponentName;
+	}
+
+	public String getOpponentIdentifier() {
+		return opponentIdentifier;
+	}
+
+	public void setOpponentIdentifier(String opponentIdentifier) {
+		this.opponentIdentifier = opponentIdentifier;
 	}
 
 }

@@ -15,7 +15,7 @@ import com.combine.annotations.StatField;
  * @author lancefallon
  *
  */
-public class GenericService {
+public class GenericsService {
 	
 	public <E> E createInstance(Class<E> clazz) throws InstantiationException, IllegalAccessException {
 		return clazz.newInstance();

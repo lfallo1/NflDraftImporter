@@ -23,10 +23,10 @@ public class TableMapperService {
 	
 	Logger LOGGER = Logger.getLogger(TableMapperService.class);
 	
-	private GenericService genericService;
+	private GenericsService genericsService;
 	
-	public TableMapperService(GenericService genericService){
-		this.genericService = genericService;
+	public TableMapperService(GenericsService genericsService){
+		this.genericsService = genericsService;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class TableMapperService {
 
 				if (!StringUtils.isEmpty(value)) {
 					value = value.replace("%", "");
-					Field field = genericService.getField(obj.getClass(), headers.get(k + firstColumnOffset));
+					Field field = genericsService.getField(obj.getClass(), headers.get(k + firstColumnOffset));
 					field.setAccessible(true);
 					if (field.getType().equals(String.class)) {
 						field.set(obj, value);

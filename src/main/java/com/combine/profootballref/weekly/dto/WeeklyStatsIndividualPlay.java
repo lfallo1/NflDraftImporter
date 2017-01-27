@@ -1,4 +1,4 @@
-package com.combine.profootballref.weekly.model;
+package com.combine.profootballref.weekly.dto;
 
 import com.combine.annotations.StatField;
 
@@ -25,7 +25,8 @@ public class WeeklyStatsIndividualPlay {
 	@StatField("home_wp")
 	private Double homeWinProbability;
 
-	// individual play details / description
+	// individual props
+	private String gameIdentifier;
 	private String description;
 	private Integer yardsGained;
 	private PlayType playType;
@@ -108,6 +109,14 @@ public class WeeklyStatsIndividualPlay {
 
 	public void setHomeWinProbability(Double homeWinProbability) {
 		this.homeWinProbability = homeWinProbability;
+	}
+
+	public String getGameIdentifier() {
+		return gameIdentifier;
+	}
+
+	public void setGameIdentifier(String gameIdentifier) {
+		this.gameIdentifier = gameIdentifier;
 	}
 
 	public String getDescription() {

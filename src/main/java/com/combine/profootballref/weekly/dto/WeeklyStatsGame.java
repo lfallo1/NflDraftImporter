@@ -1,11 +1,11 @@
-package com.combine.profootballref.weekly.model;
+package com.combine.profootballref.weekly.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.combine.annotations.StatField;
 
-public class WeeklyStatsTeam extends WeeklyStats {
+public class WeeklyStatsGame extends WeeklyStats {
 
 	@StatField("year_id")
 	private Integer year_id;
@@ -117,7 +117,7 @@ public class WeeklyStatsTeam extends WeeklyStats {
 	private Double temperature;
 
 	private List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
-	private List<GameScore> scoringSummary = new ArrayList<>();
+	private List<GameScoringPlay> scoringSummary = new ArrayList<>();
 
 	public Integer getYear_id() {
 		return year_id;
@@ -559,11 +559,11 @@ public class WeeklyStatsTeam extends WeeklyStats {
 		this.plays = plays;
 	}
 
-	public List<GameScore> getScoringSummary() {
+	public List<GameScoringPlay> getScoringSummary() {
 		return scoringSummary;
 	}
 
-	public void setScoringSummary(List<GameScore> scoringSummary) {
+	public void setScoringSummary(List<GameScoringPlay> scoringSummary) {
 		this.scoringSummary = scoringSummary;
 	}
 

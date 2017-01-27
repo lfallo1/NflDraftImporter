@@ -1,4 +1,4 @@
-package com.combine.profootballref.weekly.model;
+package com.combine.profootballref.weekly.dto;
 
 public enum PlayType {
 	RUN,

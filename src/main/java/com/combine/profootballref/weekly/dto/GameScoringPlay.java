@@ -1,8 +1,8 @@
-package com.combine.profootballref.weekly.model;
+package com.combine.profootballref.weekly.dto;
 
 import com.combine.annotations.StatField;
 
-public class GameScore extends WeeklyStats {
+public class GameScoringPlay extends WeeklyStats {
 
 	@StatField("quarter")
 	private Integer quarter;
