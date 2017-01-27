@@ -7,7 +7,7 @@ public class GameScoringPlay extends WeeklyStats {
 	@StatField("quarter")
 	private Integer quarter;
 	@StatField("time")
-	private Integer time;
+	private String time;
 	@StatField("team")
 	private String scoringTeamName;
 	@StatField("description")
@@ -25,11 +25,11 @@ public class GameScoringPlay extends WeeklyStats {
 		this.quarter = quarter;
 	}
 
-	public Integer getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Integer time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 

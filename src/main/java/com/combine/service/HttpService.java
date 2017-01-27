@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 public class HttpService {
 
 	private static final int URL_REQUEST_ATTEMPTS = 5;
+	private static final int SECOND = 1000;
 
 	/**
 	 * get document from URL
@@ -24,7 +25,7 @@ public class HttpService {
 		int attempt = 0;
 		while (attempt < URL_REQUEST_ATTEMPTS) {
 			try {
-				Document doc = Jsoup.connect(url).get();
+				Document doc = Jsoup.connect(url).timeout(15*SECOND).get();
 
 				// in this step, uncomment html (this logic could change, but
 				// currently some tables / data are commented out on the website

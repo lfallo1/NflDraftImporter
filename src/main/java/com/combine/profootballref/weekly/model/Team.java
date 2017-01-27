@@ -1,4 +1,4 @@
-package com.combine.profootballref.weekly.dto;
+package com.combine.profootballref.weekly.model;
 
 import com.combine.annotations.StatField;
 

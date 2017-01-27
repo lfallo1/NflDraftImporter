@@ -3,7 +3,6 @@ package com.combine.dal;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.flywaydb.core.Flyway;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.combine.profootballref.weekly.dao.WeeklyNflStatsDao;
@@ -11,20 +10,20 @@ import com.combine.profootballref.weekly.dao.WeeklyNflStatsDao;
 public class DataSourceLayer {
 	private static DataSourceLayer instance;
 	
-	private WeeklyNflStatsDao combineDao;
+	private WeeklyNflStatsDao weeklyNflStatsDao;
 	
 	private DataSourceLayer(DataSource dataSource){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		//configure flyway
-		Flyway flyway = new Flyway();
-		flyway.setDataSource(dataSource);
-		String[] locations = new String[]{"classpath:migrations/"};
-		flyway.setLocations(locations);
-		flyway.migrate();
+//		Flyway flyway = new Flyway();
+//		flyway.setDataSource(dataSource);
+//		String[] locations = new String[]{"classpath:migrations/"};
+//		flyway.setLocations(locations);
+//		flyway.migrate();
 		
 		//configure DAO's
-		this.combineDao = new WeeklyNflStatsDao(jdbcTemplate);
+		this.weeklyNflStatsDao = new WeeklyNflStatsDao(jdbcTemplate);
 	}
 	
 	public static DataSourceLayer getInstance(){
@@ -43,7 +42,7 @@ public class DataSourceLayer {
         return ds;
 	}
 
-	public WeeklyNflStatsDao getCombineDao() {
-		return combineDao;
+	public WeeklyNflStatsDao getWeeklyNflStatsDao() {
+		return weeklyNflStatsDao;
 	}
 }

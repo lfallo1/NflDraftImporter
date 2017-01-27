@@ -3,18 +3,22 @@ package com.combine.profootballref.weekly.dto;
 import java.util.Date;
 
 import com.combine.annotations.StatField;
+import com.combine.profootballref.weekly.model.Team;
 
 public abstract class WeeklyStats {
 
 	private static final String LEAGUE_DEFAULT_NFL = "NFL";
+
+	// models
+	private Team teamObject;
+	private Team opponentObject;
 
 	// identifier props
 	private String gameIdentifier;
 	private String gameLink;
 	private String playerIdentifier;
 	private String playerLink;
-	private Team teamObject;
-	private Team opponentObject;
+	private String seasonType;
 
 	private String teamName;
 	private String teamIdentifier;
@@ -197,6 +201,14 @@ public abstract class WeeklyStats {
 
 	public void setOpponentIdentifier(String opponentIdentifier) {
 		this.opponentIdentifier = opponentIdentifier;
+	}
+
+	public String getSeasonType() {
+		return seasonType;
+	}
+
+	public void setSeasonType(String seasonType) {
+		this.seasonType = seasonType;
 	}
 
 }

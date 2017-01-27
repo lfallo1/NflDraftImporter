@@ -20,14 +20,15 @@ import org.springframework.util.StringUtils;
 
 import com.combine.profootballref.weekly.dto.GameScoringPlay;
 import com.combine.profootballref.weekly.dto.PlayType;
-import com.combine.profootballref.weekly.dto.Team;
 import com.combine.profootballref.weekly.dto.WeeklyStats;
 import com.combine.profootballref.weekly.dto.WeeklyStatsDefense;
+import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
 import com.combine.profootballref.weekly.dto.WeeklyStatsIndividualPlay;
 import com.combine.profootballref.weekly.dto.WeeklyStatsPassing;
 import com.combine.profootballref.weekly.dto.WeeklyStatsReceiving;
 import com.combine.profootballref.weekly.dto.WeeklyStatsRushing;
-import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
+import com.combine.profootballref.weekly.model.Game;
+import com.combine.profootballref.weekly.model.Team;
 import com.combine.service.GenericsService;
 import com.combine.service.HttpService;
 import com.combine.service.TableMapperService;
@@ -59,16 +60,16 @@ public class ProFootballRefService {
 	private static final String YEAR = "year";
 	private static final String GAME_TYPE = "gameType";
 //	private static final int YEAR_END = 1950;
-	private static final int YEAR_END = 1965;
-	private static final int YEAR_START = 1966;
+	private static final int YEAR_END = 2012;
+	private static final int YEAR_START = 2012;
 	
 	//URL CONSTANTS
 	private static final String PRO_FOOTBALL_REF_BASE_URL = "http://www.pro-football-reference.com";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_QB = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=9999&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=9999&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=pass_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=pass_rating&from_link=1";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_RUSHING = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=9999&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=9999&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rush_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rush_yds&from_link=1";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_RECEIVING = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=9999&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=9999&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rec&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rec_yds&from_link=1";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_DEFENSE = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&age_min=0&pos=0&league_id=&opp_id=&game_type=${gameType}&game_num_min=0&game_num_max=9999&week_num_min=1&week_num_max=9999&stadium_id=&game_day_of_week=&game_month=&c1stat=tackles_solo&c1comp=gt&c2stat=def_int&c2comp=gt&c3stat=sacks&c3comp=gt&c4comp=gt&c5comp=choose&c5gtlt=lt&c6mult=1.0&c6comp=choose&order_by=sacks";
-	private static final String PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE = PRO_FOOTBALL_REF_BASE_URL + "/play-index/tgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&game_type=${gameType}&game_num_min=0&game_num_max=9999&week_num_min=0&week_num_max=9999&team_conf_id=All+Conferences&team_div_id=All+Divisions&opp_conf_id=All+Conferences&opp_div_id=All+Divisions&team_off_scheme=Any+Scheme&team_def_align=Any+Alignment&opp_off_scheme=Any+Scheme&opp_def_align=Any+Alignment&c1stat=quarter_1_score_tgl&c1comp=gt&c2stat=pass_cmp&c2comp=gt&c3stat=first_down&c3comp=gt&c4stat=penalties&c4comp=gt&c5comp=rush_att&c5gtlt=gte&c6mult=0&c6comp=turnovers&order_by=game_date&order_by_asc=Y";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_QB = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=25&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=25&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=pass_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=pass_rating&from_link=1";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_RUSHING = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=25&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=25&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rush_att&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rush_yds&from_link=1";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_RECEIVING = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&week_num_min=1&week_num_max=25&age_min=0&age_max=9999&game_type=${gameType}&league_id=&team_id=&opp_id=&game_num_min=0&game_num_max=25&game_day_of_week=&game_location=&game_result=&handedness=&is_active=&is_hof=&c1stat=rec&c1comp=gt&c1val=1&c2stat=&c2comp=gt&c2val=&c3stat=&c3comp=gt&c3val=&c4stat=&c4comp=gt&c4val=&order_by=rec_yds&from_link=1";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_DEFENSE = PRO_FOOTBALL_REF_BASE_URL + "/play-index/pgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&season_start=1&season_end=-1&age_min=0&pos=0&league_id=&opp_id=&game_type=${gameType}&game_num_min=0&game_num_max=25&week_num_min=1&week_num_max=25&stadium_id=&game_day_of_week=&game_month=&c1stat=tackles_solo&c1comp=gt&c2stat=def_int&c2comp=gt&c3stat=sacks&c3comp=gt&c4comp=gt&c5comp=choose&c5gtlt=lt&c6mult=1.0&c6comp=choose&order_by=sacks";
+	private static final String PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE = PRO_FOOTBALL_REF_BASE_URL + "/play-index/tgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&game_type=${gameType}&game_num_min=0&game_num_max=25&week_num_min=0&week_num_max=25&team_conf_id=All+Conferences&team_div_id=All+Divisions&opp_conf_id=All+Conferences&opp_div_id=All+Divisions&team_off_scheme=Any+Scheme&team_def_align=Any+Alignment&opp_off_scheme=Any+Scheme&opp_def_align=Any+Alignment&c1stat=quarter_1_score_tgl&c1comp=gt&c2stat=pass_cmp&c2comp=gt&c3stat=first_down&c3comp=gt&c4stat=penalties&c4comp=gt&c5comp=rush_att&c5gtlt=gte&c6mult=0&c6comp=turnovers&order_by=game_date&order_by_asc=Y";
 	private static final String PRO_FOOTBALL_REF_TEAMS = PRO_FOOTBALL_REF_BASE_URL + "/teams/";
 	private static final String OFFSET = "&offset=";
 	
@@ -109,10 +110,30 @@ public class ProFootballRefService {
 	
 	public List<WeeklyStatsGame> loadWeeklyStatsGames(String gameType, List<Team> teams){
 		List<WeeklyStatsGame> weeklyStats = this.<WeeklyStatsGame>loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE, gameType, WeeklyStatsGame.class, teams);
-		weeklyStats.stream().forEach(s->loadPlayByPlay(s));
-		weeklyStats.stream().forEach(s->loadScoringSummaries(s, teams));
 		return weeklyStats;
 	}
+	
+	public List<Game> getUniqueGamesList(List<WeeklyStatsGame> weeklyStats){
+		return new ArrayList<>(this.dataConversionService.getUniqueListGames(weeklyStats));
+	}
+	
+	public List<WeeklyStatsIndividualPlay> getPlayByPlay(List<Game> games, List<Team> teams){
+		List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
+		for(Game game : games){
+			plays.addAll(loadPlayByPlay(game));
+		}
+		return plays;
+	}
+	
+	public List<GameScoringPlay> getScoringSummaries(List<Game> games, List<Team> teams){
+		List<GameScoringPlay> scoringPlays = new ArrayList<>();
+		for(Game game : games){
+			scoringPlays.addAll(loadScoringSummaries(game, teams));
+		}
+		return scoringPlays;
+	}
+	
+	
 
 	/**
 	 * generic loader to retrieve weekly stats from pro football reference
@@ -166,6 +187,7 @@ public class ProFootballRefService {
 							setIdentifiers(row,result); //set the player & game identifiers / links
 							result.setTeamObject(this.dataConversionService.findByTeamIdentifier(result.getTeamIdentifier(), teams));
 							result.setOpponentObject(this.dataConversionService.findByTeamIdentifier(result.getOpponentIdentifier(), teams));
+							result.setSeasonType(gameType);
 							results.add(result);
 						}
 					}
@@ -182,7 +204,7 @@ public class ProFootballRefService {
 	 * load the scoring summary table (each score with a brief description and updated score)
 	 * @param game
 	 */
-	private void loadScoringSummaries(WeeklyStatsGame game, List<Team> teams) {
+	private List<GameScoringPlay> loadScoringSummaries(Game game, List<Team> teams) {
 		List<GameScoringPlay> scoringSummary = new ArrayList<>();
 		Map<Integer,String> headers = new HashMap<>();
 		try {
@@ -227,14 +249,14 @@ public class ProFootballRefService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		game.setScoringSummary(scoringSummary);
+		return scoringSummary;
 	}
 	
 	/**
 	 * load the play by play stats of a game
 	 * @param game
 	 */
-	private void loadPlayByPlay(WeeklyStatsGame game){
+	private List<WeeklyStatsIndividualPlay> loadPlayByPlay(Game game){
 		List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
 		Map<Integer,String> headers = new HashMap<>();
 		try {
@@ -269,7 +291,7 @@ public class ProFootballRefService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		game.setPlays(plays);
+		return plays;
 	}
 	
 	private List<Team> loadTeams(String tableIdentifier) {
