@@ -1,0 +1,6 @@
+var html = document.querySelector('#teams_active > thead > tr:nth-child(2)');
+var elements = html.getElementsByTagName('th');
+var list = [];
+for(var i = 0; i < elements.length; i++){
+	list.push(elements[i].getAttribute('data-stat'));
+}
