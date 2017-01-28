@@ -40,9 +40,24 @@ public class Driver {
 		//load all the teams right away (could, if want pull this from the database)
 		List<Team> teams = proFootballRefService.loadAllTeams();
 		
-		
+		//execute data import
+		loadStatsBetweenYears(proFootballRefService, weeklyNflStatsDal, teams, 2016, 1950);
+	}
+
+	/**
+	 * laod all stats by year interval
+	 * @param proFootballRefService
+	 * @param weeklyNflStatsDal
+	 * @param teams
+	 * @param from
+	 * @param to
+	 */
+	private static void loadStatsBetweenYears(ProFootballRefService proFootballRefService,
+			WeeklyNflStatsDal weeklyNflStatsDal, List<Team> teams, int from, int to) {
 		//loop through each season and get the stats
-		for(int i = 2016; i >= 1950; i--){
+		for(int i = from; i >= to; i--){
+			
+			//TODO check if year was already imported
 			
 			//just renaming variables here for clarity of what the params actually represent.
 			//in this case only one year is being added at a time, so the fromYear and toYear vars are identical
@@ -76,9 +91,5 @@ public class Driver {
 				System.out.println(fromYear + " to " + toYear + " season(s) imported successfully");
 			}
 		}
-
-//		JSONArray jsonArray = new JSONArray(passing);
-//		System.out.println(jsonArray.toString());
-		
 	}
 }
