@@ -61,51 +61,6 @@ public class WeeklyNflStatsDao {
             "rushingyards, name, player_identifier, game_identifier, team_identifier, " + 
             "team_score, opp_score) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	
-	public int insertGameRushing(WeeklyStatsRushing rushing) {
-		try{
-			return this.jdbcTemplate.update(INSERT_GAME_RUSHING, new Object[]{rushing.getRushingYardsPerAttempt(), rushing.getRushingAttempts(),
-					rushing.getRushingTouchdowns(), rushing.getRushingYards(), rushing.getName(), rushing.getPlayerIdentifier(), rushing.getGameIdentifier(),
-					rushing.getTeamIdentifier(), rushing.getTeamScore(), rushing.getOppScore()});
-		} catch(DataAccessException e){
-			System.out.println(e.getMessage());
-			return 0;
-		}
-	}
-	
-	public int insertGameDefense(WeeklyStatsDefense defense) {
-		try{
-			return this.jdbcTemplate.update(INSERT_GAME_DEFENSE, new Object[]{defense.getSacks(), defense.getAssists(), defense.getInterceptions(),
-					defense.getInterceptionTouchdowns(), defense.getInterceptionYards(), defense.getTackles(), defense.getName(), defense.getPlayerIdentifier(),
-					defense.getGameIdentifier(), defense.getTeamIdentifier(), defense.getTeamScore(), defense.getOppScore()});
-		} catch(DataAccessException e){
-			System.out.println(e.getMessage());
-			return 0;
-		}
-	}
-	
-	public int insertGamePassing(WeeklyStatsPassing passing) {
-		try{
-			return this.jdbcTemplate.update(INSERT_GAME_PASSING, new Object[]{passing.getAdjustedYardsPerAttempt(), passing.getCompletionPercentage(),
-					passing.getRating(), passing.getYardsPerAttempt(), passing.getAttempts(), passing.getCompletions(), passing.getInterceptions(),
-					passing.getSacks(), passing.getSackYards(), passing.getTouchdowns(), passing.getYards(), passing.getPlayerIdentifier(), passing.getName(),
-					passing.getGameIdentifier(), passing.getTeamIdentifier(), passing.getTeamScore(), passing.getOppScore()});
-		} catch(DataAccessException e){
-			System.out.println(e.getMessage());
-			return 0;
-		}
-	}
-	
-	public int insertGameReceiving(WeeklyStatsReceiving receiving) {
-		try{
-			return this.jdbcTemplate.update(INSERT_GAME_RECEIVING, new Object[]{receiving.getCatchPercentage(), receiving.getYardsPerReception(),
-					receiving.getYardsPerTarget(), receiving.getReceptions(), receiving.getTargets(), receiving.getTouchdowns(), receiving.getYards(), receiving.getName(),
-					receiving.getPlayerIdentifier(), receiving.getGameIdentifier(), receiving.getTeamIdentifier(), receiving.getTeamScore(), receiving.getOppScore()});
-		} catch(DataAccessException e){
-			System.out.println(e.getMessage());
-			return 0;
-		}
-	}
 
 	
 	public WeeklyNflStatsDao(JdbcTemplate jdbcTemplate){
@@ -154,7 +109,52 @@ public class WeeklyNflStatsDao {
 	
 	public int insertGamePlay(WeeklyStatsIndividualPlay s) {
 		try{
-			return this.jdbcTemplate.update(INSERT_GAME_PLAY, new Object[]{s.getGameIdentifier(), s.getDescription(), s.getYardsGained(), s.getPlayType().ordinal(), s.getExpectedPointsAfter(), s.getExpectedPointsBefore(), s.getHomeWinProbability(), s.getDown(), s.getQuarter(), s.getScoreAway(), s.getScoreHome(), s.getYardsToGo(), s.getLocation(), s.getQuarterTimeRemaining()});
+			return this.jdbcTemplate.update(INSERT_GAME_PLAY, new Object[]{s.getGameIdentifier(), s.getDescription(), s.getYardsGained(), s.getPlayType().toString(), s.getExpectedPointsAfter(), s.getExpectedPointsBefore(), s.getHomeWinProbability(), s.getDown(), s.getQuarter(), s.getScoreAway(), s.getScoreHome(), s.getYardsToGo(), s.getLocation(), s.getQuarterTimeRemaining()});
+		} catch(DataAccessException e){
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	
+	public int insertGameRushing(WeeklyStatsRushing rushing) {
+		try{
+			return this.jdbcTemplate.update(INSERT_GAME_RUSHING, new Object[]{rushing.getRushingYardsPerAttempt(), rushing.getRushingAttempts(),
+					rushing.getRushingTouchdowns(), rushing.getRushingYards(), rushing.getName(), rushing.getPlayerIdentifier(), rushing.getGameIdentifier(),
+					rushing.getTeamIdentifier(), rushing.getTeamScore(), rushing.getOppScore()});
+		} catch(DataAccessException e){
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	
+	public int insertGameDefense(WeeklyStatsDefense defense) {
+		try{
+			return this.jdbcTemplate.update(INSERT_GAME_DEFENSE, new Object[]{defense.getSacks(), defense.getAssists(), defense.getInterceptions(),
+					defense.getInterceptionTouchdowns(), defense.getInterceptionYards(), defense.getTackles(), defense.getName(), defense.getPlayerIdentifier(),
+					defense.getGameIdentifier(), defense.getTeamIdentifier(), defense.getTeamScore(), defense.getOppScore()});
+		} catch(DataAccessException e){
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	
+	public int insertGamePassing(WeeklyStatsPassing passing) {
+		try{
+			return this.jdbcTemplate.update(INSERT_GAME_PASSING, new Object[]{passing.getAdjustedYardsPerAttempt(), passing.getCompletionPercentage(),
+					passing.getRating(), passing.getYardsPerAttempt(), passing.getAttempts(), passing.getCompletions(), passing.getInterceptions(),
+					passing.getSacks(), passing.getSackYards(), passing.getTouchdowns(), passing.getYards(), passing.getPlayerIdentifier(), passing.getName(),
+					passing.getGameIdentifier(), passing.getTeamIdentifier(), passing.getTeamScore(), passing.getOppScore()});
+		} catch(DataAccessException e){
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	
+	public int insertGameReceiving(WeeklyStatsReceiving receiving) {
+		try{
+			return this.jdbcTemplate.update(INSERT_GAME_RECEIVING, new Object[]{receiving.getCatchPercentage(), receiving.getYardsPerReception(),
+					receiving.getYardsPerTarget(), receiving.getReceptions(), receiving.getTargets(), receiving.getTouchdowns(), receiving.getYards(), receiving.getName(),
+					receiving.getPlayerIdentifier(), receiving.getGameIdentifier(), receiving.getTeamIdentifier(), receiving.getTeamScore(), receiving.getOppScore()});
 		} catch(DataAccessException e){
 			System.out.println(e.getMessage());
 			return 0;

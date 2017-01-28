@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.combine.dal.DataSourceLayer;
 import com.combine.profootballref.weekly.dto.GameScoringPlay;
+import com.combine.profootballref.weekly.dto.PlayType;
 import com.combine.profootballref.weekly.dto.WeeklyStatsDefense;
 import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
 import com.combine.profootballref.weekly.dto.WeeklyStatsIndividualPlay;
@@ -23,6 +24,9 @@ import com.combine.service.TableMapperService;
 public class Driver {
 
 	public static void main(String[] args) throws IOException {
+		
+		System.out.println(PlayType.TWO_POINT.toString());
+		
 		//declare / inject services
 		DataConversionService dataConversionService = new DataConversionService();
 		GenericsService genericsService = new GenericsService();
