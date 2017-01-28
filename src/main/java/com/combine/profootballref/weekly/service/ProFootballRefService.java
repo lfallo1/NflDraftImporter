@@ -211,9 +211,7 @@ public class ProFootballRefService {
 
 							// set the score props
 							result.setSeasonType(gameType);
-							String[] parts = result.getResult().substring(2).split("-");
-							result.setTeamScore(Integer.parseInt(parts[0]));
-							result.setOppScore(Integer.parseInt(parts[1]));
+							setScoreProps(result);
 							results.add(result);
 						}
 					}
@@ -530,6 +528,17 @@ public class ProFootballRefService {
 
 		List<Element> rows = table.getElementsByTag(ELEMENT_TR);
 		return rows;
+	}
+	
+	/**
+	 * given a WeeklyStats object, set the score properties by splitting at the dash.
+	 * team for whom stats were generated is considered the "team", while the other team is "opponent"
+	 * @param result
+	 */
+	public <T extends WeeklyStats> void setScoreProps(T result) {
+		String[] parts = result.getResult().substring(2).split("-");
+		result.setTeamScore(Integer.parseInt(parts[0]));
+		result.setOppScore(Integer.parseInt(parts[1]));
 	}
 
 }
