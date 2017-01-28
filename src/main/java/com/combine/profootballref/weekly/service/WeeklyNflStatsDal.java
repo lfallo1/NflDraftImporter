@@ -46,7 +46,7 @@ public class WeeklyNflStatsDal {
 		return inserted;
 	}
 
-	public int insertGameScoringPlays(List<GameScoringPlay> gameScoringPlays) {
+	public int addGameScoringPlays(List<GameScoringPlay> gameScoringPlays) {
 		int inserted = 0;
 		for (GameScoringPlay gameScoringPlay : gameScoringPlays) {
 			inserted += this.weeklyNflStatsDao.insertGameScoringPlay(gameScoringPlay);
@@ -54,7 +54,7 @@ public class WeeklyNflStatsDal {
 		return inserted;
 	}
 
-	public int insertGamePlays(List<WeeklyStatsIndividualPlay> plays) {
+	public int addGamePlays(List<WeeklyStatsIndividualPlay> plays) {
 		int inserted = 0;
 		for (WeeklyStatsIndividualPlay play : plays) {
 			inserted += this.weeklyNflStatsDao.insertGamePlay(play);

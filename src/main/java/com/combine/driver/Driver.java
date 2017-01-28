@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.combine.dal.DataSourceLayer;
 import com.combine.profootballref.weekly.dto.GameScoringPlay;
-import com.combine.profootballref.weekly.dto.PlayType;
 import com.combine.profootballref.weekly.dto.WeeklyStatsDefense;
 import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
 import com.combine.profootballref.weekly.dto.WeeklyStatsIndividualPlay;
@@ -23,9 +22,10 @@ import com.combine.service.TableMapperService;
 
 public class Driver {
 
+	//helper array storing both season types
+	private static final String[] seasonTypes = new String[]{ProFootballRefService.SEASON_TYPE_REGULAR, ProFootballRefService.SEASON_TYPE_PLAYOFFS};
+	
 	public static void main(String[] args) throws IOException {
-		
-		System.out.println(PlayType.TWO_POINT.toString());
 		
 		//declare / inject services
 		DataConversionService dataConversionService = new DataConversionService();
@@ -34,34 +34,49 @@ public class Driver {
 		TableMapperService tableMapperService = new TableMapperService(genericsService);
 		ProFootballRefService proFootballRefService = new ProFootballRefService(tableMapperService, genericsService, httpService, dataConversionService);
 		
-		//team and game stats
-		List<Team> teams = proFootballRefService.loadAllTeams();
-		List<WeeklyStatsGame> gameStats = proFootballRefService.loadWeeklyStatsGames(ProFootballRefService.SEASON_TYPE_PLAYOFFS, teams);
-		List<Game> games = proFootballRefService.getUniqueGamesList(gameStats);
-//		List<WeeklyStatsIndividualPlay> plays = proFootballRefService.getPlayByPlay(games, teams);
-//		List<GameScoringPlay> gameScoringPlays = proFootballRefService.getScoringSummaries(games, teams);
-		
-		//individual player stats
-		List<WeeklyStatsPassing> passing = proFootballRefService.loadWeeklyStatsPassing(ProFootballRefService.SEASON_TYPE_PLAYOFFS, teams);
-		List<WeeklyStatsRushing> rushing = proFootballRefService.loadWeeklyStatsRushing(ProFootballRefService.SEASON_TYPE_PLAYOFFS, teams);
-		List<WeeklyStatsReceiving> receiving = proFootballRefService.loadWeeklyStatsReceiving(ProFootballRefService.SEASON_TYPE_PLAYOFFS, teams);
-		List<WeeklyStatsDefense> defense = proFootballRefService.loadWeeklyStatsDefense(ProFootballRefService.SEASON_TYPE_PLAYOFFS, teams);
-		
-		//db insertions
+		//initialize data layer service (performs initial db migration(s), holds connection objects, and dao refs)
 		WeeklyNflStatsDal weeklyNflStatsDal = new WeeklyNflStatsDal(DataSourceLayer.getInstance());
-		weeklyNflStatsDal.addTeams(teams);
-		weeklyNflStatsDal.addGames(games);
-		weeklyNflStatsDal.addGameStats(gameStats);
-//		weeklyNflStatsDal.insertGamePlays(plays);
-//		weeklyNflStatsDal.insertGameScoringPlays(gameScoringPlays);
 		
-		weeklyNflStatsDal.addGamePassing(passing);
-		weeklyNflStatsDal.addGameRushing(rushing);
-		weeklyNflStatsDal.addGameReceiving(receiving);
-		weeklyNflStatsDal.addGameDefense(defense);
+		//load all the teams right away (could, if want pull this from the database)
+		List<Team> teams = proFootballRefService.loadAllTeams();
 		
+		
+		//loop through each season and get the stats
+		for(int i = 2016; i >= 1950; i--){
+			
+			//just renaming variables here for clarity of what the params actually represent.
+			//in this case only one year is being added at a time, so the fromYear and toYear vars are identical
+			int fromYear = i, toYear = i;
+			
+			//grab both regular and post-season
+			for(String seasonType : seasonTypes){
+				//team stats
+				List<WeeklyStatsGame> gameStats = proFootballRefService.loadWeeklyStatsGames(seasonType, teams, fromYear, toYear);
+				List<Game> games = proFootballRefService.getUniqueGamesList(gameStats);
+				List<WeeklyStatsIndividualPlay> plays = proFootballRefService.getPlayByPlay(games, teams);
+				List<GameScoringPlay> gameScoringPlays = proFootballRefService.getScoringSummaries(games, teams);
+				
+				//individual player stats
+				List<WeeklyStatsPassing> passing = proFootballRefService.loadWeeklyStatsPassing(seasonType, teams, fromYear, toYear);
+				List<WeeklyStatsRushing> rushing = proFootballRefService.loadWeeklyStatsRushing(seasonType, teams, fromYear, toYear);
+				List<WeeklyStatsReceiving> receiving = proFootballRefService.loadWeeklyStatsReceiving(seasonType, teams, fromYear, toYear);
+				List<WeeklyStatsDefense> defense = proFootballRefService.loadWeeklyStatsDefense(seasonType, teams, fromYear, toYear);
+				
+				//db insertions
+				weeklyNflStatsDal.addGames(games);
+				weeklyNflStatsDal.addGameStats(gameStats);
+				weeklyNflStatsDal.addGamePlays(plays);
+				weeklyNflStatsDal.addGameScoringPlays(gameScoringPlays);
+				
+				weeklyNflStatsDal.addGamePassing(passing);
+				weeklyNflStatsDal.addGameRushing(rushing);
+				weeklyNflStatsDal.addGameReceiving(receiving);
+				weeklyNflStatsDal.addGameDefense(defense);
+				
+				System.out.println(fromYear + " to " + toYear + " season(s) imported successfully");
+			}
+		}
 
-		System.out.println("pause...");
 //		JSONArray jsonArray = new JSONArray(passing);
 //		System.out.println(jsonArray.toString());
 		
