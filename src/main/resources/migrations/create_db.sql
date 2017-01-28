@@ -24,6 +24,9 @@ CREATE TABLE nfl."game"
     season_type text,
     home_team_identifier text,
     away_team_identifier text,
+    home_score integer,
+    away_score integer,
+    overtime boolean,
     CONSTRAINT game_pk PRIMARY KEY (game_identifier),
     CONSTRAINT game_hometeam_fk FOREIGN KEY (home_team_identifier) references nfl.team(team_identifier),
     CONSTRAINT game_awayteam_fk FOREIGN KEY (away_team_identifier) references nfl.team(team_identifier)
@@ -34,6 +37,7 @@ CREATE TABLE nfl."game_team_stats"
     id bigserial,
     game_identifier text,
     team_identifier text,
+    opp_identifier text,
     fourth_down_pct float,
     fourth_down_success float,
     pass_cmp_perc float,
@@ -62,6 +66,8 @@ CREATE TABLE nfl."game_team_stats"
     pass_yds integer,
     penalties integer,
     penalties_opp integer,
+    team_score integer,
+    opp_score integer,
     CONSTRAINT game_team_stats_pk PRIMARY KEY (id),
     CONSTRAINT gameteamstats_teamidentifier_fk FOREIGN KEY (team_identifier) references nfl.team(team_identifier),
     CONSTRAINT gameteamstats_game_identifier_fk FOREIGN KEY (game_identifier) references nfl.game(game_identifier)
@@ -116,7 +122,11 @@ CREATE TABLE nfl."game_rushing"
     name text,
     player_identifier text,
     game_identifier text,
+    team_identifier text,
+    team_score integer,
+    opp_score integer,
     CONSTRAINT gamerushing_pk PRIMARY KEY (id),
+    CONSTRAINT gamerushingfk FOREIGN KEY (team_identifier) references nfl.team(team_identifier),
     CONSTRAINT gamerushing_game_identifier_fk FOREIGN KEY (game_identifier) references nfl.game(game_identifier)
 );
 
@@ -131,11 +141,14 @@ CREATE TABLE nfl."game_receiving"
     targets integer,
     touchdowns integer,
     yards integer,
-    age text,
     name text,
     player_identifier text,
     game_identifier text,
+    team_identifier text,
+    team_score integer,
+    opp_score integer,
     CONSTRAINT gamereceiving_pk PRIMARY KEY (id),
+    CONSTRAINT gamereceivingfk FOREIGN KEY (team_identifier) references nfl.team(team_identifier),
     CONSTRAINT gamereceiving_game_identifier_fk FOREIGN KEY (game_identifier) references nfl.game(game_identifier)
 );
 
@@ -149,11 +162,14 @@ CREATE TABLE nfl."game_defense"
     interceptionTouchdowns integer,
     interceptionYards integer,
     tackles integer,
-    age text,
     name text,
     player_identifier text,
     game_identifier text,
+    team_identifier text,
+    team_score integer,
+    opp_score integer,
     CONSTRAINT gamedefense_pk PRIMARY KEY (id),
+    CONSTRAINT gamedefensefk FOREIGN KEY (team_identifier) references nfl.team(team_identifier),
     CONSTRAINT gamedefense_game_identifier_fk FOREIGN KEY (game_identifier) references nfl.game(game_identifier)
 );
 
@@ -174,6 +190,10 @@ CREATE TABLE nfl."game_passing"
     player_identifier text,
     name text,
     game_identifier text,
+    team_identifier text,
+    team_score integer,
+    opp_score integer,
     CONSTRAINT gamepassing_pk PRIMARY KEY (id),
+    CONSTRAINT gamepassingfk FOREIGN KEY (team_identifier) references nfl.team(team_identifier),
     CONSTRAINT gamepassing_game_identifier_fk FOREIGN KEY (game_identifier) references nfl.game(game_identifier)
 );

@@ -187,7 +187,12 @@ public class ProFootballRefService {
 							setIdentifiers(row,result); //set the player & game identifiers / links
 							result.setTeamObject(this.dataConversionService.findByTeamIdentifier(result.getTeamIdentifier(), teams));
 							result.setOpponentObject(this.dataConversionService.findByTeamIdentifier(result.getOpponentIdentifier(), teams));
+							
+							//set the score props
 							result.setSeasonType(gameType);
+							String[] parts = result.getResult().substring(2).split("-");
+							result.setTeamScore(Integer.parseInt(parts[0]));
+							result.setOppScore(Integer.parseInt(parts[1]));
 							results.add(result);
 						}
 					}

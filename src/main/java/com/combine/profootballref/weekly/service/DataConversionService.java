@@ -41,11 +41,16 @@ public class DataConversionService {
 			if(homeTeamIdentifier.equals(gameDto.getTeamIdentifier())){
 				game.setHomeTeam(gameDto.getTeamObject());
 				game.setAwayTeam(gameDto.getOpponentObject());
+				game.setPointsHome(gameDto.getTeamScore());
+				game.setPointsAway(gameDto.getOppScore());
 			} else{
 				game.setHomeTeam(gameDto.getOpponentObject());
 				game.setAwayTeam(gameDto.getTeamObject());
+				game.setPointsHome(gameDto.getOppScore());
+				game.setPointsAway(gameDto.getTeamScore());
 			}
 			
+			game.setOvertime(gameDto.getOvertime() != null);
 			game.setGameIdentifier(gameDto.getGameIdentifier());
 			games.add(game);
 		}

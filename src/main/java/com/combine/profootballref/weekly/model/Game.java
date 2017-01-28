@@ -18,6 +18,9 @@ public class Game {
 	private String seasonType;
 	private Team homeTeam;
 	private Team awayTeam;
+	private Integer pointsHome;
+	private Integer pointsAway;
+	private boolean overtime;
 
 	public Game() {
 	}
@@ -132,6 +135,30 @@ public class Game {
 
 	public void setAwayTeam(Team awayTeam) {
 		this.awayTeam = awayTeam;
+	}
+
+	public Integer getPointsHome() {
+		return pointsHome;
+	}
+
+	public void setPointsHome(Integer pointsHome) {
+		this.pointsHome = pointsHome;
+	}
+
+	public Integer getPointsAway() {
+		return pointsAway;
+	}
+
+	public void setPointsAway(Integer pointsAway) {
+		this.pointsAway = pointsAway;
+	}
+
+	public boolean isOvertime() {
+		return overtime;
+	}
+
+	public void setOvertime(boolean overtime) {
+		this.overtime = overtime;
 	}
 
 	@Override

@@ -13,6 +13,10 @@ public abstract class WeeklyStats {
 	private Team teamObject;
 	private Team opponentObject;
 
+	// score props
+	private Integer teamScore;
+	private Integer oppScore;
+
 	// identifier props
 	private String gameIdentifier;
 	private String gameLink;
@@ -209,6 +213,22 @@ public abstract class WeeklyStats {
 
 	public void setSeasonType(String seasonType) {
 		this.seasonType = seasonType;
+	}
+
+	public Integer getTeamScore() {
+		return teamScore;
+	}
+
+	public void setTeamScore(Integer teamScore) {
+		this.teamScore = teamScore;
+	}
+
+	public Integer getOppScore() {
+		return oppScore;
+	}
+
+	public void setOppScore(Integer oppScore) {
+		this.oppScore = oppScore;
 	}
 
 }
