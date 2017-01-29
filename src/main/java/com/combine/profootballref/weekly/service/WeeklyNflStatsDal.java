@@ -17,6 +17,22 @@ import com.combine.profootballref.weekly.model.Team;
 public class WeeklyNflStatsDal {
 
 	private WeeklyNflStatsDao weeklyNflStatsDao;
+	
+	/**
+	 * dirty method of checking if year already exists in database, done  by checking the total number of games imported.
+	 * obviously this won't work for years that are in progress
+	 * @param year
+	 * @param seasonType
+	 * @return
+	 */
+	public boolean checkYearExists(int year, String seasonType){
+		int games = this.weeklyNflStatsDao.getGameCountByYearAndSeasonType(year, seasonType);
+		if(seasonType == ProFootballRefService.SEASON_TYPE_REGULAR){
+			return games == 256; 
+		} else{
+			return games == 11;
+		}
+	}
 
 	public WeeklyNflStatsDal(DataSourceLayer dataSourceLayer) {
 		this.weeklyNflStatsDao = dataSourceLayer.getWeeklyNflStatsDao();
@@ -92,6 +108,10 @@ public class WeeklyNflStatsDal {
 			inserted += this.weeklyNflStatsDao.insertGameRushing(rushing);
 		}
 		return inserted;
+	}
+
+	public List<Team> allTeams() {
+		return this.weeklyNflStatsDao.allTeams();
 	}
 
 }

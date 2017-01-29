@@ -89,24 +89,28 @@ public class ProFootballRefService {
 		this.dataConversionService = dataConversionService;
 	}
 
-	public List<WeeklyStatsPassing> loadWeeklyStatsPassing(String gameType, List<Team> teams, Integer startYear, Integer endYear) {
+	public List<WeeklyStatsPassing> loadWeeklyStatsPassing(String gameType, List<Team> teams, Integer year) {
+		System.out.println("loading passing stats");
 		return this.<WeeklyStatsPassing> loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_QB, gameType, WeeklyStatsPassing.class,
-				teams, startYear, endYear);
+				teams, year);
 	}
 
-	public List<WeeklyStatsRushing> loadWeeklyStatsRushing(String gameType, List<Team> teams, Integer startYear, Integer endYear) {
+	public List<WeeklyStatsRushing> loadWeeklyStatsRushing(String gameType, List<Team> teams, Integer year) {
+		System.out.println("loading rushing stats");
 		return this.<WeeklyStatsRushing> loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_RUSHING, gameType,
-				WeeklyStatsRushing.class, teams, startYear, endYear);
+				WeeklyStatsRushing.class, teams, year);
 	}
 
-	public List<WeeklyStatsReceiving> loadWeeklyStatsReceiving(String gameType, List<Team> teams, Integer startYear, Integer endYear) {
+	public List<WeeklyStatsReceiving> loadWeeklyStatsReceiving(String gameType, List<Team> teams, Integer year) {
+		System.out.println("loading receiving stats");
 		return this.<WeeklyStatsReceiving> loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_RECEIVING, gameType,
-				WeeklyStatsReceiving.class, teams, startYear, endYear);
+				WeeklyStatsReceiving.class, teams, year);
 	}
 
-	public List<WeeklyStatsDefense> loadWeeklyStatsDefense(String gameType, List<Team> teams, Integer startYear, Integer endYear) {
+	public List<WeeklyStatsDefense> loadWeeklyStatsDefense(String gameType, List<Team> teams, Integer year) {
+		System.out.println("loading defense stats");
 		return this.<WeeklyStatsDefense> loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_DEFENSE, gameType,
-				WeeklyStatsDefense.class, teams, startYear, endYear);
+				WeeklyStatsDefense.class, teams, year);
 	}
 
 	public List<Team> loadAllTeams() {
@@ -116,14 +120,15 @@ public class ProFootballRefService {
 		return teams;
 	}
 
-	public List<WeeklyStatsGame> loadWeeklyStatsGames(String gameType, List<Team> teams, Integer startYear, Integer endYear) {
+	public List<WeeklyStatsGame> loadWeeklyStatsGames(String gameType, List<Team> teams, Integer year) {
+		System.out.println("loading weekly team stats");
 		List<WeeklyStatsGame> weeklyStats = this.<WeeklyStatsGame> loadWeeklyStats(PRO_FOOTBALL_REF_WEEKLY_BOX_SCORE,
-				gameType, WeeklyStatsGame.class, teams, startYear, endYear);
+				gameType, WeeklyStatsGame.class, teams, year);
 		return weeklyStats;
 	}
 
 	public List<Game> getUniqueGamesList(List<WeeklyStatsGame> weeklyStats) {
-		return new ArrayList<>(this.dataConversionService.getUniqueListGames(weeklyStats));
+		return new ArrayList<>(this.dataConversionService.getUniqueListGames(weeklyStats, PRO_FOOTBALL_REF_BASE_URL));
 	}
 
 	public List<WeeklyStatsIndividualPlay> getPlayByPlay(List<Game> games, List<Team> teams) {
@@ -154,74 +159,76 @@ public class ProFootballRefService {
 	 * @return
 	 */
 	private <T extends WeeklyStats> List<T> loadWeeklyStats(String baseUrl, String gameType, Class<T> clazz,
-			List<Team> teams, Integer startYear, Integer endYear) {
+			List<Team> teams, Integer year) {
 		Map<Integer, String> headers = new HashMap<>();
 		List<T> results = new ArrayList<>();
 
-		for (int i = startYear; i >= endYear; i--) {
-			String url = baseUrl;
-			int page = 0;
-			while (true) {
+		String url = baseUrl;
+		int page = 0;
+		
+		//while a next page exists, get all the records
+		while (true) {
 
-				// set the url (append the offset query string if not on first
-				// page), and then increment page count
-				if (page > 0) {
-					url = baseUrl + OFFSET + page * 100;
+			// set the url (append the offset query string if not on first
+			// page), and then increment page count
+			if (page > 0) {
+				url = baseUrl + OFFSET + page * 100;
+			}
+			page++;
+
+			try {
+
+				// make request & verify data returned
+				Map<String, String> interpolationMap = new HashMap<>();
+				interpolationMap.put(YEAR, String.valueOf(year));
+				interpolationMap.put(GAME_TYPE, gameType);
+				String interpolatedUrl = genericsService.interpolate(url, interpolationMap);
+				List<Element> rows = loadTableRowsByIdentifier(interpolatedUrl, RESULTS_TABLE);
+
+				// immediately exit page loop once there is no data left.
+				// for weekly stats, the table has two header rows. that is why we're checking if less than 3
+				if (rows.size() < 3)
+					break;
+
+				// if header row has not been created, do it here
+				if (headers.size() == 0) {
+					headers = tableMapperService.parseTableHeaderRow(rows.get(1).getElementsByTag(ELEMENT_TH));
 				}
-				page++;
 
-				try {
+				// for all other rows, convert the record into an object and
+				// add to list
+				for (int j = 2; j < rows.size(); j++) {
+					Element row = rows.get(j);
+					List<Element> tdElements = row.getElementsByTag(ELEMENT_TD);
 
-					// make request & verify data returned
-					Map<String, String> interpolationMap = new HashMap<>();
-					interpolationMap.put(YEAR, String.valueOf(i));
-					interpolationMap.put(GAME_TYPE, gameType);
-					String interpolatedUrl = genericsService.interpolate(url, interpolationMap);
-					List<Element> rows = loadTableRowsByIdentifier(interpolatedUrl, RESULTS_TABLE);
+					// ensure the row has elements (only <td> elements
+					// qualify. if it's a random <th> row, the row is
+					// skipped)
+					if (tdElements.size() > 0) {
+						// parse and add the object
+						T result = genericsService.createInstance(clazz);
+						tableMapperService.parseTableRow(headers, tdElements, result, 1, false);
+						setIdentifiers(row, result); // set the player &
+														// game identifiers
+														// / links
+						result.setTeamObject(
+								this.dataConversionService.findByTeamIdentifier(result.getTeamIdentifier(), teams));
+						result.setOpponentObject(this.dataConversionService
+								.findByTeamIdentifier(result.getOpponentIdentifier(), teams));
 
-					// immediately exit page loop once there is no data left
-					if (rows.size() < 3)
-						break;
-
-					// if header row has not been created, do it here
-					if (headers.size() == 0) {
-						headers = tableMapperService.parseTableHeaderRow(rows.get(1).getElementsByTag(ELEMENT_TH));
+						// set the score props
+						result.setSeasonType(gameType);
+						setScoreProps(result);
+						results.add(result);
 					}
-
-					// for all other rows, convert the record into an object and
-					// add to list
-					for (int j = 2; j < rows.size(); j++) {
-						Element row = rows.get(j);
-						List<Element> tdElements = row.getElementsByTag(ELEMENT_TD);
-
-						// ensure the row has elements (only <td> elements
-						// qualify. if it's a random <th> row, the row is
-						// skipped)
-						if (tdElements.size() > 0) {
-							// parse and add the object
-							T result = genericsService.createInstance(clazz);
-							tableMapperService.parseTableRow(headers, tdElements, result, 1, false);
-							setIdentifiers(row, result); // set the player &
-															// game identifiers
-															// / links
-							result.setTeamObject(
-									this.dataConversionService.findByTeamIdentifier(result.getTeamIdentifier(), teams));
-							result.setOpponentObject(this.dataConversionService
-									.findByTeamIdentifier(result.getOpponentIdentifier(), teams));
-
-							// set the score props
-							result.setSeasonType(gameType);
-							setScoreProps(result);
-							results.add(result);
-						}
-					}
-					System.out.println("Iteration summary: Current Year=> " + i + ", Current Page: " + page
-							+ ", total results: " + results.size());
-				} catch (InstantiationException | IllegalAccessException | IOException e) {
-					LOGGER.log(Level.WARN, e.getMessage());
 				}
+				System.out.println("Iteration summary: Current Year=> " + year + ", Current Page: " + page
+						+ ", total results: " + results.size());
+			} catch (InstantiationException | IllegalAccessException | IOException e) {
+				LOGGER.log(Level.WARN, e.getMessage());
 			}
 		}
+
 		return results;
 	}
 
@@ -297,36 +304,37 @@ public class ProFootballRefService {
 			// make request
 			String url = PRO_FOOTBALL_REF_BASE_URL + game.getGameLink();
 			List<Element> rows = loadTableRowsByIdentifier(url, PLAY_BY_PLAY_TABLE);
-
-			headers = tableMapperService.parseTableHeaderRow(rows.get(0).getElementsByTag(ELEMENT_TH));
-
-			// for all other rows, convert the record into an object and add to
-			// list
-			for (int j = 2; j < rows.size(); j++) {
-				Element row = rows.get(j);
-				Elements tdElements = new Elements();
-
-				// need to explicitly add the quarter element because it is a
-				// header instead of data row
-				Element quarterElement = row.getElementsByTag(ELEMENT_TH).first();
-				tdElements.add(quarterElement);
-				tdElements.addAll(row.getElementsByTag(ELEMENT_TD));
-
-				// ensure the row has elements (only <td> elements qualify. if
-				// it's a random <th> row, the row is skipped)
-				if (tdElements.size() > 0) {
-					// parse and add the object
-					WeeklyStatsIndividualPlay play = new WeeklyStatsIndividualPlay();
-					tableMapperService.parseTableRow(headers, tdElements, play, 0, false);
-					analyzePlayDetails(tdElements, "detail", play); // parse out
-																	// play
-																	// description
-																	// into
-																	// individual
-																	// properties
-					if (!StringUtils.isEmpty(play.getDescription()) && play.getDescription().indexOf("timeout") < 0) {
-						play.setGameIdentifier(game.getGameIdentifier());
-						plays.add(play);
+			if(rows.size() > 0){
+				headers = tableMapperService.parseTableHeaderRow(rows.get(0).getElementsByTag(ELEMENT_TH));
+	
+				// for all other rows, convert the record into an object and add to
+				// list
+				for (int j = 2; j < rows.size(); j++) {
+					Element row = rows.get(j);
+					Elements tdElements = new Elements();
+	
+					// need to explicitly add the quarter element because it is a
+					// header instead of data row
+					Element quarterElement = row.getElementsByTag(ELEMENT_TH).first();
+					tdElements.add(quarterElement);
+					tdElements.addAll(row.getElementsByTag(ELEMENT_TD));
+	
+					// ensure the row has elements (only <td> elements qualify. if
+					// it's a random <th> row, the row is skipped)
+					if (tdElements.size() > 0) {
+						// parse and add the object
+						WeeklyStatsIndividualPlay play = new WeeklyStatsIndividualPlay();
+						tableMapperService.parseTableRow(headers, tdElements, play, 0, false);
+						analyzePlayDetails(tdElements, "detail", play); // parse out
+																		// play
+																		// description
+																		// into
+																		// individual
+																		// properties
+						if (!StringUtils.isEmpty(play.getDescription()) && play.getDescription().indexOf("timeout") < 0) {
+							play.setGameIdentifier(game.getGameIdentifier());
+							plays.add(play);
+						}
 					}
 				}
 			}

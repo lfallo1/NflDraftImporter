@@ -1,9 +1,9 @@
 delete from nfl.game_play;
 delete from nfl.game_scoring_play;
 delete from nfl.game_team_stats;
-delete from nfl.game;
-delete from nfl.team;
 delete from nfl.game_defense;
 delete from nfl.game_receiving;
 delete from nfl.game_rushing;
 delete from nfl.game_passing;
+delete from nfl.game;
+delete from nfl.team;
