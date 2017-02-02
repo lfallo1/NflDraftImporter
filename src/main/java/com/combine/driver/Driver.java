@@ -1,17 +1,10 @@
 package com.combine.driver;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.combine.dal.DataSourceLayer;
-import com.combine.profootballref.weekly.dto.GameScoringPlay;
-import com.combine.profootballref.weekly.dto.WeeklyStatsDefense;
 import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
-import com.combine.profootballref.weekly.dto.WeeklyStatsIndividualPlay;
-import com.combine.profootballref.weekly.dto.WeeklyStatsPassing;
-import com.combine.profootballref.weekly.dto.WeeklyStatsReceiving;
-import com.combine.profootballref.weekly.dto.WeeklyStatsRushing;
 import com.combine.profootballref.weekly.model.Game;
 import com.combine.profootballref.weekly.model.Team;
 import com.combine.profootballref.weekly.service.DataConversionService;
