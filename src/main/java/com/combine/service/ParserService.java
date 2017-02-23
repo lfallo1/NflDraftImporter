@@ -193,7 +193,7 @@ public class ParserService {
 			
 			String url = interpolate(CBS_SPORTS_DRAFT, "year", String.valueOf(year));
 			for(String positionCategory : ALL_POSITIONS){
-				Document doc = Jsoup.connect(interpolate(url.toString(), "pos", positionCategory)).get();
+				Document doc = Jsoup.connect(interpolate(url.toString(), "pos", positionCategory)).timeout(20*1000).get();
 				Element table = doc.getElementById("prospectRankingsTable");
 				List<Element> rows = table.getElementsByTag("tr");
 				
