@@ -31,7 +31,9 @@ public class DataSourceLayer {
 		flyway.setDataSource(dataSource);
 		String[] locations = new String[]{"classpath:migrations/"};
 		flyway.setLocations(locations);
-		flyway.migrate();
+//		flyway.setBaselineVersionAsString("2.4");
+//		flyway.baseline();
+//		flyway.migrate();
 		
 		//configure DAO's
 		this.combineDao = new CombineDao(jdbcTemplate);
@@ -49,7 +51,13 @@ public class DataSourceLayer {
 		ds.setUrl("jdbc:postgresql://127.0.0.1:5432/NflCombine");
 		ds.setUsername("postgres");
 		ds.setPassword("admin");
-		ds.setDriverClassName("org.postgresql.Driver");	
+		ds.setDriverClassName("org.postgresql.Driver");
+		
+//		ds.setUrl("jdbc:postgresql://127.0.0.1:5433/nflcapsi_draft");
+//		ds.setUsername("nflcapsi_postgres");
+//		ds.setPassword("Raven$1996");
+//		ds.setDriverClassName("org.postgresql.Driver");
+		
         return ds;
 	}
 

@@ -35,9 +35,6 @@ CREATE TABLE participant (
     what_scouts_say text
 );
 
-
-ALTER TABLE participant OWNER TO postgres;
-
 --
 -- Name: position; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
@@ -48,9 +45,6 @@ CREATE TABLE "position" (
     category bigint
 );
 
-
-ALTER TABLE "position" OWNER TO postgres;
-
 --
 -- Name: position_category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
@@ -59,10 +53,6 @@ CREATE TABLE position_category (
     id bigint NOT NULL,
     name text
 );
-
-
-ALTER TABLE position_category OWNER TO postgres;
-
 --
 -- Name: position_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -73,9 +63,6 @@ CREATE SEQUENCE position_category_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-
-ALTER TABLE position_category_id_seq OWNER TO postgres;
 
 --
 -- Name: position_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -96,8 +83,6 @@ CREATE SEQUENCE position_id_seq
     CACHE 1;
 
 
-ALTER TABLE position_id_seq OWNER TO postgres;
-
 --
 -- Name: position_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -115,8 +100,6 @@ CREATE TABLE workout (
 );
 
 
-ALTER TABLE workout OWNER TO postgres;
-
 --
 -- Name: workout_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -127,9 +110,6 @@ CREATE SEQUENCE workout_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-
-ALTER TABLE workout_id_seq OWNER TO postgres;
 
 --
 -- Name: workout_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -149,9 +129,6 @@ CREATE TABLE workout_result (
     workout bigint
 );
 
-
-ALTER TABLE workout_result OWNER TO postgres;
-
 --
 -- Name: workout_result_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -162,9 +139,6 @@ CREATE SEQUENCE workout_result_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-
-ALTER TABLE workout_result_id_seq OWNER TO postgres;
 
 --
 -- Name: workout_result_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres

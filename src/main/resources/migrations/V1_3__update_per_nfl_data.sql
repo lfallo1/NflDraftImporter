@@ -10,8 +10,6 @@ CREATE TABLE conf
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE conf
-  OWNER TO postgres;
 
 CREATE TABLE college
 (
@@ -26,8 +24,6 @@ CREATE TABLE college
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE college
-  OWNER TO postgres;
 
 CREATE TABLE participant
 (
@@ -57,8 +53,6 @@ CREATE TABLE participant
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE participant
-  OWNER TO postgres;
 
   CREATE TABLE workout_result
 (
@@ -77,5 +71,3 @@ ALTER TABLE participant
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE workout_result
-  OWNER TO postgres;

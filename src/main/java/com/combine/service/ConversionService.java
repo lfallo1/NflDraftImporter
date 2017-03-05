@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import com.combine.dal.DataSourceLayer;
 import com.combine.model.College;
+import com.combine.model.Player;
 
 public class ConversionService {
 	
@@ -21,6 +22,11 @@ public class ConversionService {
 	}
 	
 	public Double toRawInches(String formattedInches){
+		
+		if(formattedInches == null){
+			return 0.0;
+		}
+		
 		Pattern p1 = Pattern.compile("(\\d+)'(\\d+)\"");
 		Pattern p2 = Pattern.compile("(\\d{1,2})(\\s)(\\d{1})/(\\d{1})\"");
 		Pattern p3 = Pattern.compile("(\\d{1,2})\"");
@@ -221,5 +227,12 @@ public class ConversionService {
 			return entry.getKey() < 35 && entry.getValue().getName().toLowerCase().substring(0,2).equals(value.toLowerCase().substring(0, 2)) ? entry.getValue().getId() : null;
 		}
 		return null;
+	}
+
+	public Player findPlayerByNflData(String firstname, String lastname, String college, String conference,
+			String position) {
+		
+		return this.dataSourceLayer.getCombineDao().findByAttributes(firstname.toLowerCase(), lastname.toLowerCase(),
+				college.toLowerCase(), conference.toLowerCase(), position.toLowerCase());
 	}
 }

@@ -4,9 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.combine.model.College;
 import com.combine.model.Conference;
@@ -36,6 +39,59 @@ public class CombineDao {
 	private static final String INSERT_COLLEGE = "INSERT INTO college (id, conf, name) VALUES (?,?,?)";
 	private static final String INSERT_PLAYER = "INSERT INTO player (college, college_text, height, name, position, position_rank, projected_round, rank, weight, year_class, year, import_uuid) VALUES (?,?,?,?,public.fn_positionid_by_position(?),?,?,?,?,?,?,?)";
 	private static final String UPDATE_PLAYER = "update player set position_rank = ?, projected_round = ?, rank = ?, year_class = ?, year = ?, import_uuid = ? where name = ?";
+
+	private static final String FIND_PLAYER_BY_FULLNAME_AND_COLLEGE = "select p.* from player p " +
+			"left outer join position pos on p.position = pos.id " +
+			"left outer join college c on p.college = c.id " +
+			"left outer join conf conf on c.conf = conf.id " +
+			"where (lower(regexp_replace(p.name, '[^a-zA-Z]\\s{1}', '', 'g')) like :firstname and lower(regexp_replace(p.name, '[^a-zA-Z]', '', 'g')) like :lastname and lower(p.college_text) like :college)";
+	
+	private static final String FIND_PLAYER_BY_NAME = "select p.* from player p " +
+		"left outer join position pos on p.position = pos.id " +
+		"left outer join college c on p.college = c.id " +
+		"left outer join conf conf on c.conf = conf.id " +
+		"where (lower(regexp_replace(p.name, '[\\.,]', '', 'g')) like :firstname and lower(regexp_replace(p.name, '[^a-zA-Z]', '', 'g')) like :lastname)";
+	
+	private static final String FIND_PLAYER_BY_FIRSTNAME_POSITION_COLLEGE = "select p.* from player p " +
+			"left outer join position pos on p.position = pos.id " +
+			"left outer join college c on p.college = c.id " +
+			"left outer join conf conf on c.conf = conf.id " +
+			"where (lower(regexp_replace(p.name, '[\\.,]', '', 'g')) like :firstname and lower(pos.name) like :position and lower(p.college_text) like :college)";
+	
+	private static final String FIND_PLAYER_BY_LASTNAME_POSITION_COLLEGE = "select p.* from player p " +
+			"left outer join position pos on p.position = pos.id " +
+			"left outer join college c on p.college = c.id " +
+			"left outer join conf conf on c.conf = conf.id " +
+			"where (lower(regexp_replace(p.name, '[\\.,]', '', 'g')) like :lastname and lower(pos.name) like :position and lower(p.college_text) like :college)";
+
+	private static final String FIND_PLAYER_BY_FIRSTNAME_POSITION_CONFERENCE = "select p.* from player p " +
+			"left outer join position pos on p.position = pos.id " +
+			"left outer join college c on p.college = c.id " +
+			"left outer join conf conf on c.conf = conf.id " +
+			"where (lower(regexp_replace(p.name, '[\\.,]', '', 'g')) like :firstname and lower(pos.name) like :position and lower(conf.name) like :conference)";
+	
+	private static final String FIND_PLAYER_BY_LASTNAME_POSITION_CONFERENCE = "select p.* from player p " +
+			"left outer join position pos on p.position = pos.id " +
+			"left outer join college c on p.college = c.id " +
+			"left outer join conf conf on c.conf = conf.id " +
+			"where (lower(regexp_replace(p.name, '[\\.,]', '', 'g')) like :lastname and lower(pos.name) like :position and lower(conf.name) like :conference)";
+	
+	private static final String[] FIND_BY_ATTRIBUTE_QUERIES = new String[]{FIND_PLAYER_BY_FULLNAME_AND_COLLEGE, FIND_PLAYER_BY_NAME, FIND_PLAYER_BY_FIRSTNAME_POSITION_COLLEGE, FIND_PLAYER_BY_LASTNAME_POSITION_COLLEGE, FIND_PLAYER_BY_FIRSTNAME_POSITION_CONFERENCE, FIND_PLAYER_BY_LASTNAME_POSITION_CONFERENCE};
+	
+	private static final String UPDATE_WORKOUT_RESULTS = "UPDATE player set forty_yard_dash = ?, bench_press = ?, vertical_jump = ?, broad_jump = ?, " + 
+			"three_cone_drill = ?, twenty_yard_shuttle = ?, sixty_yard_shuttle = ?, hand_size = ?, arm_length = ? " +
+			"where id = ?;";
+	
+	private static final RowMapper<Player> PLAYER_ID_ROW_MAPPER = new RowMapper<Player>(){
+	
+		@Override
+		public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Player player = new Player();
+			player.setId(rs.getInt("id"));
+			return player;				
+		}
+
+	};
 	
 	private JdbcTemplate jdbcTemplate;
 	
@@ -134,5 +190,42 @@ public class CombineDao {
 	
 	public List<College> allColleges(){
 		return this.jdbcTemplate.query("select * from college", new GenericMapper<College>(College.class));
+	}
+
+	public Player findByAttributes(String firstname, String lastname, String college, String conference,
+			String position) {
+		MapSqlParameterSource params= new MapSqlParameterSource();
+		params.addValue("firstname", firstname + "%");
+	    params.addValue("lastname", "%" + lastname + "%");
+	    params.addValue("college", "%" + college + "%");
+	    params.addValue("conference", "%" + conference + "%");
+	    params.addValue("position", "%" + position + "%");
+	    List<Player> playerResults = null;
+	    
+	    NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(this.jdbcTemplate.getDataSource());
+	    
+	    try{
+	    	
+	    	for(int i = 0; i < FIND_BY_ATTRIBUTE_QUERIES.length; i++){
+	    		playerResults = template.query(FIND_BY_ATTRIBUTE_QUERIES[i], params, PLAYER_ID_ROW_MAPPER);
+			    if(playerResults != null && playerResults.size() > 0){
+			    	if(playerResults.size() > 1){
+			    		System.out.println("Multiple matches! " + firstname + ", " + lastname);
+			    		break;
+			    	}
+			    	return playerResults.get(0);
+			    }
+	    	}
+	    } catch(DataAccessException e){
+	    	e.printStackTrace();
+	    }
+	    System.out.println("No match found! " + firstname + ", " + lastname);
+		return null;
+	}
+
+	public int updateWorkoutResults(Player player) {
+		return this.jdbcTemplate.update(UPDATE_WORKOUT_RESULTS, new Object[]{player.getFortyYardDash(), player.getBenchPress(),
+				player.getVerticalJump(), player.getBroadJump(), player.getThreeConeDrill(), player.getTwentyYardShuttle(),
+				player.getSixtyYardShuttle(), player.getHandSize(), player.getArmLength(), player.getId()});
 	}
 }

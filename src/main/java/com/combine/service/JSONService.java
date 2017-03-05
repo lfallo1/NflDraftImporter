@@ -34,7 +34,7 @@ public class JSONService {
 		try {
 			return obj.getDouble(key);
 		} catch (JSONException e) {
-			return null;
+			return 0.0;
 		}
 	}
 

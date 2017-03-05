@@ -9,8 +9,6 @@ WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
-ALTER TABLE public.position_side_of_ball
-    OWNER to postgres;
 
 -- add data to the position_side_of_ball table
 insert into position_side_of_ball (id, name) values (1,'offense'), (2,'defense'), (3,'special teams');

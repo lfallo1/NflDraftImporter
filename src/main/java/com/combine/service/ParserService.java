@@ -34,7 +34,7 @@ import com.combine.model.WorkoutResult;
 public class ParserService {
 
 	private static final Logger logger = Logger.getLogger(ParserService.class);
-	private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2016/";
+	private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2017/";
 	private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
 	private static final String ASP_EXT = ".asp";
 	private static final String DRAFT_TEK = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2017";
@@ -278,6 +278,67 @@ public class ParserService {
 			int count = this.dataSourceLayer.addPlayers(players);
 			System.out.println(count + " records retrieved for " + year);	
 		}
+	}
+	
+	public void loadCombineDataForCbsSportsDraft() {
+
+		ArrayList<String> errors = new ArrayList<>();
+		String response = this.jsonService.loadJson("nfl_draft_2017_data.json");
+
+		JSONObject obj = new JSONObject(response);
+		JSONArray prospects = null;
+
+		try {
+			prospects = obj.getJSONArray("prospects");
+		} catch (Exception e) {
+			System.out.println("error");
+		}
+
+		for (int i = 0; i < prospects.length(); i++) {
+			System.out.println("parsing participant " + (i + 1) + " of " + prospects.length());
+			JSONObject prospect = prospects.getJSONObject(i);
+			boolean inserted = false;
+			try {
+				if(i == 191){
+					System.out.println("pause");
+				}
+				String firstname = prospect.getString("firstName").replaceAll("[^a-zA-Z]", "");
+				String lastname = prospect.getString("lastName").replaceAll("[^a-zA-Z]", "");
+				String college = prospect.getString("college");
+				String position = prospect.getString("position");
+				String conference = prospect.getString("conference");
+				
+				//specific adjustments
+				if(firstname.equals("JoJo")){
+					firstname = "Joe";
+				}
+				
+				Player p = this.conversionService.findPlayerByNflData(firstname, lastname, college, conference, position);
+				if(p != null){
+					p.setFortyYardDash(this.jsonService.getDoubleFromJSON(prospect, "fortyYardDash"));
+					p.setBenchPress(this.jsonService.getDoubleFromJSON(prospect, "benchPress"));
+					p.setVerticalJump(this.jsonService.getDoubleFromJSON(prospect, "verticalJump"));
+					p.setBroadJump(this.jsonService.getDoubleFromJSON(prospect, "broadJump"));
+					p.setThreeConeDrill(this.jsonService.getDoubleFromJSON(prospect, "threeConeDrill"));
+					p.setTwentyYardShuttle(this.jsonService.getDoubleFromJSON(prospect, "twentyYardShuttle"));
+					p.setSixtyYardShuttle(this.jsonService.getDoubleFromJSON(prospect, "sixtyYardShuttle"));
+					p.setArmLength(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength")));
+					p.setHandSize(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize")));
+					
+					inserted = this.dataSourceLayer.getCombineDao().updateWorkoutResults(p) > 0;
+				}
+
+			} catch (Exception e) {
+				logger.warn("Error adding participant: " + prospect.toString());
+			}
+			
+			if(!inserted){
+				errors.add("unable to find match for: " + prospect.toString());
+			}
+		}
+		
+		System.out.println("pause...");
+		
 	}
 
 	public void loadDraftTek() throws IOException{
