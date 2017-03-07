@@ -3,6 +3,7 @@ package com.combine.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,6 @@ import com.combine.model.College;
 import com.combine.model.Conference;
 import com.combine.model.Participant;
 import com.combine.model.Player;
-import com.combine.model.Position;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
 
@@ -64,7 +64,8 @@ public class ParserService {
 
 	public void parse() {
 		this.dataSourceLayer.clearDb();
-		List<Participant> participants = this.retrieveParticipants();
+//		List<Participant> participants = this.retrieveParticipants();
+		List<Participant> participants = new ArrayList<>();
 		List<WorkoutResult> workoutResults = this.getWorkoutResults();
 		this.dataSourceLayer.addParticipants(participants);
 		this.dataSourceLayer.addWorkoutResults(workoutResults);
@@ -136,47 +137,104 @@ public class ParserService {
 		}
 		return results;
 	}
+	
+	public void updateDraftPicks() {
 
-	public List<Participant> retrieveParticipants() {
-
-		String response = this.jsonService.loadJson("nfl_draft_2016_data.json");
-
-		List<Participant> participants = new ArrayList<>();
+		String response = this.jsonService.loadJson("2017_picks.json");
 		JSONObject obj = new JSONObject(response);
-		JSONArray prospects = null;
+		
+		List<Object> listObj = new ArrayList<>(obj.keySet());
+		Collections.sort(listObj, (a,b)->{
+			int val1 = obj.getJSONObject(a.toString()).getInt("rowkey");
+			int val2 = obj.getJSONObject(b.toString()).getInt("rowkey");
+			return val1 > val2 ? 1 : val1 < val2 ? -1 : 0;
+		});
+		
+		for (Object key : listObj) {
+			JSONObject draftpick = obj.getJSONObject(key.toString());
 
-		try {
-			prospects = obj.getJSONArray("prospects");
-		} catch (Exception e) {
-			System.out.println("error");
-		}
-
-		for (int i = 0; i < prospects.length(); i++) {
-			System.out.println("parsing participant " + (i + 1) + " of " + prospects.length());
-			JSONObject prospect = prospects.getJSONObject(i);
-			Participant p = new Participant();
 			try {
-				p.setId(this.jsonService.getIntFromJSON(prospect, "personId"));
-				p.setFirstname(this.jsonService.getStringFromJSON(prospect, "firstName"));
-				p.setLastname(this.jsonService.getStringFromJSON(prospect, "lastName"));
-				p.setPosition(Position.stringToId(this.jsonService.getStringFromJSON(prospect, "pos"),
-						this.dataSourceLayer.getCombineDao().getPositions()));
-				p.setCollege(this.jsonService.getIntFromJSON(prospect, "collegeid"));
-				p.setWeight(this.jsonService.getIntFromJSON(prospect, "weight"));
-				p.setHeight(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "height")));
-				p.setHands(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize")));
-				p.setArmLength(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength")));
-				p.setLink(this.jsonService.getStringFromJSON(prospect, "linkName"));
-				p.setExpertGrade(this.jsonService.getDoubleFromJSON(prospect, "expertGrade"));
-				p.setPick(this.jsonService.getIntFromJSON(prospect, "pick"));
-				this.parsePlayerInfo(p);
-				participants.add(p);
+				JSONObject player = draftpick.getJSONObject("player");
+				String firstname = this.jsonService.getStringFromJSON(player, "firstName");
+				String lastname = this.jsonService.getStringFromJSON(player, "lastName");
+				Integer round = draftpick.getInt("round");
+				Integer pick = draftpick.getInt("pick");
+				String team = draftpick.getJSONObject("team").getString("city");
+				
+				if(StringUtils.isEmpty(firstname)){
+					System.out.println("Stopping import at round " + round + " pick " + pick);
+					break;
+				}
+
+				Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+				if(p != null && (p.getRound() == null || p.getRound() == 0)){
+					p.setRound(round);
+					p.setPick(pick);
+					p.setTeam(team);
+					if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
+						System.out.println("Unable to find " + draftpick.toString());
+					}
+				}
+				
 			} catch (Exception e) {
-				logger.warn("Error adding participant: " + prospect.toString());
-				participants.add(p);
+				logger.warn("Error adding participant: " + draftpick.toString());
 			}
 		}
-		return participants;
+	}
+
+	public void retrieveParticipants() {
+
+		String response = this.jsonService.loadJson("2017_prospects.json");
+		List<String> errors = new ArrayList<>();
+		JSONObject obj = new JSONObject(response);
+		
+		int count = 1;
+		int total = 0;
+		for (Object key : obj.keySet()) {
+			System.out.println("parsing participant " + (count++) + " of " + obj.keySet().size());
+
+			JSONObject prospect = obj.getJSONObject(key.toString());
+			boolean inserted = false;
+			try {
+				
+				String firstname = this.jsonService.getStringFromJSON(prospect, "firstName");
+				String lastname = this.jsonService.getStringFromJSON(prospect, "lastName");
+
+				Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+				if(p != null){
+					double armLength = this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength"));
+					double handSize = this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize"));
+					if(armLength > 0 || handSize > 0){
+						p.setHandSize(handSize);
+						p.setArmLength(armLength);
+						inserted = this.dataSourceLayer.getCombineDao().updateArmLengthAndHandSize(p) > 0;
+					}
+				}
+			
+//				p.setPosition(Position.stringToId(this.jsonService.getStringFromJSON(prospect, "pos"),
+//						this.dataSourceLayer.getCombineDao().getPositions()));
+//				p.setCollege(this.jsonService.getIntFromJSON(prospect, "collegeid"));
+//				p.setWeight(this.jsonService.getIntFromJSON(prospect, "weight"));
+//				p.setHeight(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "height")));
+				
+//				p.setLink(this.jsonService.getStringFromJSON(prospect, "linkName"));
+//				p.setExpertGrade(this.jsonService.getDoubleFromJSON(prospect, "expertGrade"));
+//				p.setPick(this.jsonService.getIntFromJSON(prospect, "pick"));
+//				this.parsePlayerInfo(p);
+//				participants.add(p);
+				
+			} catch (Exception e) {
+				logger.warn("Error adding participant: " + prospect.toString());
+//				participants.add(p);
+			}
+			if(!inserted){
+				errors.add("unable to find match for or no data existed for: " + prospect.toString());
+			} else{
+				total++;
+			}
+		}
+		System.out.println("Found data for " + total + " players.");
+//		return participants;
 	}
 	
 	//given a string, variable name (the field to be interpolated), and a value, perform some dirty interpolation

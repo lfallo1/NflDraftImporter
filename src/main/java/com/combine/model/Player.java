@@ -27,6 +27,11 @@ public class Player {
 	private Double handSize;
 	private Double armLength;
 
+	// draft props
+	private Integer round;
+	private Integer pick;
+	private String team;
+
 	public Player() {
 		this.rank = 0;
 	}
@@ -222,6 +227,30 @@ public class Player {
 
 	public void setArmLength(Double armLength) {
 		this.armLength = armLength;
+	}
+
+	public Integer getRound() {
+		return round;
+	}
+
+	public void setRound(Integer round) {
+		this.round = round;
+	}
+
+	public Integer getPick() {
+		return pick;
+	}
+
+	public void setPick(Integer pick) {
+		this.pick = pick;
+	}
+
+	public String getTeam() {
+		return team;
+	}
+
+	public void setTeam(String team) {
+		this.team = team;
 	}
 
 }

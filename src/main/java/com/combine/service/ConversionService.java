@@ -32,28 +32,37 @@ public class ConversionService {
 		Pattern p3 = Pattern.compile("(\\d{1,2})\"");
 		Pattern p4 = Pattern.compile("(\\d+)(\\s)(\\d+)/(\\d+)");
 		Pattern p5 = Pattern.compile("(\\d+)-(\\d+)");
+		Pattern p6 = Pattern.compile("(\\d+)");
 		
 		Matcher m1 = p1.matcher(formattedInches);
 		Matcher m2 = p2.matcher(formattedInches);
 		Matcher m3 = p3.matcher(formattedInches);
 		Matcher m4 = p4.matcher(formattedInches);
 		Matcher m5 = p5.matcher(formattedInches);
+		Matcher m6 = p6.matcher(formattedInches);
 		
 		Double result = null;
-		if(m1.matches()){
-			result = Double.parseDouble(m1.group(1)) * 12 + Double.parseDouble(m1.group(2));
-		}
-		else if(m2.matches()){
-			result = Double.parseDouble(m2.group(1)) + ( Double.parseDouble(m2.group(3)) / Double.parseDouble(m2.group(4)) );
-		}
-		else if(m3.matches()){
-			result = Double.parseDouble(m3.group(1));
-		}
-		else if(m4.matches()){
-			result = Double.parseDouble(m4.group(1)) + ( Double.parseDouble(m4.group(3)) / Double.parseDouble(m4.group(4)) );
-		}
-		else if(m5.matches()){
-			result = Double.parseDouble(m5.group(1)) * 12 + Double.parseDouble(m5.group(2));
+		try{
+			if(m1.matches()){
+				result = Double.parseDouble(m1.group(1)) * 12 + Double.parseDouble(m1.group(2));
+			}
+			else if(m2.matches()){
+				result = Double.parseDouble(m2.group(1)) + ( Double.parseDouble(m2.group(3)) / Double.parseDouble(m2.group(4)) );
+			}
+			else if(m3.matches()){
+				result = Double.parseDouble(m3.group(1));
+			}
+			else if(m6.matches()){
+				result = Double.parseDouble(m6.group(1));
+			}
+			else if(m4.matches()){
+				result = Double.parseDouble(m4.group(1)) + ( Double.parseDouble(m4.group(3)) / Double.parseDouble(m4.group(4)) );
+			}
+			else if(m5.matches()){
+				result = Double.parseDouble(m5.group(1)) * 12 + Double.parseDouble(m5.group(2));
+			}
+		} catch(Exception e){
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -235,4 +244,5 @@ public class ConversionService {
 		return this.dataSourceLayer.getCombineDao().findByAttributes(firstname.toLowerCase(), lastname.toLowerCase(),
 				college.toLowerCase(), conference.toLowerCase(), position.toLowerCase());
 	}
+	
 }

@@ -79,8 +79,12 @@ public class CombineDao {
 	private static final String[] FIND_BY_ATTRIBUTE_QUERIES = new String[]{FIND_PLAYER_BY_FULLNAME_AND_COLLEGE, FIND_PLAYER_BY_NAME, FIND_PLAYER_BY_FIRSTNAME_POSITION_COLLEGE, FIND_PLAYER_BY_LASTNAME_POSITION_COLLEGE, FIND_PLAYER_BY_FIRSTNAME_POSITION_CONFERENCE, FIND_PLAYER_BY_LASTNAME_POSITION_CONFERENCE};
 	
 	private static final String UPDATE_WORKOUT_RESULTS = "UPDATE player set forty_yard_dash = ?, bench_press = ?, vertical_jump = ?, broad_jump = ?, " + 
-			"three_cone_drill = ?, twenty_yard_shuttle = ?, sixty_yard_shuttle = ?, hand_size = ?, arm_length = ? " +
+			"three_cone_drill = ?, twenty_yard_shuttle = ?, sixty_yard_shuttle = ?" +
 			"where id = ?;";
+	
+	private static final String UPDATE_ARMLENGTH_HANDSIZE = "UPDATE player set hand_size = ?, arm_length = ? where id = ?;";
+	
+	private static final String UPDATE_DRAFT_PICK = "UPDATE player set round = ?, pick = ?, team = ? where id = ?";
 	
 	private static final RowMapper<Player> PLAYER_ID_ROW_MAPPER = new RowMapper<Player>(){
 	
@@ -88,6 +92,7 @@ public class CombineDao {
 		public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Player player = new Player();
 			player.setId(rs.getInt("id"));
+			player.setRound(rs.getInt("round"));
 			return player;				
 		}
 
@@ -226,6 +231,14 @@ public class CombineDao {
 	public int updateWorkoutResults(Player player) {
 		return this.jdbcTemplate.update(UPDATE_WORKOUT_RESULTS, new Object[]{player.getFortyYardDash(), player.getBenchPress(),
 				player.getVerticalJump(), player.getBroadJump(), player.getThreeConeDrill(), player.getTwentyYardShuttle(),
-				player.getSixtyYardShuttle(), player.getHandSize(), player.getArmLength(), player.getId()});
+				player.getSixtyYardShuttle(), player.getId()});
+	}
+	
+	public int updateArmLengthAndHandSize(Player player) {
+		return this.jdbcTemplate.update(UPDATE_ARMLENGTH_HANDSIZE, new Object[]{player.getHandSize(), player.getArmLength(), player.getId()});
+	}
+
+	public int updatePick(Player p) {
+		return this.jdbcTemplate.update(UPDATE_DRAFT_PICK, new Object[]{p.getRound(), p.getPick(), p.getTeam(), p.getId()});
 	}
 }
