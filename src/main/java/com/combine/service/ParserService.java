@@ -144,7 +144,7 @@ public class ParserService {
 	 * get the picks / prospects json objects from nfl.com script
 	 * @return
 	 */
-	public Map<String, JSONObject> loadDraftPicksJs(){
+	private Map<String, JSONObject> loadDraftPicksJs(){
 		Map<String, JSONObject> map = new HashMap<>();
 		try {
 			
