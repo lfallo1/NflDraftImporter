@@ -117,4 +117,13 @@ public class JSONService {
 		workbook.write(fos);
 		fos.close();
 	}
+
+	public JSONObject findByKey(JSONObject prospects, String playerId) {
+		for(Object key : prospects.keySet()){
+			if(key.toString().equals(playerId)){
+				return prospects.getJSONObject(key.toString());
+			}
+		}
+		return null;
+	}
 }

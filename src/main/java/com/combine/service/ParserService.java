@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,6 +34,7 @@ import com.combine.model.WorkoutResult;
 
 public class ParserService {
 
+	private static final int DRAFT_LISTENER_WAIT_TIME = 120000; //2 minutes in ms
 	private static final Logger logger = Logger.getLogger(ParserService.class);
 	private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2017/";
 	private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
@@ -138,48 +140,148 @@ public class ParserService {
 		return results;
 	}
 	
-	public void updateDraftPicks() {
-
-		String response = this.jsonService.loadJson("2017_picks.json");
-		JSONObject obj = new JSONObject(response);
-		
-		List<Object> listObj = new ArrayList<>(obj.keySet());
-		Collections.sort(listObj, (a,b)->{
-			int val1 = obj.getJSONObject(a.toString()).getInt("rowkey");
-			int val2 = obj.getJSONObject(b.toString()).getInt("rowkey");
-			return val1 > val2 ? 1 : val1 < val2 ? -1 : 0;
-		});
-		
-		for (Object key : listObj) {
-			JSONObject draftpick = obj.getJSONObject(key.toString());
-
-			try {
-				JSONObject player = draftpick.getJSONObject("player");
-				String firstname = this.jsonService.getStringFromJSON(player, "firstName");
-				String lastname = this.jsonService.getStringFromJSON(player, "lastName");
-				Integer round = draftpick.getInt("round");
-				Integer pick = draftpick.getInt("pick");
-				String team = draftpick.getJSONObject("team").getString("city");
+	/**
+	 * get the picks / prospects json objects from nfl.com script
+	 * @return
+	 */
+	public Map<String, JSONObject> loadDraftPicksJs(){
+		Map<String, JSONObject> map = new HashMap<>();
+		try {
+			
+			//load the doc
+			Document doc = Jsoup.connect("http://www.nfl.com/draft/2017/tracker?icampaign=draft-sub_nav_bar-drafteventpage-tracker").timeout(3000).get();
+			
+			boolean found = false;
+			boolean hasNext = true;
+			int startIdx = 0;
+			JSONObject prospects = new JSONObject();
+			JSONObject picks = new JSONObject();
+			while(!found && hasNext){
 				
-				if(StringUtils.isEmpty(firstname)){
-					System.out.println("Stopping import at round " + round + " pick " + pick);
-					break;
-				}
-
-				Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
-				if(p != null && (p.getRound() == null || p.getRound() == 0)){
-					p.setRound(round);
-					p.setPick(pick);
-					p.setTeam(team);
-					if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
-						System.out.println("Unable to find " + draftpick.toString());
+				//find the text nfl.global.dt.data
+				int index = doc.toString().indexOf("nfl.global.dt.data", startIdx);
+				
+				//if not found (hopefully this doesn't happen), then break out
+				if(index < 0){
+					hasNext = false;
+				} else{
+					
+					//get the text from the variable name to the end of the statement (terminated by a semi-colon)
+					String json = doc.toString().substring(index, doc.toString().indexOf(";", index));
+					
+					//get the start index by finding the first opene bracket after the variable name
+					int start = json.indexOf("{") - 1;
+					JSONObject obj = new JSONObject(json.substring(start));
+					
+					try{
+						
+						//parse the two objects & break out of the loop
+						prospects = obj.getJSONObject("prospects");
+						picks = obj.getJSONObject("picks");
+						found = true;
+					} catch(JSONException e){
+						startIdx = index + 1;
 					}
-				}
+				}	
+			}
+			
+			System.out.println("found " + prospects.keySet().size() + " prospects");
+			System.out.println("found " + picks.keySet().size() + " picks");
+			map.put("prospects", prospects);
+			map.put("picks", picks);
+			return map;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Retrieves draft info from nfl.com script file, and updates player table in db with the draft information (pick / round / team).
+	 * Method waits two minutes before getting an updated version of the script data.
+	 * Just a convenience method so I don't need to continually run this manually.
+	 * 
+	 */
+	public void updateDraftPicks() {
+		boolean running = true;
+		while(running){
+			
+			//load the draft "picks" json object
+			Map<String, JSONObject> map = loadDraftPicksJs(); 
+			JSONObject picks = map.get("picks");
+			JSONObject prospects = map.get("prospects");
+			
+			//if not null
+			if(picks != null){
 				
-			} catch (Exception e) {
-				logger.warn("Error adding participant: " + draftpick.toString());
+				//save the keyset into a list for sorting (allows for prompt exiting... once first empty pick reached, can stop execution)
+				List<Object> listObj = new ArrayList<>(picks.keySet());
+				Collections.sort(listObj, (a,b)->{
+					Integer num1 = Integer.parseInt(a.toString());
+					Integer num2 = Integer.parseInt(b.toString());
+					return num1 > num2 ? 1 : num1 < num2 ? -1 : 0;
+				});
+				
+				//loop over each key (1 through 253 [total number of picks])
+				for (Object key : listObj) {
+					
+					//get the object
+					JSONObject pick = picks.getJSONObject(key.toString());
+	
+					try {
+						
+						//try to load the player info for the pick.  this will throw an error if the pick hasn't been made yet, and the app will wait 2 minutes,
+						//before loading the js file & trying again
+						String playerId = pick.getString("player");
+						if(StringUtils.isEmpty(playerId)){
+							//note that player should be null (which will result in the catch block being reached.
+							//but if it's an empty string, this extra check is here
+							throw new JSONException("Reached current pick: " + key.toString());
+						}
+						
+						//if a player was found, then find the player details via the playerid on the pick object
+						JSONObject player = this.jsonService.findByKey(prospects, playerId);
+						if(player != null){
+							
+							//get the player name, and also set the draft pick info
+							String firstname = this.jsonService.getStringFromJSON(player, "firstName");
+							String lastname = this.jsonService.getStringFromJSON(player, "lastName");
+							Integer roundNumber = pick.getInt("round");
+							Integer pickNumber = pick.getInt("pick");
+							String team = pick.getString("team");
+		
+							//lookup the player in the app's draft db
+							Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+							if(p != null && (p.getRound() == null || p.getRound() == 0)){
+								
+								//update the draft fields for the player
+								p.setRound(roundNumber);
+								p.setPick(pickNumber);
+								p.setTeam(team);
+								if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
+									System.out.println("Unable to find " + pick.toString());
+								}
+							}
+						}
+						
+					} catch (NullPointerException | JSONException e) {
+						
+						//on an error, break out of the loop
+						logger.warn("Reached current pick: " + key.toString());
+						break;
+					}
+				}			
+			}
+			
+			try {
+				Thread.sleep(DRAFT_LISTENER_WAIT_TIME);
+			} catch (InterruptedException e) {
+				running = false;
+				e.printStackTrace();
 			}
 		}
+
 	}
 
 	public void retrieveParticipants() {
@@ -365,11 +467,6 @@ public class ParserService {
 				String college = prospect.getString("college");
 				String position = prospect.getString("position");
 				String conference = prospect.getString("conference");
-				
-				//specific adjustments
-				if(firstname.equals("JoJo")){
-					firstname = "Joe";
-				}
 				
 				Player p = this.conversionService.findPlayerByNflData(firstname, lastname, college, conference, position);
 				if(p != null){

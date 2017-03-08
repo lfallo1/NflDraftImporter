@@ -16,6 +16,7 @@ public class Driver {
 		
 		//static/site/7.4/scripts/combine/participants.js --> dataSrc = new Y2.util.DataSource(playersDataSet);
 		//http://www.nfl.com/draft/<<Year>>/tracker#dt-tabs:dt-by-round --- if(typeof nfl.global.dt.writer !== 'undefined'){ ... nfl.draft.tracker.data.*
+		// Object.keys(jsonArray).length;
 		
 //		parser.insertColleges();
 //		parser.parse();

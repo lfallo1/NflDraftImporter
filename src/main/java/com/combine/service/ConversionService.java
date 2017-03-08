@@ -241,6 +241,11 @@ public class ConversionService {
 	public Player findPlayerByNflData(String firstname, String lastname, String college, String conference,
 			String position) {
 		
+		//specific adjustments
+		if(firstname.equals("JoJo")){
+			firstname = "Joe";
+		}
+		
 		return this.dataSourceLayer.getCombineDao().findByAttributes(firstname.toLowerCase(), lastname.toLowerCase(),
 				college.toLowerCase(), conference.toLowerCase(), position.toLowerCase());
 	}
