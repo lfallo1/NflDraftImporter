@@ -7,12 +7,13 @@ import com.combine.service.ParserService;
 
 public class Driver {
 
-	public static void main(String[] args) throws IOException{		
+	public static void main(String[] args) throws IOException{	
+		
 		DataSourceLayer dataSource = DataSourceLayer.getInstance();
 		ParserService parser = new ParserService(dataSource);
 //		parser.loadCombineDataForCbsSportsDraft();
 //		parser.retrieveParticipants();
-		parser.updateDraftPicks();
+//		parser.updateDraftPicks();
 		
 		//static/site/7.4/scripts/combine/participants.js --> dataSrc = new Y2.util.DataSource(playersDataSet);
 		//http://www.nfl.com/draft/<<Year>>/tracker#dt-tabs:dt-by-round --- if(typeof nfl.global.dt.writer !== 'undefined'){ ... nfl.draft.tracker.data.*
@@ -22,7 +23,7 @@ public class Driver {
 //		parser.parse();
 		
 //		ParserService parser = new ParserService();
-//		parser.loadCbsSportsDraft();
+		parser.loadCbsSportsDraft();
 //		parser.loadDraftTek();
 		
 //		JSONService jsonService = new JSONService();

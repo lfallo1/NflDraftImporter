@@ -173,7 +173,8 @@ public class ConversionService {
 			} else if(value.contains("State")){
 				return colleges.stream()
 					.filter(c-> {
-						return c.getName().contains("St") && c.getName().replaceAll("St", "State").equals(value);
+						return (c.getName().contains("St") && c.getName().replaceAll("St", "State").equals(value)) ||
+								(c.getName().contains("St.") && c.getName().replaceAll("St.", "State").equals(value));
 					})
 					.map(c->c.getId())
 					.findFirst()

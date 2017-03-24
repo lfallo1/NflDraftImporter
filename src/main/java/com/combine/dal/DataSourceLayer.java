@@ -48,15 +48,15 @@ public class DataSourceLayer {
 
 	private static DataSource getDataSource(){
 		BasicDataSource ds = new BasicDataSource();
-		ds.setUrl("jdbc:postgresql://127.0.0.1:5432/NflCombine");
-		ds.setUsername("postgres");
-		ds.setPassword("admin");
-		ds.setDriverClassName("org.postgresql.Driver");
-		
-//		ds.setUrl("jdbc:postgresql://127.0.0.1:5433/nflcapsi_draft");
-//		ds.setUsername("nflcapsi_postgres");
-//		ds.setPassword("Raven$1996");
+//		ds.setUrl("jdbc:postgresql://127.0.0.1:5432/NflCombine");
+//		ds.setUsername("postgres");
+//		ds.setPassword("admin");
 //		ds.setDriverClassName("org.postgresql.Driver");
+		
+		ds.setUrl("jdbc:postgresql://127.0.0.1:5433/nflcapsi_draft");
+		ds.setUsername("nflcapsi_postgres");
+		ds.setPassword("Raven$1996");
+		ds.setDriverClassName("org.postgresql.Driver");
 		
         return ds;
 	}

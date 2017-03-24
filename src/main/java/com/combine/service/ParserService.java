@@ -401,6 +401,9 @@ public class ParserService {
 								}
 							}
 							else if("School".equals(currentHeader)){
+								if(value.toLowerCase().contains("michigan s")){
+									System.out.println("pause...");
+								}
 								player.setCollege(this.conversionService.collegeNameToId(value.replace("amp;", "")));
 								player.setCollegeText(value.replace("amp;", ""));
 							}
@@ -425,6 +428,7 @@ public class ParserService {
 					
 					//if not a bogus record, add to list
 					if(!StringUtils.isEmpty(player.getName()) && player.getName().length() > 2){
+						player.setName(player.getName().replaceAll("\\*", ""));
 						player.setYear(year);
 						player.setPosition(positionCategory);
 						player.setImportUUID(importUUID);
@@ -459,9 +463,6 @@ public class ParserService {
 			JSONObject prospect = prospects.getJSONObject(i);
 			boolean inserted = false;
 			try {
-				if(i == 191){
-					System.out.println("pause");
-				}
 				String firstname = prospect.getString("firstName").replaceAll("[^a-zA-Z]", "");
 				String lastname = prospect.getString("lastName").replaceAll("[^a-zA-Z]", "");
 				String college = prospect.getString("college");
