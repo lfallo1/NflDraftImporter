@@ -1,6 +1,9 @@
 package com.combine.service;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +16,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +35,7 @@ import com.combine.model.Participant;
 import com.combine.model.Player;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
+import com.google.gson.Gson;
 
 public class ParserService {
 
@@ -146,55 +151,66 @@ public class ParserService {
 	 */
 	private Map<String, JSONObject> loadDraftPicksJs(){
 		Map<String, JSONObject> map = new HashMap<>();
-		try {
+//		try {
 			
 			//load the doc
-			Document doc = Jsoup.connect("http://www.nfl.com/draft/2017/tracker?icampaign=draft-sub_nav_bar-drafteventpage-tracker").timeout(3000).get();
-			
-			boolean found = false;
-			boolean hasNext = true;
-			int startIdx = 0;
-			JSONObject prospects = new JSONObject();
-			JSONObject picks = new JSONObject();
-			while(!found && hasNext){
+//			Document doc = Jsoup.connect("http://www.nfl.com/draft/2017/tracker?icampaign=draft-sub_nav_bar-drafteventpage-tracker").timeout(3000).get();
+//			
+//			boolean found = false;
+//			boolean hasNext = true;
+//			int startIdx = 0;
+//			JSONObject prospects = new JSONObject();
+//			JSONObject picks = new JSONObject();
+//			while(!found && hasNext){
 				
 				//find the text nfl.global.dt.data
-				int index = doc.toString().indexOf("nfl.global.dt.data", startIdx);
+//				int index = doc.toString().indexOf("nfl.global.dt.data", startIdx);
 				
 				//if not found (hopefully this doesn't happen), then break out
-				if(index < 0){
-					hasNext = false;
-				} else{
+//				if(index < 0){
+//					hasNext = false;
+//				} else{
 					
 					//get the text from the variable name to the end of the statement (terminated by a semi-colon)
-					String json = doc.toString().substring(index, doc.toString().indexOf(";", index));
+//					String json = doc.toString().substring(index, doc.toString().indexOf(";", index));
 					
 					//get the start index by finding the first opene bracket after the variable name
-					int start = json.indexOf("{") - 1;
-					JSONObject obj = new JSONObject(json.substring(start));
+//					int start = json.indexOf("{") - 1;
+//					JSONObject obj = new JSONObject(json.substring(start));
 					
 					try{
 						
 						//parse the two objects & break out of the loop
-						prospects = obj.getJSONObject("prospects");
-						picks = obj.getJSONObject("picks");
-						found = true;
-					} catch(JSONException e){
-						startIdx = index + 1;
+//							
+						JSONObject picks = new JSONObject(IOUtils.toString(new URL("http://www.nfl.com/liveupdate/draft/2017/draft.dtd.json"))).getJSONObject("picks");
+//						URL url = new URL("http://www.nfl.com/liveupdate/draft/2017/draft.dtd.json");
+//						InputStreamReader reader = new InputStreamReader(url.openStream());
+//				        String picksString = new Gson().fromJson(reader, String.class);
+
+//						Document doc = Jsoup.connect("http://www.nfl.com/liveupdate/draft/2017/draft.dtd.json").ignoreContentType(true).timeout(3000).get();
+//						String picksString = doc.toString();
+						String prospectsString = this.jsonService.loadJson("2017_prospects.json");
+						JSONObject prospects = new JSONObject(prospectsString);
+//						JSONObject picks = new JSONObject(picksString);
+						System.out.println("found " + prospects.keySet().size() + " prospects");
+						System.out.println("found " + picks.keySet().size() + " picks");
+						map.put("prospects", prospects);
+						map.put("picks", picks);
+						return map;
+//						found = true;
+					} catch(JSONException | IOException e){
+						System.out.println(e.getMessage());
+						return map;
 					}
-				}	
-			}
+//				}	
+//			}
 			
-			System.out.println("found " + prospects.keySet().size() + " prospects");
-			System.out.println("found " + picks.keySet().size() + " picks");
-			map.put("prospects", prospects);
-			map.put("picks", picks);
-			return map;
+
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
 	}
 	
 	/**
@@ -233,7 +249,9 @@ public class ParserService {
 						
 						//try to load the player info for the pick.  this will throw an error if the pick hasn't been made yet, and the app will wait 2 minutes,
 						//before loading the js file & trying again
-						String playerId = pick.getString("player");
+//						JSONObject playerObj = pick.getString("player");
+//						String playerId = String.valueOf(pick.getInt("personId"));
+						String playerId = String.valueOf(pick.getString("player"));
 						if(StringUtils.isEmpty(playerId)){
 							//note that player should be null (which will result in the catch block being reached.
 							//but if it's an empty string, this extra check is here
@@ -245,15 +263,17 @@ public class ParserService {
 						if(player != null){
 							
 							//get the player name, and also set the draft pick info
-							String firstname = this.jsonService.getStringFromJSON(player, "firstName");
-							String lastname = this.jsonService.getStringFromJSON(player, "lastName");
+							String firstname = this.jsonService.getStringFromJSON(player, "firstName").replaceAll("[\\./*']","");
+							String lastname = this.jsonService.getStringFromJSON(player, "lastName").replaceAll("[\\./*']","");
 							Integer roundNumber = pick.getInt("round");
 							Integer pickNumber = pick.getInt("pick");
+//							String team = pick.getJSONObject("team").getString("nickname");
 							String team = pick.getString("team");
 		
 							//lookup the player in the app's draft db
 							Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
-							if(p != null && (p.getRound() == null || p.getRound() == 0)){
+//							if(p != null && (p.getRound() == null || p.getRound() == 0)){
+							if(p != null){
 								
 								//update the draft fields for the player
 								p.setRound(roundNumber);
@@ -262,6 +282,8 @@ public class ParserService {
 								if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
 									System.out.println("Unable to find " + pick.toString());
 								}
+							} else{
+								System.out.println("Already added " + key.toString() +": " + pick.toString());
 							}
 						}
 						
@@ -428,7 +450,7 @@ public class ParserService {
 					
 					//if not a bogus record, add to list
 					if(!StringUtils.isEmpty(player.getName()) && player.getName().length() > 2){
-						player.setName(player.getName().replaceAll("\\*", ""));
+						player.setName(player.getName().replaceAll("[/*']", ""));
 						player.setYear(year);
 						player.setPosition(positionCategory);
 						player.setImportUUID(importUUID);
