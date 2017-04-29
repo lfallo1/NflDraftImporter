@@ -1,12 +1,11 @@
 package com.combine.service;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,11 +34,10 @@ import com.combine.model.Participant;
 import com.combine.model.Player;
 import com.combine.model.Workout;
 import com.combine.model.WorkoutResult;
-import com.google.gson.Gson;
 
 public class ParserService {
 
-	private static final int DRAFT_LISTENER_WAIT_TIME = 120000; //2 minutes in ms
+	private static final int DRAFT_LISTENER_WAIT_TIME = 30000; //2 minutes in ms
 	private static final Logger logger = Logger.getLogger(ParserService.class);
 	private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2017/";
 	private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
@@ -149,7 +147,7 @@ public class ParserService {
 	 * get the picks / prospects json objects from nfl.com script
 	 * @return
 	 */
-	private Map<String, JSONObject> loadDraftPicksJs(){
+	private Map<String, JSONObject> loadDraftPicksJs(boolean isProspectsNull){
 		Map<String, JSONObject> map = new HashMap<>();
 //		try {
 			
@@ -183,19 +181,24 @@ public class ParserService {
 						//parse the two objects & break out of the loop
 //							
 						JSONObject picks = new JSONObject(IOUtils.toString(new URL("http://www.nfl.com/liveupdate/draft/2017/draft.dtd.json"))).getJSONObject("picks");
+						System.out.println("found " + picks.keySet().size() + " picks");						
+						map.put("picks", picks);
+						
 //						URL url = new URL("http://www.nfl.com/liveupdate/draft/2017/draft.dtd.json");
 //						InputStreamReader reader = new InputStreamReader(url.openStream());
 //				        String picksString = new Gson().fromJson(reader, String.class);
 
 //						Document doc = Jsoup.connect("http://www.nfl.com/liveupdate/draft/2017/draft.dtd.json").ignoreContentType(true).timeout(3000).get();
 //						String picksString = doc.toString();
-						String prospectsString = this.jsonService.loadJson("2017_prospects.json");
-						JSONObject prospects = new JSONObject(prospectsString);
 //						JSONObject picks = new JSONObject(picksString);
-						System.out.println("found " + prospects.keySet().size() + " prospects");
-						System.out.println("found " + picks.keySet().size() + " picks");
-						map.put("prospects", prospects);
-						map.put("picks", picks);
+
+						if(isProspectsNull){
+							String prospectsString = this.jsonService.loadJson("2017_prospects.json");
+							JSONObject prospects = new JSONObject(prospectsString);
+							System.out.println("found " + prospects.keySet().size() + " prospects");
+							map.put("prospects", prospects);
+						}
+						
 						return map;
 //						found = true;
 					} catch(JSONException | IOException e){
@@ -221,12 +224,16 @@ public class ParserService {
 	 */
 	public void updateDraftPicks() {
 		boolean running = true;
+		JSONObject prospects = null;
 		while(running){
+			System.out.println("polling for new draft data: " + new Date().toString() + "\r\n");
 			
 			//load the draft "picks" json object
-			Map<String, JSONObject> map = loadDraftPicksJs(); 
+			Map<String, JSONObject> map = loadDraftPicksJs(prospects == null); 
 			JSONObject picks = map.get("picks");
-			JSONObject prospects = map.get("prospects");
+			if(prospects == null){
+				prospects = map.get("prospects");
+			}
 			
 			//if not null
 			if(picks != null){
@@ -272,8 +279,8 @@ public class ParserService {
 		
 							//lookup the player in the app's draft db
 							Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
-//							if(p != null && (p.getRound() == null || p.getRound() == 0)){
-							if(p != null){
+							if(p != null && (p.getRound() == null || p.getRound() == 0)){
+//							if(p != null){
 								
 								//update the draft fields for the player
 								p.setRound(roundNumber);
@@ -281,6 +288,8 @@ public class ParserService {
 								p.setTeam(team);
 								if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
 									System.out.println("Unable to find " + pick.toString());
+								} else{
+									System.out.println("pick " + key.toString() + " added. " + pick.toString());
 								}
 							} else{
 								System.out.println("Already added " + key.toString() +": " + pick.toString());
@@ -297,6 +306,7 @@ public class ParserService {
 			}
 			
 			try {
+				System.out.println("end poll: waiting 30 seconds - " + new Date().toString());
 				Thread.sleep(DRAFT_LISTENER_WAIT_TIME);
 			} catch (InterruptedException e) {
 				running = false;
