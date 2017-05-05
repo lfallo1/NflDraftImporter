@@ -225,8 +225,9 @@ public class ParserService {
 	public void updateDraftPicks() {
 		boolean running = true;
 		JSONObject prospects = null;
+		int currentPick = 0;
 		while(running){
-			System.out.println("polling for new draft data: " + new Date().toString() + "\r\n");
+			System.out.println("polling for new draft data: " + new Date().toString());
 			
 			//load the draft "picks" json object
 			Map<String, JSONObject> map = loadDraftPicksJs(prospects == null); 
@@ -249,64 +250,67 @@ public class ParserService {
 				//loop over each key (1 through 253 [total number of picks])
 				for (Object key : listObj) {
 					
-					//get the object
-					JSONObject pick = picks.getJSONObject(key.toString());
-	
-					try {
+					if(Integer.parseInt(key.toString()) > currentPick){
 						
-						//try to load the player info for the pick.  this will throw an error if the pick hasn't been made yet, and the app will wait 2 minutes,
-						//before loading the js file & trying again
-//						JSONObject playerObj = pick.getString("player");
-//						String playerId = String.valueOf(pick.getInt("personId"));
-						String playerId = String.valueOf(pick.getString("player"));
-						if(StringUtils.isEmpty(playerId)){
-							//note that player should be null (which will result in the catch block being reached.
-							//but if it's an empty string, this extra check is here
-							throw new JSONException("Reached current pick: " + key.toString());
-						}
-						
-						//if a player was found, then find the player details via the playerid on the pick object
-						JSONObject player = this.jsonService.findByKey(prospects, playerId);
-						if(player != null){
-							
-							//get the player name, and also set the draft pick info
-							String firstname = this.jsonService.getStringFromJSON(player, "firstName").replaceAll("[\\./*']","");
-							String lastname = this.jsonService.getStringFromJSON(player, "lastName").replaceAll("[\\./*']","");
-							Integer roundNumber = pick.getInt("round");
-							Integer pickNumber = pick.getInt("pick");
-//							String team = pick.getJSONObject("team").getString("nickname");
-							String team = pick.getString("team");
+						//get the object
+						JSONObject pick = picks.getJSONObject(key.toString());
 		
-							//lookup the player in the app's draft db
-							Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
-							if(p != null && (p.getRound() == null || p.getRound() == 0)){
-//							if(p != null){
-								
-								//update the draft fields for the player
-								p.setRound(roundNumber);
-								p.setPick(pickNumber);
-								p.setTeam(team);
-								if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
-									System.out.println("Unable to find " + pick.toString());
-								} else{
-									System.out.println("pick " + key.toString() + " added. " + pick.toString());
-								}
-							} else{
-								System.out.println("Already added " + key.toString() +": " + pick.toString());
+						try {
+							
+							//try to load the player info for the pick.  this will throw an error if the pick hasn't been made yet, and the app will wait 2 minutes,
+							//before loading the js file & trying again
+//							JSONObject playerObj = pick.getString("player");
+//							String playerId = String.valueOf(pick.getInt("personId"));
+							String playerId = String.valueOf(pick.getString("player"));
+							if(StringUtils.isEmpty(playerId)){
+								//note that player should be null (which will result in the catch block being reached.
+								//but if it's an empty string, this extra check is here
+								throw new JSONException("Reached current pick: " + key.toString());
 							}
-						}
-						
-					} catch (NullPointerException | JSONException e) {
-						
-						//on an error, break out of the loop
-						logger.warn("Reached current pick: " + key.toString());
-						break;
+							
+							//if a player was found, then find the player details via the playerid on the pick object
+							JSONObject player = this.jsonService.findByKey(prospects, playerId);
+							if(player != null){
+								currentPick = Integer.parseInt(key.toString());
+								//get the player name, and also set the draft pick info
+								String firstname = this.jsonService.getStringFromJSON(player, "firstName").replaceAll("[\\./*']","");
+								String lastname = this.jsonService.getStringFromJSON(player, "lastName").replaceAll("[\\./*']","");
+								Integer roundNumber = pick.getInt("round");
+								Integer pickNumber = pick.getInt("pick");
+//								String team = pick.getJSONObject("team").getString("nickname");
+								String team = pick.getString("team");
+			
+								//lookup the player in the app's draft db
+								Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+								if(p != null && (p.getRound() == null || p.getRound() == 0)){
+//								if(p != null){
+									
+									//update the draft fields for the player
+									p.setRound(roundNumber);
+									p.setPick(pickNumber);
+									p.setTeam(team);
+									if(this.dataSourceLayer.getCombineDao().updatePick(p) < 1){
+										System.out.println("Unable to find " + pick.toString());
+									} else{
+										System.out.println("pick " + key.toString() + " added. " + pick.toString());
+									}
+								} else{
+									System.out.println("Already added " + key.toString() +": " + pick.toString());
+								}
+							}
+							
+						} catch (NullPointerException | JSONException e) {
+							
+							//on an error, break out of the loop
+							logger.warn("Reached current pick: " + key.toString());
+							break;
+						}	
 					}
 				}			
 			}
 			
 			try {
-				System.out.println("end poll: waiting 30 seconds - " + new Date().toString());
+				System.out.println("end poll: waiting 30 seconds - " + new Date().toString() + "\r\n");
 				Thread.sleep(DRAFT_LISTENER_WAIT_TIME);
 			} catch (InterruptedException e) {
 				running = false;
@@ -381,7 +385,7 @@ public class ParserService {
 		
 		String importUUID = UUID.randomUUID().toString();
 		
-		for(int year = 2017; year <= 2020; year++){
+		for(int year = 2018; year <= 2018; year++){
 			
 			String url = interpolate(CBS_SPORTS_DRAFT, "year", String.valueOf(year));
 			for(String positionCategory : ALL_POSITIONS){
@@ -423,6 +427,9 @@ public class ParserService {
 									player.setName(value.substring(0,value.indexOf("<")));
 								} else{
 									player.setName(value);
+								}
+								if(value.toLowerCase().contains("copeland")){
+									System.out.println("test");
 								}
 							}
 							else if("Pos. Rank".equals(currentHeader)){
