@@ -6,20 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.springframework.util.StringUtils;
 
 import com.combine.profootballref.weekly.dto.GameScoringPlay;
-import com.combine.profootballref.weekly.dto.PlayType;
 import com.combine.profootballref.weekly.dto.WeeklyStats;
 import com.combine.profootballref.weekly.dto.WeeklyStatsDefense;
 import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
@@ -32,7 +28,6 @@ import com.combine.profootballref.weekly.model.Team;
 import com.combine.service.GenericsService;
 import com.combine.service.HttpService;
 import com.combine.service.TableMapperService;
-import com.combine.util.StringWrapper;
 
 /**
  * Service to retrieve data from Pro football reference
@@ -41,6 +36,39 @@ import com.combine.util.StringWrapper;
  *
  */
 public class ProFootballRefService {
+	
+	String[] PLAY_TYPES = new String[]{"PASS","RUSH","PUNT","KOFF","ONSD","FG","XP","2PCR","2PCP"};
+	String IS_COMPLETE = "&is_complete="; // passes
+	String IS_SCORING_PLAY = "&is_scoring="; // any
+	String IS_FIRSTDOWN = "&is_first_down="; //passes / rushes
+	String IS_SACK = "&is_sack="; //passes
+	String IS_TURNOVER = "&is_turnover="; // any
+	String TURNOVER_TYPE = "&turnover_type="; // tunovers
+	int[] TRUE_FALSE_OPTIONS = new int[]{0,1}; 
+	
+	
+	/**
+	 * PlayTypes:
+PASS,RUSH,PUNT,KOFF,ONSD,FG,XP,2PCR,2PCP
+
+
+RUSH:
+LE
+LT
+LG
+M
+RG
+RT
+RE
+
+PASS:
+SL
+SM
+SR
+DL
+DM
+DR
+	 */
 
 	public static final String SEASON_TYPE_REGULAR = "R";
 	public static final String SEASON_TYPE_PLAYOFFS = "P";
@@ -75,6 +103,8 @@ public class ProFootballRefService {
 			+ "/play-index/tgl_finder.cgi?request=1&match=game&year_min=${year}&year_max=${year}&game_type=${gameType}&game_num_min=0&game_num_max=25&week_num_min=0&week_num_max=25&team_conf_id=All+Conferences&team_div_id=All+Divisions&opp_conf_id=All+Conferences&opp_div_id=All+Divisions&team_off_scheme=Any+Scheme&team_def_align=Any+Alignment&opp_off_scheme=Any+Scheme&opp_def_align=Any+Alignment&c1stat=quarter_1_score_tgl&c1comp=gt&c2stat=pass_cmp&c2comp=gt&c3stat=first_down&c3comp=gt&c4stat=penalties&c4comp=gt&c5comp=rush_att&c5gtlt=gte&c6mult=0&c6comp=turnovers&order_by=game_date&order_by_asc=Y";
 	private static final String PRO_FOOTBALL_REF_TEAMS = PRO_FOOTBALL_REF_BASE_URL + "/teams/";
 	private static final String OFFSET = "&offset=";
+	private static final String PRO_FOOTBALL_PLAYBYPLAY = "http://www.pro-football-reference.com/play-index/play_finder.cgi?request=1&super_bowl=0&match=all&game_num_min=0&game_num_max=99&quarter=1&quarter=2&quarter=3&quarter=4&quarter=5&tr_gtlt=lt&minutes=15&seconds=00&down=0&down=1&down=2&down=3&down=4&yg_gtlt=gt&is_first_down=-1&field_pos_min_field=team&field_pos_max_field=team&end_field_pos_min_field=team&end_field_pos_max_field=team&score_type=safety&is_sack=-1&include_kneels=0&no_play=0&order_by=game_date";
+	private static final String PLAY_BY_PLAY_TABLE_ALT = "all_plays";
 
 	private TableMapperService tableMapperService;
 	private GenericsService genericsService;
@@ -291,7 +321,103 @@ public class ProFootballRefService {
 		}
 		return scoringSummary;
 	}
+	
+	public void loadPlayByPlay(List<Team> teams, WeeklyNflStatsDal weeklyNflStatsDal){
+		String base = "http://www.pro-football-reference.com/play-index/play_finder.cgi?request=1&super_bowl=0&match=all&game_num_min=0&game_num_max=998&quarter=1&quarter=2&quarter=3&quarter=4&quarter=5&tr_gtlt=lt&minutes=15&seconds=00&down=0&down=1&down=2&down=3&down=4&yg_gtlt=gt&is_first_down=-1&field_pos_min_field=team&field_pos_max_field=team&end_field_pos_min_field=team&end_field_pos_max_field=team&is_complete=-1&turnover_type=interception&turnover_type=fumble&score_type=touchdown&score_type=field_goal&score_type=safety&is_sack=-1&include_kneels=0&no_play=0&order_by=game_date&more_options=0&pass_location=SL&pass_location=SM&pass_location=SR&pass_location=DL&pass_location=DM&pass_location=DR";
+		for(Team team : teams){
+			//years
+			for(int year = 1994; year < 2016; year++){
+				//weeks
+				for(int week = 1; week < 21; week++){
+					String gameType = week < 18 ? "R" : "P";
+					List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
+					for(String playType : PLAY_TYPES){
+						plays.addAll(this.loadPlayByPlay(base, team.getTeamIdentifier(), gameType, year, week, playType, -1, -1));
+//						//runs / passes
+//						if(playType.equals("PASS") || playType.equals("RUSH")){
+//							for(int isTurnover : TRUE_FALSE_OPTIONS){
+//								for(int isScore : TRUE_FALSE_OPTIONS){
+//									this.loadPlayByPlay(base, team.getTeamIdentifier(), gameType, year, week, playType, isTurnover, isScore);
+//								}
+//							}
+//						//special teams
+//						} else{
+//							this.loadPlayByPlay(base, team.getTeamIdentifier(), gameType, year, week, playType, -1, -1);
+//						}						
+					}
+					int inserted = weeklyNflStatsDal.addGamePlays(plays);
+					System.out.println("inserted " + inserted + " plays");
+				}
+			}
+		}
+	}
 
+	/**
+	 * team_id, game_type, year_min, year_max, week_num_min, week_num_max, type, rush_direction, pass_direction
+	 * @param team
+	 * @param year
+	 * @param week
+	 * @param gameType
+	 * @param playType
+	 * @param playDirection
+	 * @return
+	 */
+	private List<WeeklyStatsIndividualPlay> loadPlayByPlay(String urlBase, String team, String gameType, 
+			Integer year, Integer week, String playType, int isTurnover, int isScore) {
+		List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
+		Map<Integer, String> headers = new HashMap<>();
+		try {
+			String url = urlBase + "&team_id=" + team + "&game_type=" + gameType + "&year_min=" + year +
+					"&year_max=" + year + "&week_num_min=" + week + "&week_num_max=" + week + "&type=" + playType + "&is_turnover=" + isTurnover + "&is_score=" + isScore;
+//			// make request
+//			if(playType.equals("RUSH")){
+//				url+="&rush_direction=" + playDirection;
+//			} else if(playType.equals("PASS")){
+//				url+="&pass_location=" + playDirection;
+//			}
+			
+			List<Element> rows = loadTableRowsByIdentifier(url, PLAY_BY_PLAY_TABLE_ALT);
+			if(rows.size() > 0){
+				headers = tableMapperService.parseTableHeaderRow(rows.get(0).getElementsByTag(ELEMENT_TH));
+	
+				// for all other rows, convert the record into an object and add to
+				// list
+				for (int j = 1; j < rows.size(); j++) {
+					Element row = rows.get(j);
+					Elements tdElements = new Elements();
+	
+					// need to explicitly add the quarter element because it is a
+					// header instead of data row
+					Element quarterElement = row.getElementsByTag(ELEMENT_TH).first();
+					tdElements.add(quarterElement);
+					tdElements.addAll(row.getElementsByTag(ELEMENT_TD));
+	
+					// ensure the row has elements (only <td> elements qualify. if
+					// it's a random <th> row, the row is skipped)
+					if (tdElements.size() > 0) {
+						// parse and add the object
+						WeeklyStatsIndividualPlay play = new WeeklyStatsIndividualPlay();
+						tableMapperService.parseTableRow(headers, tdElements, play, 0, false);
+						analyzePlayDetails(tdElements, "detail", play); // parse out
+																		// play
+																		// description
+																		// into
+																		// individual
+																		// properties
+//						if (!StringUtils.isEmpty(play.getDescription()) && play.getDescription().indexOf("timeout") < 0) {
+							play.setGameIdentifier(play.getGameIdentifier());
+							play.setPlayTypeString(playType);
+							plays.add(play);
+//						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return plays;
+	}
+	
 	/**
 	 * load the play by play stats of a game
 	 * 
@@ -397,60 +523,91 @@ public class ProFootballRefService {
 
 		// get the element with a data-stat attribute value equal to the
 		// attributeValue param
-		Optional<Element> element = tdElements.stream().filter(e -> e != null
-				&& !StringUtils.isEmpty(e.attr("data-stat")) && e.attr("data-stat").equals(attributeValue)).findFirst();
-		if (!element.isPresent()) {
-			return;
+		Optional<Element> teamElement = tdElements.stream().filter(e -> e != null
+				&& !StringUtils.isEmpty(e.attr("data-stat")) && e.attr("data-stat").equals("team")).findFirst();
+		Optional<Element> oppElement = tdElements.stream().filter(e -> e != null
+				&& !StringUtils.isEmpty(e.attr("data-stat")) && e.attr("data-stat").equals("opp")).findFirst();
+		Optional<Element> gameIdElement = tdElements.stream().filter(e -> e != null
+				&& !StringUtils.isEmpty(e.attr("data-stat")) && e.attr("data-stat").equals("game_date")).findFirst();
+		if (teamElement.isPresent() && oppElement.isPresent()) {
+			String teamText = teamElement.get().getElementsByTag("a").get(0).attr("href");
+			String teamIdentifier = teamText.substring(teamText.lastIndexOf("/")-3,teamText.length()-1);
+			String oppText = oppElement.get().getElementsByTag("a").get(0).attr("href");
+			String oppIdentifier = oppText.substring(oppText.lastIndexOf("/")-3,oppText.length()-1);
+			play.setTeam(teamIdentifier);
+			play.setOpp(oppIdentifier);
+			
+			String gameIdText = gameIdElement.get().getElementsByTag("a").get(0).attr("href");
+			play.setGameIdentifier(gameIdText.substring(gameIdText.lastIndexOf("/")+1, gameIdText.lastIndexOf(".")));
 		}
+		
+		//set the score
+		String[] scoreParts = play.getScore().split("-");
+		play.setTeamScore(Integer.parseInt(scoreParts[0]));
+		play.setOppScore(Integer.parseInt(scoreParts[1]));
+		
+		play.setYardsGained(play.getYardsGained() == null ? 0 : play.getYardsGained());
+		
+		int locationInt = 0;
+		
+		try{
+			locationInt = Integer.parseInt(play.getLocation().replaceAll("[^\\d.]", ""));
+			if(play.getLocation().startsWith(play.getTeam().toUpperCase())){
+				locationInt = locationInt * -1;
+			}
+		} catch(NullPointerException e){
+			//TODO add handler
+		}
+		play.setLocationInt(locationInt);
 
 		// if an element is present, loop over the child nodes and parse the
 		// play description
-		StringBuilder playDescription = new StringBuilder();
-		for (int i = 1; i < element.get().childNodes().size(); i++) {
-			Node node = element.get().childNodes().get(i);
-			if (node.childNodes().size() > 0) {
-				playDescription.append(" " + node.childNode(0).toString() + " ");
-			} else {
-				playDescription.append(node.toString().trim());
-			}
-		}
+//		StringBuilder playDescription = new StringBuilder();
+//		for (int i = 1; i < element.get().childNodes().size(); i++) {
+//			Node node = element.get().childNodes().get(i);
+//			if (node.childNodes().size() > 0) {
+//				playDescription.append(" " + node.childNode(0).toString() + " ");
+//			} else {
+//				playDescription.append(node.toString().trim());
+//			}
+//		}
 
 		// simple string wrapper to make some code more concise
-		StringWrapper playDesc = new StringWrapper(playDescription.toString().trim().toLowerCase());
+//		StringWrapper playDesc = new StringWrapper(playDescription.toString().trim().toLowerCase());
 
 		// add play description to IndividualPlayDetails object
-		play.setDescription(playDesc.get());
+//		play.setDescription(playDesc.get());
 
-		// determine type of play and set yards gained if applicable
-		if (playDescription.indexOf("timeout") > -1) {
-			return;
-		} else if (playDesc.has("field goal")) {
-			play.setPlayType(PlayType.FIELD_GOAL);
-		} else if (playDesc.has("extra point")) {
-			play.setPlayType(PlayType.EXTRA_POINT);
-		} else if (playDesc.has("punts")) {
-			play.setPlayType(PlayType.PUNT);
-		} else if (playDesc.has("kicks off")) {
-			play.setPlayType(PlayType.KICKOFF);
-		} else if (playDesc.has("two point")) {
-			play.setPlayType(PlayType.TWO_POINT);
-		} else {
-			play.setYardsGained(0); // initialize to zero yards in case of
-									// incomplete pass / no gain where yards is
-									// not specified in the description
-			if (playDesc.has("pass complete") || playDesc.has("pass incomplete") || playDesc.has("sacked")) {
-				play.setPlayType(PlayType.PASS);
-			} else {
-				// a rush includes kneels
-				play.setPlayType(PlayType.RUN);
-			}
-
-			Pattern p1 = Pattern.compile("\\bfor (-?\\d{1,3}) \\byard");
-			Matcher m1 = p1.matcher(playDesc.get());
-			if (m1.find()) {
-				play.setYardsGained(Integer.valueOf(m1.group(1)));
-			}
-		}
+//		// determine type of play and set yards gained if applicable
+//		if (playDescription.indexOf("timeout") > -1) {
+//			return;
+//		} else if (playDesc.has("field goal")) {
+//			play.setPlayType(PlayType.FIELD_GOAL);
+//		} else if (playDesc.has("extra point")) {
+//			play.setPlayType(PlayType.EXTRA_POINT);
+//		} else if (playDesc.has("punts")) {
+//			play.setPlayType(PlayType.PUNT);
+//		} else if (playDesc.has("kicks off")) {
+//			play.setPlayType(PlayType.KICKOFF);
+//		} else if (playDesc.has("two point")) {
+//			play.setPlayType(PlayType.TWO_POINT);
+//		} else {
+//			play.setYardsGained(0); // initialize to zero yards in case of
+//									// incomplete pass / no gain where yards is
+//									// not specified in the description
+//			if (playDesc.has("pass complete") || playDesc.has("pass incomplete") || playDesc.has("sacked")) {
+//				play.setPlayType(PlayType.PASS);
+//			} else {
+//				// a rush includes kneels
+//				play.setPlayType(PlayType.RUN);
+//			}
+//
+//			Pattern p1 = Pattern.compile("\\bfor (-?\\d{1,3}) \\byard");
+//			Matcher m1 = p1.matcher(playDesc.get());
+//			if (m1.find()) {
+//				play.setYardsGained(Integer.valueOf(m1.group(1)));
+//			}
+//		}
 	}
 
 	/**

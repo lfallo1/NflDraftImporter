@@ -114,4 +114,8 @@ public class WeeklyNflStatsDal {
 		return this.weeklyNflStatsDao.allTeams();
 	}
 
+	public List<Team> allTeams(int fromYear) {
+		return this.weeklyNflStatsDao.allTeams(fromYear);
+	}
+
 }

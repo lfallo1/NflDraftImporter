@@ -69,9 +69,9 @@ public class WeeklyNflStatsDao {
 	"game_identifier, scoring_team, home_team_score, quarter, \"time\", visiting_team_score, description) " +
 	"VALUES (?, ?, ?, ?, ?, ?, ?);";
 	
-	private static final String INSERT_GAME_PLAY = "INSERT INTO nfl.game_play( " +
-	"game_identifier, description, yards_gained, play_type, expected_pointsafter, expected_pointsbefore, home_win_probability, down, quarter, score_away, score_home, yards_to_go, location, quarter_time_remaining) " +
-	"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String INSERT_GAME_PLAY = "INSERT INTO nfl.game_play_details( " +
+	"game_identifier, description, yards_gained, play_type, expected_pointsafter, expected_pointsbefore, expected_points_difference, down, quarter, team_identifier, opp_identifier, score_team, score_opp, yards_to_go, location, quarter_time_remaining) " +
+	"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	
 	private static final String INSERT_GAME_DEFENSE = "INSERT INTO nfl.game_defense( " +
             "sacks, assists, interceptions, interceptiontouchdowns, interceptionyards, " + 
@@ -134,7 +134,7 @@ public class WeeklyNflStatsDao {
 	
 	public int insertGamePlay(WeeklyStatsIndividualPlay s) {
 		try{
-			return this.jdbcTemplate.update(INSERT_GAME_PLAY, new Object[]{s.getGameIdentifier(), s.getDescription(), s.getYardsGained(), s.getPlayType().toString(), s.getExpectedPointsAfter(), s.getExpectedPointsBefore(), s.getHomeWinProbability(), s.getDown(), s.getQuarter(), s.getScoreAway(), s.getScoreHome(), s.getYardsToGo(), s.getLocation(), s.getQuarterTimeRemaining()});
+			return this.jdbcTemplate.update(INSERT_GAME_PLAY, new Object[]{s.getGameIdentifier(), s.getDescription(), s.getYardsGained(), s.getPlayTypeString(), s.getExpectedPointsAfter(), s.getExpectedPointsBefore(), s.getExpectedPointsDifference(), s.getDown(), s.getQuarter(), s.getTeam(), s.getOpp(), s.getTeamScore(), s.getOppScore(), s.getYardsToGo(), s.getLocationInt(), s.getQuarterTimeRemaining()});
 		} catch(DataAccessException e){
 			System.out.println(e.getMessage());
 			return 0;
@@ -202,5 +202,10 @@ public class WeeklyNflStatsDao {
 			System.out.println(e.getMessage());
 			return new ArrayList<>();
 		}
+	}
+
+	public List<Team> allTeams(int fromYear) {
+		String sql = "select *, case when from_year < ? then ? else from_year end as start_year from nfl.team where to_year >= ?;";
+		return this.jdbcTemplate.query(sql, new Object[]{fromYear,fromYear,fromYear}, new GenericMapper<Team>(Team.class));
 	}
 }

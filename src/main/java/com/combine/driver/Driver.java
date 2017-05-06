@@ -1,10 +1,12 @@
 package com.combine.driver;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.combine.dal.DataSourceLayer;
 import com.combine.profootballref.weekly.dto.WeeklyStatsGame;
+import com.combine.profootballref.weekly.dto.WeeklyStatsIndividualPlay;
 import com.combine.profootballref.weekly.model.Game;
 import com.combine.profootballref.weekly.model.Team;
 import com.combine.profootballref.weekly.service.DataConversionService;
@@ -33,14 +35,18 @@ public class Driver {
 		WeeklyNflStatsDal weeklyNflStatsDal = new WeeklyNflStatsDal(DataSourceLayer.getInstance());
 		
 		//load all the teams first (load from web if not yet in db)
-		List<Team> teams = weeklyNflStatsDal.allTeams(); 
-		if(teams.size() == 0){
-			teams = proFootballRefService.loadAllTeams();
-			weeklyNflStatsDal.addTeams(teams);	
-		}
+//		List<Team> teams = weeklyNflStatsDal.allTeams(); 
+//		if(teams.size() == 0){
+//			teams = proFootballRefService.loadAllTeams();
+//			weeklyNflStatsDal.addTeams(teams);	
+//		}
+		
+		List<Team> teams = weeklyNflStatsDal.allTeams(1994);
+		
+		proFootballRefService.loadPlayByPlay(teams, weeklyNflStatsDal);
 		
 		//execute data import
-		loadStatsBetweenYears(proFootballRefService, weeklyNflStatsDal, teams, 2016, 1950);
+//		loadStatsBetweenYears(proFootballRefService, weeklyNflStatsDal, teams, 2016, 1950);
 	}
 
 	/**
@@ -65,7 +71,7 @@ public class Driver {
 				List<Game> games = proFootballRefService.getUniqueGamesList(gameStats);
 //				List<GameScoringPlay> gameScoringPlays = proFootballRefService.getScoringSummaries(games, teams);
 				//load play-by-play for years 1994 & after (data not available prior to this date... at this time)
-//				List<WeeklyStatsIndividualPlay> plays = year >= 1994 ? proFootballRefService.getPlayByPlay(games, teams) : new ArrayList<>();
+				List<WeeklyStatsIndividualPlay> plays = year >= 1994 ? proFootballRefService.getPlayByPlay(games, teams) : new ArrayList<>();
 				
 				
 //				individual player stats

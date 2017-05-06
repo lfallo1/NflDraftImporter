@@ -4,6 +4,18 @@ import com.combine.annotations.StatField;
 
 public class WeeklyStatsIndividualPlay {
 
+	/**
+	 * {0=game_date, 1=team, 2=opp, 3=quarter, 4=qtr_time_remain, 5=down,
+	 * 6=yds_to_go, 7=location, 8=score, 9=description, 10=yards,
+	 * 11=exp_pts_before, 12=exp_pts_after, 13=exp_pts_diff}
+	 */
+
+	@StatField("description")
+	private String description;
+	@StatField("team")
+	private String team;
+	@StatField("opp")
+	private String opp;
 	@StatField("quarter")
 	private Integer quarter;
 	@StatField("qtr_time_remain")
@@ -14,22 +26,24 @@ public class WeeklyStatsIndividualPlay {
 	private Integer yardsToGo;
 	@StatField("location")
 	private String location;
-	@StatField("pbp_score_hm")
-	private Integer scoreHome;
-	@StatField("pbp_score_aw")
-	private Integer scoreAway;
+	@StatField("score")
+	private String score;
 	@StatField("exp_pts_before")
 	private Double expectedPointsBefore;
 	@StatField("exp_pts_after")
 	private Double expectedPointsAfter;
-	@StatField("home_wp")
-	private Double homeWinProbability;
+	@StatField("exp_pts_diff")
+	private Double expectedPointsDifference;
+	@StatField("yards")
+	private Integer yardsGained;
 
 	// individual props
 	private String gameIdentifier;
-	private String description;
-	private Integer yardsGained;
 	private PlayType playType;
+	private String playTypeString;
+	private int teamScore;
+	private int oppScore;
+	private int locationInt;
 
 	public Integer getQuarter() {
 		return quarter;
@@ -71,22 +85,6 @@ public class WeeklyStatsIndividualPlay {
 		this.location = location;
 	}
 
-	public Integer getScoreHome() {
-		return scoreHome;
-	}
-
-	public void setScoreHome(Integer scoreHome) {
-		this.scoreHome = scoreHome;
-	}
-
-	public Integer getScoreAway() {
-		return scoreAway;
-	}
-
-	public void setScoreAway(Integer scoreAway) {
-		this.scoreAway = scoreAway;
-	}
-
 	public Double getExpectedPointsBefore() {
 		return expectedPointsBefore;
 	}
@@ -103,12 +101,12 @@ public class WeeklyStatsIndividualPlay {
 		this.expectedPointsAfter = expectedPointsAfter;
 	}
 
-	public Double getHomeWinProbability() {
-		return homeWinProbability;
+	public Double getExpectedPointsDifference() {
+		return expectedPointsDifference;
 	}
 
-	public void setHomeWinProbability(Double homeWinProbability) {
-		this.homeWinProbability = homeWinProbability;
+	public void setExpectedPointsDifference(Double expectedPointsDifference) {
+		this.expectedPointsDifference = expectedPointsDifference;
 	}
 
 	public String getGameIdentifier() {
@@ -132,7 +130,7 @@ public class WeeklyStatsIndividualPlay {
 	}
 
 	public void setYardsGained(Integer yards) {
-		this.yardsGained = yards;
+		this.yardsGained = yards == null ? 0 : yards;
 	}
 
 	public PlayType getPlayType() {
@@ -141,6 +139,62 @@ public class WeeklyStatsIndividualPlay {
 
 	public void setPlayType(PlayType playType) {
 		this.playType = playType;
+	}
+
+	public String getTeam() {
+		return team;
+	}
+
+	public void setTeam(String team) {
+		this.team = team;
+	}
+
+	public String getPlayTypeString() {
+		return playTypeString;
+	}
+
+	public void setPlayTypeString(String playTypeString) {
+		this.playTypeString = playTypeString;
+	}
+
+	public String getOpp() {
+		return opp;
+	}
+
+	public void setOpp(String opp) {
+		this.opp = opp;
+	}
+
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	public int getTeamScore() {
+		return teamScore;
+	}
+
+	public void setTeamScore(int teamScore) {
+		this.teamScore = teamScore;
+	}
+
+	public int getOppScore() {
+		return oppScore;
+	}
+
+	public void setOppScore(int oppScore) {
+		this.oppScore = oppScore;
+	}
+
+	public int getLocationInt() {
+		return locationInt;
+	}
+
+	public void setLocationInt(int locationInt) {
+		this.locationInt = locationInt;
 	}
 
 }
