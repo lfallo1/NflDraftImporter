@@ -323,7 +323,7 @@ DR
 	}
 	
 	public void loadPlayByPlay(List<Team> teams, WeeklyNflStatsDal weeklyNflStatsDal){
-		String base = "http://www.pro-football-reference.com/play-index/play_finder.cgi?request=1&super_bowl=0&match=all&game_num_min=0&game_num_max=998&quarter=1&quarter=2&quarter=3&quarter=4&quarter=5&tr_gtlt=lt&minutes=15&seconds=00&down=0&down=1&down=2&down=3&down=4&yg_gtlt=gt&is_first_down=-1&field_pos_min_field=team&field_pos_max_field=team&end_field_pos_min_field=team&end_field_pos_max_field=team&is_complete=-1&turnover_type=interception&turnover_type=fumble&score_type=touchdown&score_type=field_goal&score_type=safety&is_sack=-1&include_kneels=0&no_play=0&order_by=game_date&more_options=0&pass_location=SL&pass_location=SM&pass_location=SR&pass_location=DL&pass_location=DM&pass_location=DR";
+		String base = "http://www.pro-football-reference.com/play-index/play_finder.cgi?request=1&match=all&game_num_min=0&game_num_max=998&quarter=1&quarter=2&quarter=3&quarter=4&quarter=5&tr_gtlt=lt&minutes=15&seconds=00&down=0&down=1&down=2&down=3&down=4&yg_gtlt=gt&is_first_down=-1&field_pos_min_field=team&field_pos_max_field=team&end_field_pos_min_field=team&end_field_pos_max_field=team&is_complete=-1&turnover_type=interception&turnover_type=fumble&score_type=touchdown&score_type=field_goal&score_type=safety&is_sack=-1&include_kneels=0&no_play=0&order_by=game_date&more_options=0&pass_location=SL&pass_location=SM&pass_location=SR&pass_location=DL&pass_location=DM&pass_location=DR";
 		for(Team team : teams){
 			//years
 			for(int year = 1994; year < 2016; year++){
@@ -331,8 +331,9 @@ DR
 				for(int week = 1; week < 21; week++){
 					String gameType = week < 18 ? "R" : "P";
 					List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
+					int isSuperBowl = week == 21 ? 1 : 0;
 					for(String playType : PLAY_TYPES){
-						plays.addAll(this.loadPlayByPlay(base, team.getTeamIdentifier(), gameType, year, week, playType, -1, -1));
+						plays.addAll(this.loadPlayByPlay(base, team.getTeamIdentifier(), gameType, year, week, playType, -1, -1, isSuperBowl));
 //						//runs / passes
 //						if(playType.equals("PASS") || playType.equals("RUSH")){
 //							for(int isTurnover : TRUE_FALSE_OPTIONS){
@@ -346,7 +347,7 @@ DR
 //						}						
 					}
 					int inserted = weeklyNflStatsDal.addGamePlays(plays);
-					System.out.println("inserted " + inserted + " plays");
+					System.out.println("inserted " + inserted + " plays (" + team.getTeamIdentifier() + " " + year + " week#" + week + ")");
 				}
 			}
 		}
@@ -363,12 +364,12 @@ DR
 	 * @return
 	 */
 	private List<WeeklyStatsIndividualPlay> loadPlayByPlay(String urlBase, String team, String gameType, 
-			Integer year, Integer week, String playType, int isTurnover, int isScore) {
+			Integer year, Integer week, String playType, int isTurnover, int isScore, int isSuperBowl) {
 		List<WeeklyStatsIndividualPlay> plays = new ArrayList<>();
 		Map<Integer, String> headers = new HashMap<>();
 		try {
 			String url = urlBase + "&team_id=" + team + "&game_type=" + gameType + "&year_min=" + year +
-					"&year_max=" + year + "&week_num_min=" + week + "&week_num_max=" + week + "&type=" + playType + "&is_turnover=" + isTurnover + "&is_score=" + isScore;
+					"&year_max=" + year + "&week_num_min=" + week + "&week_num_max=" + week + "&type=" + playType + "&is_turnover=" + isTurnover + "&is_score=" + isScore + "&isSuperBowl=" + isSuperBowl;
 //			// make request
 //			if(playType.equals("RUSH")){
 //				url+="&rush_direction=" + playDirection;
