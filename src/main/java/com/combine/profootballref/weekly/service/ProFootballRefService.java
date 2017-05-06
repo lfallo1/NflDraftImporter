@@ -325,8 +325,9 @@ DR
 	public void loadPlayByPlay(List<Team> teams, WeeklyNflStatsDal weeklyNflStatsDal){
 		String base = "http://www.pro-football-reference.com/play-index/play_finder.cgi?request=1&match=all&game_num_min=0&game_num_max=998&quarter=1&quarter=2&quarter=3&quarter=4&quarter=5&tr_gtlt=lt&minutes=15&seconds=00&down=0&down=1&down=2&down=3&down=4&yg_gtlt=gt&is_first_down=-1&field_pos_min_field=team&field_pos_max_field=team&end_field_pos_min_field=team&end_field_pos_max_field=team&is_complete=-1&turnover_type=interception&turnover_type=fumble&score_type=touchdown&score_type=field_goal&score_type=safety&is_sack=-1&include_kneels=0&no_play=0&order_by=game_date&more_options=0&pass_location=SL&pass_location=SM&pass_location=SR&pass_location=DL&pass_location=DM&pass_location=DR";
 		for(Team team : teams){
+			int start = Math.max(team.getFromYear(), 1994);
 			//years
-			for(int year = 1994; year < 2016; year++){
+			for(int year = start; year < 2016; year++){
 				//weeks
 				for(int week = 1; week < 21; week++){
 					String gameType = week < 18 ? "R" : "P";
@@ -399,17 +400,10 @@ DR
 						// parse and add the object
 						WeeklyStatsIndividualPlay play = new WeeklyStatsIndividualPlay();
 						tableMapperService.parseTableRow(headers, tdElements, play, 0, false);
-						analyzePlayDetails(tdElements, "detail", play); // parse out
-																		// play
-																		// description
-																		// into
-																		// individual
-																		// properties
-//						if (!StringUtils.isEmpty(play.getDescription()) && play.getDescription().indexOf("timeout") < 0) {
-							play.setGameIdentifier(play.getGameIdentifier());
-							play.setPlayTypeString(playType);
-							plays.add(play);
-//						}
+						analyzePlayDetails(tdElements, "detail", play); // parse out additional info
+						play.setGameIdentifier(play.getGameIdentifier());
+						play.setPlayTypeString(playType);
+						plays.add(play);
 					}
 				}
 			}
