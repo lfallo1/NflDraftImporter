@@ -32,6 +32,8 @@ public class Player {
 	private Integer pick;
 	private String team;
 
+	private String source;
+
 	public Player() {
 		this.rank = 0;
 	}
@@ -253,4 +255,11 @@ public class Player {
 		this.team = team;
 	}
 
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 }
