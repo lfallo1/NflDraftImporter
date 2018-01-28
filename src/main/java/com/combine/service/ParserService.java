@@ -1,6 +1,6 @@
 package com.combine.service;
 
-import com.combine.dal.DataSourceLayer;
+import com.combine.dao.CombineDao;
 import com.combine.model.*;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.apache.log4j.Logger;
@@ -11,10 +11,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -24,12 +26,11 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Service
 public class ParserService {
 
     private static final int DRAFT_LISTENER_WAIT_TIME = 120000; //2 minutes in ms
     private static final Logger logger = Logger.getLogger(ParserService.class);
-
-    private String importUUID;
 
     private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2017/";
     private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
@@ -39,36 +40,30 @@ public class ParserService {
 
     private static final String CBS_SPORTS_DRAFT = "http://www.cbssports.com/nfl/draft/prospect-rankings-results/${year}/${pos}/overall?&print_rows=9999";
     private static final List<String> ALL_POSITIONS = Arrays.asList("C", "CB", "DE", "DT", "FB", "FS", "ILB", "K", "LS", "OG", "OLB", "OT", "P", "QB", "RB", "SS", "TE", "WR");
-    private RestTemplate restTemplate;
-    private DataSourceLayer dataSourceLayer;
-    private ConversionService conversionService;
+    private RestTemplate restTemplate = new RestTemplate();
+
+    @Autowired
+    private CombineDao combineDao;
+
+    @Autowired
+    private CombineImporterConversionService combineImporterConversionService;
+
+    @Autowired
     private JSONService jsonService;
 
-    Set<String> missingSchools = new HashSet<>();
+    @Autowired
+    private PlayerService playerService;
 
-    private List<Player> players = new ArrayList<>();
-    ;
-
-    public ParserService() {
-        this.jsonService = new JSONService();
-        this.importUUID = UUID.randomUUID().toString();
-    }
-
-    public ParserService(DataSourceLayer dataSourceLayer) {
-        this.restTemplate = new RestTemplate();
-        this.conversionService = new ConversionService(dataSourceLayer);
-        this.dataSourceLayer = dataSourceLayer;
-        this.jsonService = new JSONService();
-        this.importUUID = UUID.randomUUID().toString();
-    }
+    @Autowired
+    private MessageService messageService;
 
     public void parse() {
-        this.dataSourceLayer.clearDb();
+        this.playerService.clearDb();
 //		List<Participant> participants = this.retrieveParticipants();
         List<Participant> participants = new ArrayList<>();
         List<WorkoutResult> workoutResults = this.getWorkoutResults();
-        this.dataSourceLayer.addParticipants(participants);
-        this.dataSourceLayer.addWorkoutResults(workoutResults);
+        this.playerService.addParticipants(participants);
+        this.playerService.addWorkoutResults(workoutResults);
     }
 
     public void insertColleges() {
@@ -95,8 +90,8 @@ public class ParserService {
             colleges.add(college);
         }
 
-        this.dataSourceLayer.addConferences(conferences);
-        this.dataSourceLayer.addColleges(colleges);
+        this.playerService.addConferences(conferences);
+        this.playerService.addColleges(colleges);
     }
 
 
@@ -104,7 +99,7 @@ public class ParserService {
         List<WorkoutResult> results = new ArrayList<WorkoutResult>();
         String response = null;
         JSONArray array = null;
-        List<Workout> workouts = this.dataSourceLayer.getCombineDao().getWorkouts();
+        List<Workout> workouts = this.combineDao.getWorkouts();
         for (int j = 0; j < workouts.size(); j++) {
             try {
                 response = this.restTemplate.getForObject(JSON_URL + workouts.get(j).getName() + "/ALL.json",
@@ -249,14 +244,14 @@ public class ParserService {
                             String team = pick.getString("team");
 
                             //lookup the player in the app's draft db
-                            Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+                            Player p = this.combineImporterConversionService.findPlayerByNflData(firstname, lastname, "", "", "");
                             if (p != null && (p.getRound() == null || p.getRound() == 0)) {
 
                                 //update the draft fields for the player
                                 p.setRound(roundNumber);
                                 p.setPick(pickNumber);
                                 p.setTeam(team);
-                                if (this.dataSourceLayer.getCombineDao().updatePick(p) < 1) {
+                                if (this.combineDao.updatePick(p) < 1) {
                                     System.out.println("Unable to find " + pick.toString());
                                 }
                             }
@@ -299,14 +294,14 @@ public class ParserService {
                 String firstname = this.jsonService.getStringFromJSON(prospect, "firstName");
                 String lastname = this.jsonService.getStringFromJSON(prospect, "lastName");
 
-                Player p = this.conversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+                Player p = this.combineImporterConversionService.findPlayerByNflData(firstname, lastname, "", "", "");
                 if (p != null) {
-                    double armLength = this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength"));
-                    double handSize = this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize"));
+                    double armLength = this.combineImporterConversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength"));
+                    double handSize = this.combineImporterConversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize"));
                     if (armLength > 0 || handSize > 0) {
                         p.setHandSize(handSize);
                         p.setArmLength(armLength);
-                        inserted = this.dataSourceLayer.getCombineDao().updateArmLengthAndHandSize(p) > 0;
+                        inserted = this.combineDao.updateArmLengthAndHandSize(p) > 0;
                     }
                 }
 
@@ -342,7 +337,20 @@ public class ParserService {
         return interpolated;
     }
 
-    public void loadNflDraftCountdown(int year) throws IOException {
+    public void refreshAll(String importUUID, List<Player> players) throws IOException {
+
+        this.messageService.sendProgressMessage(new ParserProgressEvent(importUUID, new Date(), 15, "Importing from NflDraftCountdown"));
+        loadNflDraftCountdown(2018, importUUID, players);
+
+        this.messageService.sendProgressMessage(new ParserProgressEvent(importUUID, new Date(), 37, "Importing from DraftTek"));
+        loadDraftTek(importUUID, players);
+
+        this.messageService.sendProgressMessage(new ParserProgressEvent(importUUID, new Date(), 55, "Importing from WalterFootball"));
+        loadWalterFootballDraft(importUUID, players);
+    }
+
+    public void loadNflDraftCountdown(int year, String importUUID, List<Player> players) throws IOException {
+
         int NAME_COL_IDX = 1;
         int COLLEGE_COL_IDX = 2;
         int HEIGHT_COL_IDX = 3;
@@ -350,7 +358,7 @@ public class ParserService {
         int FORTYTIME_COL_IDX = 5;
         String nflDraftCountdownURL = "http://www.draftcountdown.com/nfl-draft-ranking/" + year + "-";
         try {
-            Map<String, String> positionsMap = this.conversionService.mapOf(true, "QB", "quarterback", "RB", "running-back", "FB", "fullback", "WR", "wide-receiver", "TE", "tight-end", "OT", "offensive-tackle", "OG", "offensive-guard", "C", "center", "DE", "defensive-end", "DT", "defensive-tackle", "OLB", "outside-linebacker", "ILB", "inside-linebacker", "CB", "cornerback", "S", "safety", "LS", "long-snapper", "K", "kicker", "P", "punter", "RS", "return-specialist");
+            Map<String, String> positionsMap = this.combineImporterConversionService.mapOf(true, "QB", "quarterback", "RB", "running-back", "FB", "fullback", "WR", "wide-receiver", "TE", "tight-end", "OT", "offensive-tackle", "OG", "offensive-guard", "C", "center", "DE", "defensive-end", "DT", "defensive-tackle", "OLB", "outside-linebacker", "ILB", "inside-linebacker", "CB", "cornerback", "S", "safety", "LS", "long-snapper", "K", "kicker", "P", "punter", "RS", "return-specialist");
             for (String pageLink : positionsMap.keySet()) {
                 String url = nflDraftCountdownURL + pageLink + "-rankings/";
 
@@ -369,6 +377,7 @@ public class ParserService {
                             .get(0).getElementsByTag("tbody")
                             .get(0).getElementsByTag("tr");
 
+                    //setup event object to be used as payload in progress messages
                     for (int i = 0; i < playerRows.size(); i++) {
                         Player player = new Player();
                         player.setSource("NFLDraftCountdown");
@@ -385,14 +394,14 @@ public class ParserService {
 
                         //college
                         String collegeText = dataElements.get(COLLEGE_COL_IDX).html();
-                        player.setCollege(this.conversionService.collegeNameToId(collegeText));
+                        player.setCollege(this.combineImporterConversionService.collegeNameToId(collegeText));
                         player.setCollegeText(collegeText);
 
-                        player.setHeight(this.conversionService.toRawInches(dataElements.get(HEIGHT_COL_IDX).html()));
+                        player.setHeight(this.combineImporterConversionService.toRawInches(dataElements.get(HEIGHT_COL_IDX).html()));
                         player.setWeight(Double.parseDouble(dataElements.get(WEIGHT_COL_IDX).html()));
                         player.setFortyYardDash(Double.parseDouble(dataElements.get(FORTYTIME_COL_IDX).html()));
+                        addToPlayersList(player, players);
 
-                        addToPlayersList(player);
                     }
                 } catch (HttpClientErrorException e) {
                     System.out.println("error: " + e.toString());
@@ -404,20 +413,18 @@ public class ParserService {
         }
     }
 
-    private void addToPlayersList(Player player) {
-        Optional<Player> existingPlayer = this.players.stream().filter(p -> p.getName().toLowerCase().equals(player.getName().toLowerCase())).findFirst();
+    private void addToPlayersList(Player player, List<Player> players) {
+        Optional<Player> existingPlayer = players.stream().filter(p -> p.getName().toLowerCase().equals(player.getName().toLowerCase())).findFirst();
         if (!existingPlayer.isPresent()) {
-            this.players.add(player);
+            players.add(player);
         }
     }
 
-    public void insertPlayers() {
-        System.out.println("Preparing to read " + this.players.size() + " and insert");
-        int result = this.dataSourceLayer.addPlayers(this.players);
-        System.out.println("Inserted " + result + " players");
+    public Integer insertPlayers(List<Player> players) {
+        return this.playerService.addPlayers(players);
     }
 
-    public void loadWalterFootballDraft() throws IOException {
+    public void loadWalterFootballDraft(String importUUID, List<Player> players) throws IOException {
 
         String walterFootballURL = "http://walterfootball.com/draft";
         String[] walterFootballPositions = new String[]{"QB", "RB", "FB", "WR", "TE", "OT", "OG", "C", "DE", "DT", "NT", "OLB3-4", "DE3-4", "OLB", "ILB", "CB", "S", "K", "P"};
@@ -463,19 +470,19 @@ public class ParserService {
                         player.setPositionRank(i + 1);
 
                         String collegeText = parts[2].substring(0, parts[2].indexOf("<br>")).trim().replaceAll("\\.", "");
-                        player.setCollege(this.conversionService.collegeNameToId(collegeText));
+                        player.setCollege(this.combineImporterConversionService.collegeNameToId(collegeText));
                         player.setCollegeText(collegeText);
 
-                        player.setHeight(this.conversionService.toRawInches(this.conversionService.parseTextParts(playerDetails, "Height: ", ".")));
-                        player.setWeight(this.conversionService.toRawInches(this.conversionService.parseTextParts(playerDetails, "Weight: ", ".")));
-                        player.setProjectedRound(this.conversionService.parseTextParts(playerDetails, "Projected Round (" + year + "): ", "."));
+                        player.setHeight(this.combineImporterConversionService.toRawInches(this.combineImporterConversionService.parseTextParts(playerDetails, "Height: ", ".")));
+                        player.setWeight(this.combineImporterConversionService.toRawInches(this.combineImporterConversionService.parseTextParts(playerDetails, "Weight: ", ".")));
+                        player.setProjectedRound(this.combineImporterConversionService.parseTextParts(playerDetails, "Projected Round (" + year + "): ", "."));
 
                         try {
-                            player.setFortyYardDash(Double.parseDouble(this.conversionService.parseTextParts(playerDetails, "Projected 40 Time: ", 4)));
+                            player.setFortyYardDash(Double.parseDouble(this.combineImporterConversionService.parseTextParts(playerDetails, "Projected 40 Time: ", 4)));
                         } catch (NumberFormatException e) {
                             System.out.println("No forty yard dash value found");
                         }
-                        addToPlayersList(player);
+                        addToPlayersList(player, players);
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }
@@ -484,7 +491,7 @@ public class ParserService {
         }
     }
 
-    public void loadCbsSportsDraft() throws IOException {
+    public void loadCbsSportsDraft(String importUUID, List<Player> players) throws IOException {
 
         for (int year = 2018; year <= 2018; year++) {
 
@@ -536,12 +543,12 @@ public class ParserService {
                                     player.setPositionRank(0);
                                 }
                             } else if ("School".equals(currentHeader)) {
-                                player.setCollege(this.conversionService.collegeNameToId(value.replace("amp;", "")));
+                                player.setCollege(this.combineImporterConversionService.collegeNameToId(value.replace("amp;", "")));
                                 player.setCollegeText(value.replace("amp;", ""));
                             } else if ("Class".equals(currentHeader)) {
                                 player.setYearClass(value);
                             } else if ("Ht.".equals(currentHeader)) {
-                                player.setHeight(this.conversionService.toRawInches(value));
+                                player.setHeight(this.combineImporterConversionService.toRawInches(value));
                             } else if ("Wt.".equals(currentHeader)) {
                                 player.setWeight(Double.parseDouble(value));
                             } else if ("Proj. Round".equals(currentHeader)) {
@@ -559,7 +566,7 @@ public class ParserService {
                         player.setYear(year);
                         player.setPosition(positionCategory);
                         player.setImportUUID(importUUID);
-                        addToPlayersList(player);
+                        addToPlayersList(player, players);
                     }
 
                 }
@@ -567,7 +574,7 @@ public class ParserService {
         }
     }
 
-    public void loadCombineDataForCbsSportsDraft() {
+    public void loadCombineDataForCbsSportsDraft(String importUUID, List<Player> players) {
 
         ArrayList<String> errors = new ArrayList<>();
         String response = this.jsonService.loadJson("nfl_draft_2017_data.json");
@@ -595,7 +602,7 @@ public class ParserService {
                 String position = prospect.getString("position");
                 String conference = prospect.getString("conference");
 
-                Player p = this.conversionService.findPlayerByNflData(firstname, lastname, college, conference, position);
+                Player p = this.combineImporterConversionService.findPlayerByNflData(firstname, lastname, college, conference, position);
                 if (p != null) {
                     p.setFortyYardDash(this.jsonService.getDoubleFromJSON(prospect, "fortyYardDash"));
                     p.setBenchPress(this.jsonService.getDoubleFromJSON(prospect, "benchPress"));
@@ -604,10 +611,10 @@ public class ParserService {
                     p.setThreeConeDrill(this.jsonService.getDoubleFromJSON(prospect, "threeConeDrill"));
                     p.setTwentyYardShuttle(this.jsonService.getDoubleFromJSON(prospect, "twentyYardShuttle"));
                     p.setSixtyYardShuttle(this.jsonService.getDoubleFromJSON(prospect, "sixtyYardShuttle"));
-                    p.setArmLength(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength")));
-                    p.setHandSize(this.conversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize")));
+                    p.setArmLength(this.combineImporterConversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "armLength")));
+                    p.setHandSize(this.combineImporterConversionService.toRawInches(this.jsonService.getStringFromJSON(prospect, "handSize")));
 
-                    inserted = this.dataSourceLayer.getCombineDao().updateWorkoutResults(p) > 0;
+                    inserted = this.combineDao.updateWorkoutResults(p) > 0;
                 }
 
             } catch (Exception e) {
@@ -623,9 +630,9 @@ public class ParserService {
 
     }
 
-    public void loadDraftTek() throws IOException {
+    public void loadDraftTek(String importUUID, List<Player> players) throws IOException {
 
-        List<Position> positions = this.dataSourceLayer.getCombineDao().getPositions();
+        List<Position> positions = this.combineDao.getPositions();
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 1; i <= 3; i++) {
@@ -633,7 +640,8 @@ public class ParserService {
             Document doc = Jsoup.connect(url).get();
             Element wrapper = doc.getElementById("content");
             List<Element> rows = wrapper.getElementsByClass("BigBoardColor1");
-            for (Element row : rows) {
+            for (int k = 0; k < rows.size(); k++) {
+                Element row = rows.get(k);
                 List<Element> tdElements = row.getElementsByTag("td");
                 Player player = new Player();
                 player.setSource("DraftTek");
@@ -648,18 +656,18 @@ public class ParserService {
                                 player.setName(value.replaceAll("[\\*’',]", ""));
                                 break;
                             case 3:
-                                player.setCollege(this.conversionService.collegeNameToId(value.replace("amp;", "")));
+                                player.setCollege(this.combineImporterConversionService.collegeNameToId(value.replace("amp;", "")));
                                 player.setCollegeText(value.replace("amp;", ""));
                                 break;
                             case 4:
                                 player.setPosition(getPositionDraftTek(value, positions));
 
                                 //once the position is determined, generate the position rank
-                                int positionRank = (int) (this.players.stream().filter(p -> player.getPosition().equals(p.getPosition())).count() + 1);
+                                int positionRank = (int) (players.stream().filter(p -> player.getPosition().equals(p.getPosition())).count() + 1);
                                 player.setPositionRank(positionRank);
                                 break;
                             case 5:
-                                player.setHeight(this.conversionService.toRawInches(value));
+                                player.setHeight(this.combineImporterConversionService.toRawInches(value));
                                 break;
                             case 6:
                                 player.setWeight(Double.parseDouble(value));
@@ -670,10 +678,10 @@ public class ParserService {
                     }
                 }
 
-                if (this.players.stream().filter(p -> p.getName() == null || player.getName() == null || p.getName().toLowerCase().equals(player.getName().toLowerCase())).collect(Collectors.toList()).isEmpty()) {
+                if (players.stream().filter(p -> p.getName() == null || player.getName() == null || p.getName().toLowerCase().equals(player.getName().toLowerCase())).collect(Collectors.toList()).isEmpty()) {
                     player.setImportUUID(importUUID);
                     player.setYear(currentYear);
-                    addToPlayersList(player);
+                    addToPlayersList(player, players);
                 }
             }
         }
@@ -760,4 +768,5 @@ public class ParserService {
             logger.warn("error loading player info for " + playerInfoSections.toString() + ". " + e.getMessage());
         }
     }
+
 }

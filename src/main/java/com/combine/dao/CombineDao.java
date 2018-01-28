@@ -1,18 +1,24 @@
 package com.combine.dao;
 
 import com.combine.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CombineDao {
+@Component
+public class CombineDao extends JdbcDaoSupport {
+
+    private List<College> colleges = null;
 
     static final String PLAYER_COL_ID = "id";
     static final String PLAYER_COL_RANK = "rank";
@@ -91,30 +97,28 @@ public class CombineDao {
 
     };
 
-    private JdbcTemplate jdbcTemplate;
-
-    public CombineDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public CombineDao(@Autowired DataSource dataSource) {
+        setDataSource(dataSource);
     }
 
     public List<Position> getPositions() {
-        return this.jdbcTemplate.query("select * from position", new GenericMapper<Position>(Position.class));
+        return this.getJdbcTemplate().query("select * from position", new GenericMapper<Position>(Position.class));
     }
 
     public List<Workout> getWorkouts() {
-        return this.jdbcTemplate.query("select * from workout", new GenericMapper<Workout>(Workout.class));
+        return getJdbcTemplate().query("select * from workout", new GenericMapper<Workout>(Workout.class));
     }
 
     public void deleteWorkoutResult() {
-        this.jdbcTemplate.update("delete from workout_result");
+        getJdbcTemplate().update("delete from workout_result");
     }
 
     public void deleteParticipant() {
-        this.jdbcTemplate.update("delete from participant");
+        getJdbcTemplate().update("delete from participant");
     }
 
     public void insertParticipant(Participant participant) {
-        this.jdbcTemplate.update(INSERT_PARTICIPANT, new Object[]{participant.getId(), participant.getFirstname(), participant.getLastname(),
+        getJdbcTemplate().update(INSERT_PARTICIPANT, new Object[]{participant.getId(), participant.getFirstname(), participant.getLastname(),
                 participant.getPosition(), participant.getHeight(), participant.getWeight(), participant.getHands(),
                 participant.getOverview(), participant.getStrengths(), participant.getWeaknesses(), participant.getComparision(),
                 participant.getBottom_line(), participant.getWhatScoutsSay(), participant.getCollege(),
@@ -122,17 +126,17 @@ public class CombineDao {
     }
 
     public void insertWorkoutResult(WorkoutResult workoutResult) {
-        this.jdbcTemplate.update(INSERT_WORKOUTRESULT, new Object[]{workoutResult.getParticipant(),
+        getJdbcTemplate().update(INSERT_WORKOUTRESULT, new Object[]{workoutResult.getParticipant(),
                 workoutResult.getResult(), workoutResult.getWorkout()});
     }
 
     public void insertConference(Conference conference) {
-        this.jdbcTemplate.update(INSERT_CONFERENCE, new Object[]{conference.getId(),
+        getJdbcTemplate().update(INSERT_CONFERENCE, new Object[]{conference.getId(),
                 conference.getName()});
     }
 
     public void insertCollege(College college) {
-        this.jdbcTemplate.update(INSERT_COLLEGE, new Object[]{college.getId(), college.getConf(), college.getName()});
+        getJdbcTemplate().update(INSERT_COLLEGE, new Object[]{college.getId(), college.getConf(), college.getName()});
     }
 
     /**
@@ -143,7 +147,7 @@ public class CombineDao {
      */
     public int insertPlayer(Player player) {
         try {
-            return this.jdbcTemplate.update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getCollegeText(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear(), player.getImportUUID(), player.getSource()});
+            return getJdbcTemplate().update(INSERT_PLAYER, new Object[]{player.getCollege(), player.getCollegeText(), player.getHeight(), player.getName(), player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getWeight(), player.getYearClass(), player.getYear(), player.getImportUUID(), player.getSource()});
         } catch (DuplicateKeyException e) {
             Player existingPlayer = this.getByNameAndYear(player);
             if (existingPlayer.getImportUUID() == null || !existingPlayer.getImportUUID().equals(player.getImportUUID())) {
@@ -154,7 +158,7 @@ public class CombineDao {
     }
 
     public Player getByNameAndYear(Player player) {
-        return this.jdbcTemplate.queryForObject("select * from player where name = ?", new Object[]{player.getName()}, new RowMapper<Player>() {
+        return getJdbcTemplate().queryForObject("select * from player where name = ?", new Object[]{player.getName()}, new RowMapper<Player>() {
 
             @Override
             public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -174,7 +178,7 @@ public class CombineDao {
 
     public int updatePlayer(Player player) {
         try {
-            return this.jdbcTemplate.update(UPDATE_PLAYER, new Object[]{player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getYearClass(), player.getYear(), player.getImportUUID(), player.getSource(), player.getName()});
+            return getJdbcTemplate().update(UPDATE_PLAYER, new Object[]{player.getPosition(), player.getPositionRank(), player.getProjectedRound(), player.getRank(), player.getYearClass(), player.getYear(), player.getImportUUID(), player.getSource(), player.getName()});
         } catch (DuplicateKeyException e) {
             System.out.println(e.getMessage());
             return 0;
@@ -182,11 +186,11 @@ public class CombineDao {
     }
 
     public void clearPlayersByYear(int year) {
-        this.jdbcTemplate.update(DELETE_PLAYERS_BY_YEAR, new Object[]{year});
+        getJdbcTemplate().update(DELETE_PLAYERS_BY_YEAR, new Object[]{year});
     }
 
     public List<College> allColleges() {
-        return this.jdbcTemplate.query("select * from college", new GenericMapper<College>(College.class));
+        return getJdbcTemplate().query("select * from college", new GenericMapper<College>(College.class));
     }
 
     public Player findByAttributes(String firstname, String lastname, String college, String conference,
@@ -199,7 +203,7 @@ public class CombineDao {
         params.addValue("position", "%" + position + "%");
         List<Player> playerResults = null;
 
-        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(this.jdbcTemplate.getDataSource());
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(getJdbcTemplate().getDataSource());
 
         try {
 
@@ -221,16 +225,27 @@ public class CombineDao {
     }
 
     public int updateWorkoutResults(Player player) {
-        return this.jdbcTemplate.update(UPDATE_WORKOUT_RESULTS, new Object[]{player.getFortyYardDash(), player.getBenchPress(),
+        return getJdbcTemplate().update(UPDATE_WORKOUT_RESULTS, new Object[]{player.getFortyYardDash(), player.getBenchPress(),
                 player.getVerticalJump(), player.getBroadJump(), player.getThreeConeDrill(), player.getTwentyYardShuttle(),
                 player.getSixtyYardShuttle(), player.getId()});
     }
 
     public int updateArmLengthAndHandSize(Player player) {
-        return this.jdbcTemplate.update(UPDATE_ARMLENGTH_HANDSIZE, new Object[]{player.getHandSize(), player.getArmLength(), player.getId()});
+        return getJdbcTemplate().update(UPDATE_ARMLENGTH_HANDSIZE, new Object[]{player.getHandSize(), player.getArmLength(), player.getId()});
     }
 
     public int updatePick(Player p) {
-        return this.jdbcTemplate.update(UPDATE_DRAFT_PICK, new Object[]{p.getRound(), p.getPick(), p.getTeam(), p.getId()});
+        return getJdbcTemplate().update(UPDATE_DRAFT_PICK, new Object[]{p.getRound(), p.getPick(), p.getTeam(), p.getId()});
+    }
+
+    public void init() {
+        this.colleges = this.allColleges();
+    }
+
+    public List<College> getColleges() {
+        if (this.colleges == null) {
+            init();
+        }
+        return colleges;
     }
 }
