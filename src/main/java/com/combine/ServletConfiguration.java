@@ -1,6 +1,6 @@
 package com.combine;
 
-import com.combine.controller.StartImportEventConsumer;
+import com.combine.controller.StartImportMessageConsumer;
 import com.combine.service.Config;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.amqp.core.*;
@@ -59,8 +59,8 @@ public class ServletConfiguration {
     }
 
     @Bean
-    public StartImportEventConsumer eventReceiver() {
-        return new StartImportEventConsumer();
+    public StartImportMessageConsumer eventReceiver() {
+        return new StartImportMessageConsumer();
     }
 
 }

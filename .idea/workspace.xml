@@ -2,85 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6079719d-97a1-40f7-b585-665736b81943" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mchange_c3p0_0_9_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mchange_mchange_commons_java_0_2_3_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_amqp_client_4_0_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_http_client_1_1_1_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_websocket_javax_websocket_api_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_jdbc_8_5_15.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_juli_8_5_15.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_annotations_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_client_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_continuation_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_plus_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlets_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_javax_websocket_client_impl_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_javax_websocket_server_impl_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_api_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_client_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_common_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_server_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_websocket_websocket_servlet_9_4_5_v20170502.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mortbay_jasper_apache_el_8_0_33.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_commons_5_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_tree_5_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_amqp_1_7_3_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_rabbit_1_7_3_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_amqp_1_5_4_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_1_5_4_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jetty_1_5_4_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_retry_spring_retry_1_2_0_RELEASE.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/ParserMessagePostProcessor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/WebConfigurer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportEventConsumer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/interceptor/ApiInterceptor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/Config.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/MessageService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/PlayerService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_1_3_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_errorprone_error_prone_annotations_2_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_compat_qual_2_0_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_flywaydb_flyway_core_3_2_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_2_4_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_2_4_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_2_4_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_2_4_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_2_4_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/combine/dal/DataSourceLayer.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_23_6_jre.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_19_0.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_2_4_RELEASE.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_4_3_9_RELEASE.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_2_4_RELEASE.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_9_RELEASE.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_2_4_RELEASE.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_3_9_RELEASE.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/combine/driver/Driver.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/combine/service/ConversionService.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/CombineImporterConversionService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventPublisher.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/CustomApplicationEventPublisher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportEventConsumer.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportMessageConsumer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressEvent.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressMessage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NflCombineImporter.iml" afterPath="$PROJECT_DIR$/NflCombineImporter.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/combine/service/JSONService.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/JSONService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/combine/service/MessageService.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/MessageService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java" afterPath="$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -104,36 +36,109 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="NflCombineImporterApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java">
+      <file leaf-file-name="ServletConfiguration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ParserService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="339" column="16" lean-forward="false" selection-start-line="339" selection-start-column="16" selection-end-line="339" selection-end-column="16" />
+            <state relative-caret-position="720">
+              <caret line="62" column="45" lean-forward="false" selection-start-line="62" selection-start-column="45" selection-end-line="62" selection-end-column="45" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#19793#19794#0" expanded="true" />
-                <element signature="e#19854#19855#0" expanded="true" />
-                <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
+                <element signature="e#1737#1738#0" expanded="true" />
+                <element signature="e#1800#1801#0" expanded="true" />
+                <element signature="e#2216#2217#0" expanded="true" />
+                <element signature="e#2271#2272#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MessageService.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MessageService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/MessageService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="33" column="55" lean-forward="false" selection-start-line="33" selection-start-column="55" selection-end-line="33" selection-end-column="55" />
+            <state relative-caret-position="335">
+              <caret line="44" column="32" lean-forward="false" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CombineDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="550">
+              <caret line="255" column="16" lean-forward="false" selection-start-line="255" selection-start-column="16" selection-end-line="255" selection-end-column="16" />
+              <folding>
+                <marker date="1517361592000" expanded="true" signature="1535:1568" ph="delete from " />
+                <marker date="1517361592000" expanded="true" signature="1625:1877" ph="INSERT INTO participant... " />
+                <marker date="1517361592000" expanded="true" signature="1937:2010" ph="INSERT INTO workout_result... " />
+                <marker date="1517361592000" expanded="true" signature="2067:2107" ph="INSERT INTO conf... " />
+                <marker date="1517361592000" expanded="true" signature="2160:2211" ph="INSERT INTO college... " />
+                <marker date="1517361592000" expanded="true" signature="2263:2483" ph="INSERT INTO player... " />
+                <marker date="1517361592000" expanded="true" signature="2535:2719" ph="update playe... " />
+                <marker date="1517361592000" expanded="true" signature="2794:3223" ph="select p.* f... player" />
+                <marker date="1517361592000" expanded="true" signature="3282:3662" ph="select p.* f... player" />
+                <marker date="1517361592000" expanded="true" signature="3743:4127" ph="select p.* f... player" />
+                <marker date="1517361592000" expanded="true" signature="4207:4590" ph="select p.* f... player" />
+                <marker date="1517361592000" expanded="true" signature="4674:5056" ph="select p.* f... player" />
+                <marker date="1517361592000" expanded="true" signature="5139:5520" ph="select p.* f... player" />
+                <marker date="1517361592000" expanded="true" signature="5893:6099" ph="UPDATE playe... " />
+                <marker date="1517361592000" expanded="true" signature="6165:6225" ph="UPDATE playe... " />
+                <marker date="1517361592000" expanded="true" signature="6283:6343" ph="UPDATE playe... " />
+                <marker date="1517361592000" expanded="true" signature="6903:6925" ph="select * fro... position" />
+                <marker date="1517361592000" expanded="true" signature="7062:7083" ph="select * fro... workout" />
+                <marker date="1517361592000" expanded="true" signature="7211:7237" ph="delete from " />
+                <marker date="1517361592000" expanded="true" signature="7320:7343" ph="delete from " />
+                <marker date="1517361592000" expanded="true" signature="9604:9639" ph="select * fro... player" />
+                <marker date="1517361592000" expanded="true" signature="11062:11083" ph="select * fro... college" />
+                <marker date="1517361592000" expanded="true" signature="15035:15135" ph="update publi... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ParserProgressEventListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="39" lean-forward="false" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ParserService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="432" column="38" lean-forward="false" selection-start-line="432" selection-start-column="38" selection-end-line="432" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ParserProgressEventPublisher.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventPublisher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="16" lean-forward="false" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ParserProgressEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEvent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="59" lean-forward="true" selection-start-line="5" selection-start-column="59" selection-end-line="5" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -148,38 +153,16 @@
               <caret line="6" column="39" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#339#340#0" expanded="true" />
-                <element signature="e#369#370#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JSONService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/JSONService.java">
+      <file leaf-file-name="StartImportMessageConsumer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportMessageConsumer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-418">
-              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="application.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="58" lean-forward="true" selection-start-line="1" selection-start-column="58" selection-end-line="1" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayerService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/PlayerService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
-              <caret line="13" column="34" lean-forward="false" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+            <state relative-caret-position="304">
+              <caret line="65" column="39" lean-forward="true" selection-start-line="65" selection-start-column="39" selection-end-line="65" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -187,68 +170,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ParserProgressEvent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressEvent.java">
+      <file leaf-file-name="ParserProgressMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="16" column="0" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="320">
+              <caret line="113" column="64" lean-forward="false" selection-start-line="113" selection-start-column="64" selection-end-line="113" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#928#929#0" expanded="true" />
-                <element signature="e#953#954#0" expanded="true" />
-                <element signature="e#989#990#0" expanded="true" />
-                <element signature="e#1017#1018#0" expanded="true" />
-                <element signature="e#1052#1053#0" expanded="true" />
-                <element signature="e#1083#1084#0" expanded="true" />
-                <element signature="e#1131#1132#0" expanded="true" />
-                <element signature="e#1171#1172#0" expanded="true" />
-                <element signature="e#1200#1201#0" expanded="true" />
-                <element signature="e#1227#1228#0" expanded="true" />
-                <element signature="e#1260#1261#0" expanded="true" />
-                <element signature="e#1291#1292#0" expanded="true" />
-                <element signature="e#1337#1338#0" expanded="true" />
-                <element signature="e#1377#1378#0" expanded="true" />
-                <element signature="e#1415#1416#0" expanded="true" />
-                <element signature="e#1449#1450#0" expanded="true" />
-                <element signature="e#1503#1504#0" expanded="true" />
-                <element signature="e#1549#1550#0" expanded="true" />
-                <element signature="e#1587#1588#0" expanded="true" />
-                <element signature="e#1619#1620#0" expanded="true" />
-                <element signature="e#1651#1652#0" expanded="true" />
-                <element signature="e#1681#1682#0" expanded="true" />
-                <element signature="e#1725#1726#0" expanded="true" />
-                <element signature="e#1763#1764#0" expanded="true" />
-                <element signature="e#1796#1797#0" expanded="true" />
-                <element signature="e#1827#1828#0" expanded="true" />
-                <marker date="1517091548000" expanded="false" signature="1908:1914" ph=" }" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServletConfiguration.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="44" column="5" lean-forward="false" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1836#1837#0" expanded="true" />
+                <element signature="e#1862#1863#0" expanded="true" />
                 <element signature="e#1893#1894#0" expanded="true" />
-                <element signature="e#2212#2213#0" expanded="true" />
-                <element signature="e#2265#2266#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StartImportEventConsumer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportEventConsumer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="44" column="49" lean-forward="false" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
-              <folding>
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -281,6 +211,8 @@
       <find>LOGGER</find>
       <find>DateTime</find>
       <find>new DateTime</find>
+      <find>LOGG</find>
+      <find>@Async</find>
     </findStrings>
     <replaceStrings>
       <replace>,&quot;</replace>
@@ -313,7 +245,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/combine/dal/DataSourceLayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/service/ConversionService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/WebConfigurer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/service/CombineImporterConversionService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/interceptor/ApiInterceptor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/jms/ProgressListenerQueue.java" />
@@ -322,7 +253,6 @@
         <option value="$PROJECT_DIR$/src/main/resources/application-dev.properties" />
         <option value="$PROJECT_DIR$/src/main/resources/application-prod.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/controller/NflCombineImporterController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/controller/EventConsumer.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/service/Config.java" />
@@ -330,10 +260,18 @@
         <option value="$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/ParserMessagePostProcessor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/service/PlayerService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportEventConsumer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/service/CustomApplicationEventPublisher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventPublisher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/combine/service/MessageService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportMessageConsumer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressMessage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java" />
       </list>
     </option>
   </component>
@@ -379,7 +317,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -427,15 +364,43 @@
               <item name="NflDraftImporter" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="combine" type="462c0819:PsiDirectoryNode" />
+              <item name="events" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NflCombineImporter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NflDraftImporter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="combine" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NflCombineImporter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NflDraftImporter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="combine" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="NflCombineImporter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="NflDraftImporter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -621,12 +586,16 @@
       <workItem from="1516846450118" duration="204000" />
       <workItem from="1517021003685" duration="7925000" />
       <workItem from="1517058452430" duration="11427000" />
-      <workItem from="1517087295444" duration="9768000" />
+      <workItem from="1517087295444" duration="10265000" />
+      <workItem from="1517116885216" duration="1275000" />
+      <workItem from="1517156692680" duration="3501000" />
+      <workItem from="1517357169816" duration="3881000" />
+      <workItem from="1517443583091" duration="4905000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64335000" />
+    <option name="totallyTimeSpent" value="78394000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1268" height="717" extended-state="0" />
@@ -634,7 +603,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.06430868" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27170417" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -643,24 +612,24 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31832796" sideWeight="0.49673736" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10610932" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3022508" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21615008" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11663948" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952693" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22508039" sideWeight="0.49673736" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32636657" sideWeight="0.49673736" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -674,89 +643,16 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="94" />
+      <option name="time" value="97" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7845">
-          <caret line="523" column="0" lean-forward="false" selection-start-line="523" selection-start-column="0" selection-end-line="523" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/model/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="21" lean-forward="false" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
-          <folding>
-            <element signature="e#4800#4801#0" expanded="false" />
-            <element signature="e#4820#4821#0" expanded="false" />
-            <element signature="e#4861#4862#0" expanded="false" />
-            <element signature="e#4888#4889#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/CombineImporterConversionService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2820">
-          <caret line="199" column="0" lean-forward="false" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/dal/DataSourceLayer.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="25" column="20" lean-forward="false" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#690#691#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/dal/DataSourceLayer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1920">
           <caret line="151" column="0" lean-forward="false" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
-          <folding>
-            <element signature="e#13166#13167#0" expanded="true" />
-            <element signature="e#13216#13217#0" expanded="true" />
-            <marker date="1517025512000" expanded="true" signature="1366:1399" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="1456:1708" ph="INSERT INTO participant... " />
-            <marker date="1517025512000" expanded="true" signature="1768:1841" ph="INSERT INTO workout_result... " />
-            <marker date="1517025512000" expanded="true" signature="1898:1938" ph="INSERT INTO conf... " />
-            <marker date="1517025512000" expanded="true" signature="1991:2042" ph="INSERT INTO college... " />
-            <marker date="1517025512000" expanded="true" signature="2094:2314" ph="INSERT INTO player... " />
-            <marker date="1517025512000" expanded="true" signature="2366:2550" ph="update playe... " />
-            <marker date="1517025512000" expanded="true" signature="2625:3054" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="3113:3493" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="3574:3958" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4038:4421" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4505:4887" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4970:5351" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="5724:5930" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="5996:6056" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="6114:6174" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="6734:6756" ph="select * fro... position" />
-            <marker date="1517025512000" expanded="true" signature="6893:6914" ph="select * fro... workout" />
-            <marker date="1517025512000" expanded="true" signature="7042:7068" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="7151:7174" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="9435:9470" ph="select * fro... player" />
-            <marker date="1517025512000" expanded="true" signature="10893:10914" ph="select * fro... college" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -766,9 +662,7 @@
           <caret line="356" column="41" lean-forward="false" selection-start-line="356" selection-start-column="41" selection-end-line="356" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
+            <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -777,7 +671,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2610">
           <caret line="185" column="31" lean-forward="false" selection-start-line="185" selection-start-column="31" selection-end-line="185" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -785,12 +678,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="34" column="21" lean-forward="true" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
-          <folding>
-            <element signature="e#4800#4801#0" expanded="false" />
-            <element signature="e#4820#4821#0" expanded="false" />
-            <element signature="e#4861#4862#0" expanded="false" />
-            <element signature="e#4888#4889#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -798,11 +685,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="25" column="20" lean-forward="false" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#690#691#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -810,32 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2265">
           <caret line="151" column="0" lean-forward="false" selection-start-line="151" selection-start-column="0" selection-end-line="151" selection-end-column="0" />
-          <folding>
-            <element signature="e#13166#13167#0" expanded="true" />
-            <element signature="e#13216#13217#0" expanded="true" />
-            <marker date="1517025512000" expanded="true" signature="1366:1399" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="1456:1708" ph="INSERT INTO participant... " />
-            <marker date="1517025512000" expanded="true" signature="1768:1841" ph="INSERT INTO workout_result... " />
-            <marker date="1517025512000" expanded="true" signature="1898:1938" ph="INSERT INTO conf... " />
-            <marker date="1517025512000" expanded="true" signature="1991:2042" ph="INSERT INTO college... " />
-            <marker date="1517025512000" expanded="true" signature="2094:2314" ph="INSERT INTO player... " />
-            <marker date="1517025512000" expanded="true" signature="2366:2550" ph="update playe... " />
-            <marker date="1517025512000" expanded="true" signature="2625:3054" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="3113:3493" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="3574:3958" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4038:4421" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4505:4887" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4970:5351" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="5724:5930" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="5996:6056" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="6114:6174" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="6734:6756" ph="select * fro... position" />
-            <marker date="1517025512000" expanded="true" signature="6893:6914" ph="select * fro... workout" />
-            <marker date="1517025512000" expanded="true" signature="7042:7068" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="7151:7174" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="9435:9470" ph="select * fro... player" />
-            <marker date="1517025512000" expanded="true" signature="10893:10914" ph="select * fro... college" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -845,9 +702,7 @@
           <caret line="356" column="41" lean-forward="false" selection-start-line="356" selection-start-column="41" selection-end-line="356" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
+            <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -856,7 +711,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2610">
           <caret line="185" column="31" lean-forward="false" selection-start-line="185" selection-start-column="31" selection-end-line="185" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -864,12 +718,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="34" column="21" lean-forward="false" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
-          <folding>
-            <element signature="e#4800#4801#0" expanded="false" />
-            <element signature="e#4820#4821#0" expanded="false" />
-            <element signature="e#4861#4862#0" expanded="false" />
-            <element signature="e#4888#4889#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -877,11 +725,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="24" column="27" lean-forward="false" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#690#691#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -891,9 +735,7 @@
           <caret line="44" column="152" lean-forward="false" selection-start-line="44" selection-start-column="52" selection-end-line="44" selection-end-column="152" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
+            <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -902,11 +744,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="24" column="27" lean-forward="false" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#690#691#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -916,9 +754,7 @@
           <caret line="44" column="152" lean-forward="false" selection-start-line="44" selection-start-column="52" selection-end-line="44" selection-end-column="152" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
+            <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -927,11 +763,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="24" column="27" lean-forward="false" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#690#691#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -941,9 +773,7 @@
           <caret line="44" column="152" lean-forward="false" selection-start-line="44" selection-start-column="52" selection-end-line="44" selection-end-column="152" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
+            <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -980,7 +810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
           <caret line="537" column="38" lean-forward="false" selection-start-line="537" selection-start-column="38" selection-end-line="537" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -995,12 +824,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding>
-            <element signature="e#4800#4801#0" expanded="false" />
-            <element signature="e#4820#4821#0" expanded="false" />
-            <element signature="e#4861#4862#0" expanded="false" />
-            <element signature="e#4888#4889#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1016,9 +839,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1026,7 +846,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="15" column="47" lean-forward="false" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1043,9 +862,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="542">
           <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1075,110 +891,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
           <caret line="44" column="49" lean-forward="false" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1003#1004#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3150">
-          <caret line="241" column="28" lean-forward="false" selection-start-line="241" selection-start-column="28" selection-end-line="241" selection-end-column="28" />
-          <folding>
-            <element signature="e#13166#13167#0" expanded="true" />
-            <element signature="e#13216#13217#0" expanded="true" />
-            <marker date="1517025512000" expanded="true" signature="1366:1399" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="1456:1708" ph="INSERT INTO participant... " />
-            <marker date="1517025512000" expanded="true" signature="1768:1841" ph="INSERT INTO workout_result... " />
-            <marker date="1517025512000" expanded="true" signature="1898:1938" ph="INSERT INTO conf... " />
-            <marker date="1517025512000" expanded="true" signature="1991:2042" ph="INSERT INTO college... " />
-            <marker date="1517025512000" expanded="true" signature="2094:2314" ph="INSERT INTO player... " />
-            <marker date="1517025512000" expanded="true" signature="2366:2550" ph="update playe... " />
-            <marker date="1517025512000" expanded="true" signature="2625:3054" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="3113:3493" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="3574:3958" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4038:4421" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4505:4887" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="4970:5351" ph="select p.* f... player" />
-            <marker date="1517025512000" expanded="true" signature="5724:5930" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="5996:6056" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="6114:6174" ph="UPDATE playe... " />
-            <marker date="1517025512000" expanded="true" signature="6734:6756" ph="select * fro... position" />
-            <marker date="1517025512000" expanded="true" signature="6893:6914" ph="select * fro... workout" />
-            <marker date="1517025512000" expanded="true" signature="7042:7068" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="7151:7174" ph="delete from " />
-            <marker date="1517025512000" expanded="true" signature="9435:9470" ph="select * fro... player" />
-            <marker date="1517025512000" expanded="true" signature="10893:10914" ph="select * fro... college" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="44" column="5" lean-forward="false" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1836#1837#0" expanded="true" />
-            <element signature="e#1893#1894#0" expanded="true" />
-            <element signature="e#2212#2213#0" expanded="true" />
-            <element signature="e#2265#2266#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/JSONService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-418">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="90">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
-          <caret line="1" column="58" lean-forward="true" selection-start-line="1" selection-start-column="58" selection-end-line="1" selection-end-column="58" />
+          <caret line="1" column="58" lean-forward="false" selection-start-line="1" selection-start-column="58" selection-end-line="1" selection-end-column="58" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#928#929#0" expanded="true" />
-            <element signature="e#953#954#0" expanded="true" />
-            <element signature="e#989#990#0" expanded="true" />
-            <element signature="e#1017#1018#0" expanded="true" />
-            <element signature="e#1052#1053#0" expanded="true" />
-            <element signature="e#1083#1084#0" expanded="true" />
-            <element signature="e#1131#1132#0" expanded="true" />
-            <element signature="e#1171#1172#0" expanded="true" />
-            <element signature="e#1200#1201#0" expanded="true" />
-            <element signature="e#1227#1228#0" expanded="true" />
-            <element signature="e#1260#1261#0" expanded="true" />
-            <element signature="e#1291#1292#0" expanded="true" />
-            <element signature="e#1337#1338#0" expanded="true" />
-            <element signature="e#1377#1378#0" expanded="true" />
-            <element signature="e#1415#1416#0" expanded="true" />
-            <element signature="e#1449#1450#0" expanded="true" />
-            <element signature="e#1503#1504#0" expanded="true" />
-            <element signature="e#1549#1550#0" expanded="true" />
-            <element signature="e#1587#1588#0" expanded="true" />
-            <element signature="e#1619#1620#0" expanded="true" />
-            <element signature="e#1651#1652#0" expanded="true" />
-            <element signature="e#1681#1682#0" expanded="true" />
-            <element signature="e#1725#1726#0" expanded="true" />
-            <element signature="e#1763#1764#0" expanded="true" />
-            <element signature="e#1796#1797#0" expanded="true" />
-            <element signature="e#1827#1828#0" expanded="true" />
-            <marker date="1517091548000" expanded="false" signature="1908:1914" ph=" }" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1186,7 +913,66 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-809">
           <caret line="434" column="16" lean-forward="false" selection-start-line="434" selection-start-column="16" selection-end-line="434" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/PlayerService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="13" column="34" lean-forward="false" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="10" column="44" lean-forward="false" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/CustomApplicationEventPublisher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="28" lean-forward="false" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#736#737#0" expanded="true" />
+            <element signature="e#786#787#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.9.RELEASE/spring-context-4.3.9.RELEASE-sources.jar!/org/springframework/context/ApplicationEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="27" column="22" lean-forward="false" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/ServletConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="62" column="45" lean-forward="false" selection-start-line="62" selection-start-column="45" selection-end-line="62" selection-end-column="45" />
+          <folding>
+            <element signature="e#1737#1738#0" expanded="true" />
+            <element signature="e#1800#1801#0" expanded="true" />
+            <element signature="e#2216#2217#0" expanded="true" />
+            <element signature="e#2271#2272#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="39" lean-forward="false" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1196,47 +982,14 @@
           <caret line="6" column="39" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#339#340#0" expanded="true" />
-            <element signature="e#369#370#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/NflCombineImporterApplication.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEventPublisher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/PlayerService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="13" column="34" lean-forward="false" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="339" column="16" lean-forward="false" selection-start-line="339" selection-start-column="16" selection-end-line="339" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#19793#19794#0" expanded="true" />
-            <element signature="e#19854#19855#0" expanded="true" />
-            <marker date="1517099941000" expanded="false" signature="20943:20951" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportEventConsumer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="44" column="49" lean-forward="false" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
+        <state relative-caret-position="285">
+          <caret line="19" column="16" lean-forward="false" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1245,10 +998,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/MessageService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="33" column="55" lean-forward="false" selection-start-line="33" selection-start-column="55" selection-end-line="33" selection-end-column="55" />
+        <state relative-caret-position="335">
+          <caret line="44" column="32" lean-forward="false" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/dao/CombineDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="255" column="16" lean-forward="false" selection-start-line="255" selection-start-column="16" selection-end-line="255" selection-end-column="16" />
+          <folding>
+            <marker date="1517361592000" expanded="true" signature="1535:1568" ph="delete from " />
+            <marker date="1517361592000" expanded="true" signature="1625:1877" ph="INSERT INTO participant... " />
+            <marker date="1517361592000" expanded="true" signature="1937:2010" ph="INSERT INTO workout_result... " />
+            <marker date="1517361592000" expanded="true" signature="2067:2107" ph="INSERT INTO conf... " />
+            <marker date="1517361592000" expanded="true" signature="2160:2211" ph="INSERT INTO college... " />
+            <marker date="1517361592000" expanded="true" signature="2263:2483" ph="INSERT INTO player... " />
+            <marker date="1517361592000" expanded="true" signature="2535:2719" ph="update playe... " />
+            <marker date="1517361592000" expanded="true" signature="2794:3223" ph="select p.* f... player" />
+            <marker date="1517361592000" expanded="true" signature="3282:3662" ph="select p.* f... player" />
+            <marker date="1517361592000" expanded="true" signature="3743:4127" ph="select p.* f... player" />
+            <marker date="1517361592000" expanded="true" signature="4207:4590" ph="select p.* f... player" />
+            <marker date="1517361592000" expanded="true" signature="4674:5056" ph="select p.* f... player" />
+            <marker date="1517361592000" expanded="true" signature="5139:5520" ph="select p.* f... player" />
+            <marker date="1517361592000" expanded="true" signature="5893:6099" ph="UPDATE playe... " />
+            <marker date="1517361592000" expanded="true" signature="6165:6225" ph="UPDATE playe... " />
+            <marker date="1517361592000" expanded="true" signature="6283:6343" ph="UPDATE playe... " />
+            <marker date="1517361592000" expanded="true" signature="6903:6925" ph="select * fro... position" />
+            <marker date="1517361592000" expanded="true" signature="7062:7083" ph="select * fro... workout" />
+            <marker date="1517361592000" expanded="true" signature="7211:7237" ph="delete from " />
+            <marker date="1517361592000" expanded="true" signature="7320:7343" ph="delete from " />
+            <marker date="1517361592000" expanded="true" signature="9604:9639" ph="select * fro... player" />
+            <marker date="1517361592000" expanded="true" signature="11062:11083" ph="select * fro... college" />
+            <marker date="1517361592000" expanded="true" signature="15035:15135" ph="update publi... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/events/ParserProgressEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="59" lean-forward="true" selection-start-line="5" selection-start-column="59" selection-end-line="5" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/model/ParserProgressMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="113" column="64" lean-forward="false" selection-start-line="113" selection-start-column="64" selection-end-line="113" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1862#1863#0" expanded="true" />
+            <element signature="e#1893#1894#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/controller/StartImportMessageConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="65" column="39" lean-forward="true" selection-start-line="65" selection-start-column="39" selection-end-line="65" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/combine/service/ParserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="432" column="38" lean-forward="false" selection-start-line="432" selection-start-column="38" selection-end-line="432" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1517451432000" expanded="false" signature="21404:21412" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>

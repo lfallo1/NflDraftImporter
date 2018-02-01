@@ -1,6 +1,8 @@
 package com.combine.service;
 
 import com.combine.dao.CombineDao;
+import com.combine.events.ParserProgressEvent;
+import com.combine.events.ParserProgressEventPublisher;
 import com.combine.model.*;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.apache.log4j.Logger;
@@ -55,7 +57,7 @@ public class ParserService {
     private PlayerService playerService;
 
     @Autowired
-    private MessageService messageService;
+    private ParserProgressEventPublisher parserProgressEventPublisher;
 
     public void parse() {
         this.playerService.clearDb();
@@ -337,19 +339,16 @@ public class ParserService {
         return interpolated;
     }
 
-    public void refreshAll(String importUUID, List<Player> players) throws IOException {
+    public void refreshAll(String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
-        this.messageService.sendProgressMessage(new ParserProgressEvent(importUUID, new Date(), 15, "Importing from NflDraftCountdown"));
-        loadNflDraftCountdown(2018, importUUID, players);
+        loadNflDraftCountdown(2018, importUUID, players, progress.init(20));
 
-        this.messageService.sendProgressMessage(new ParserProgressEvent(importUUID, new Date(), 37, "Importing from DraftTek"));
-        loadDraftTek(importUUID, players);
+        loadDraftTek(importUUID, players, progress.init(20));
 
-        this.messageService.sendProgressMessage(new ParserProgressEvent(importUUID, new Date(), 55, "Importing from WalterFootball"));
-        loadWalterFootballDraft(importUUID, players);
+        loadWalterFootballDraft(importUUID, players, progress.init(20));
     }
 
-    public void loadNflDraftCountdown(int year, String importUUID, List<Player> players) throws IOException {
+    public void loadNflDraftCountdown(int year, String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
         int NAME_COL_IDX = 1;
         int COLLEGE_COL_IDX = 2;
@@ -359,6 +358,7 @@ public class ParserService {
         String nflDraftCountdownURL = "http://www.draftcountdown.com/nfl-draft-ranking/" + year + "-";
         try {
             Map<String, String> positionsMap = this.combineImporterConversionService.mapOf(true, "QB", "quarterback", "RB", "running-back", "FB", "fullback", "WR", "wide-receiver", "TE", "tight-end", "OT", "offensive-tackle", "OG", "offensive-guard", "C", "center", "DE", "defensive-end", "DT", "defensive-tackle", "OLB", "outside-linebacker", "ILB", "inside-linebacker", "CB", "cornerback", "S", "safety", "LS", "long-snapper", "K", "kicker", "P", "punter", "RS", "return-specialist");
+            double page = 1;
             for (String pageLink : positionsMap.keySet()) {
                 String url = nflDraftCountdownURL + pageLink + "-rankings/";
 
@@ -366,6 +366,8 @@ public class ParserService {
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
                 HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+                this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(page, positionsMap.keySet().size(), "Importing DraftCountdown page " + page + " of " + positionsMap.keySet().size())));
 
                 try {
                     //load page
@@ -406,7 +408,7 @@ public class ParserService {
                 } catch (HttpClientErrorException e) {
                     System.out.println("error: " + e.toString());
                 }
-
+                page++;
             }
         } catch (InvalidArgumentException e) {
             System.out.println("Unable to parse map: " + e.toString());
@@ -420,11 +422,15 @@ public class ParserService {
         }
     }
 
-    public Integer insertPlayers(List<Player> players) {
-        return this.playerService.addPlayers(players);
+    public Integer insertPlayers(List<Player> players, ParserProgressMessage progress) {
+
+        this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(1, 2, "Saving to database")));
+        Integer result = this.playerService.addPlayers(players);
+        this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(2, 2, "Finished saving database")));
+        return result;
     }
 
-    public void loadWalterFootballDraft(String importUUID, List<Player> players) throws IOException {
+    public void loadWalterFootballDraft(String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
         String walterFootballURL = "http://walterfootball.com/draft";
         String[] walterFootballPositions = new String[]{"QB", "RB", "FB", "WR", "TE", "OT", "OG", "C", "DE", "DT", "NT", "OLB3-4", "DE3-4", "OLB", "ILB", "CB", "S", "K", "P"};
@@ -452,6 +458,8 @@ public class ParserService {
                 //parse html & get player list as html elements
                 Document doc = Jsoup.parse(response.getBody());
                 Elements playerListItems = doc.getElementById("MainContentBlock").getElementsByTag("ol").get(0).getElementsByTag("li");
+
+                this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(year - 2017, 2, "Importing WalterFootball year " + (year - 2017) + " of 2")));
 
                 //loop over each html player list item
                 for (int i = 0; i < playerListItems.size(); i++) {
@@ -630,14 +638,18 @@ public class ParserService {
 
     }
 
-    public void loadDraftTek(String importUUID, List<Player> players) throws IOException {
+    public void loadDraftTek(String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
         List<Position> positions = this.combineDao.getPositions();
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 1; i <= 3; i++) {
+
+            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(i, 3, "Importing DraftTek page " + i + " of 3")));
+
             String url = (i > 1 ? DRAFT_TEK_PAGE + i : DRAFT_TEK) + ASP_EXT;
             Document doc = Jsoup.connect(url).get();
+
             Element wrapper = doc.getElementById("content");
             List<Element> rows = wrapper.getElementsByClass("BigBoardColor1");
             for (int k = 0; k < rows.size(); k++) {

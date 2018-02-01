@@ -1,22 +1,26 @@
 package com.combine.dao;
 
 import com.combine.model.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class CombineDao extends JdbcDaoSupport {
+
+    private static final Logger logger = Logger.getLogger(CombineDao.class);
 
     private List<College> colleges = null;
 
@@ -247,5 +251,47 @@ public class CombineDao extends JdbcDaoSupport {
             init();
         }
         return colleges;
+    }
+
+    public void addParserProgress(ParserProgressMessage event) {
+
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(getJdbcTemplate());
+        // set the table name, primary key column name, and the array of column
+        // names
+        jdbcInsert.setTableName("public.parser_progress");
+        jdbcInsert.setColumnNames(Arrays.asList("id", "username", "date", "started", "finished", "description", "progress"));
+
+        // set the values to be inserted
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("id", event.getId());
+        parameters.put("username", event.getUsername());
+        parameters.put("date", new Date());
+        parameters.put("started", event.getStarted());
+        parameters.put("finished", event.getFinished());
+        parameters.put("description", event.getDescription());
+        parameters.put("progress", event.getProgress());
+
+        // execute insert
+        Number key = null;
+        try {
+            // perform the insert and return the key
+            jdbcInsert.execute(new MapSqlParameterSource(
+                    parameters));
+        } catch (DuplicateKeyException e) {
+            this.updateParserProgress(event);
+        } catch (Exception e) {
+            logger.warn("CombinaDao::addParserProgress -> Error adding parser object: " + e.toString());
+        }
+    }
+
+    public Integer updateParserProgress(ParserProgressMessage event) {
+        try {
+            return getJdbcTemplate().update("update public.parser_progress set date = ?, description = ?, finished = ?, progress = ? where id = ?",
+                    new Object[]{event.getDate(), event.getDescription(), event.getFinished(), event.getProgress(), event.getId()});
+        } catch (DataAccessException e) {
+            logger.warn("CombinaDao::updateParserProgress -> Error updating parser object: " + e.toString());
+            return -1;
+        }
     }
 }

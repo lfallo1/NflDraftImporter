@@ -1,28 +1,27 @@
 package com.combine.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
-public class ParserProgressEvent {
+public class ParserProgressMessage {
 
     private String id;
     private String username;
     private Date date;
-    private long progress;
+    private double progress;
     private String description;
     private Date started;
     private Date finished;
 
-    public ParserProgressEvent() {
+    //helper props
+    @JsonIgnore
+    private double distance;
+
+    private ParserProgressMessage() {
     }
 
-    public ParserProgressEvent(String id, Date date, long progress, String description) {
-        this.id = id;
-        this.date = date;
-        this.progress = progress;
-        this.description = description;
-    }
-
-    public ParserProgressEvent(String id, String username, Date date, long progress, String description, Date started, Date finished) {
+    public ParserProgressMessage(String id, String username, Date date, double progress, String description, Date started, Date finished) {
         this.id = id;
         this.username = username;
         this.date = date;
@@ -52,11 +51,11 @@ public class ParserProgressEvent {
         return date;
     }
 
-    public long getProgress() {
+    public double getProgress() {
         return progress;
     }
 
-    public void setProgress(long progress) {
+    public void setProgress(double progress) {
         this.progress = progress;
     }
 
@@ -86,5 +85,35 @@ public class ParserProgressEvent {
 
     public void setFinished(Date finished) {
         this.finished = finished;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public ParserProgressMessage finish() {
+        this.setProgress(100);
+        this.setFinished(new Date());
+        return this;
+    }
+
+    public ParserProgressMessage init(double distance) {
+        this.distance = distance;
+        return this;
+    }
+
+    public ParserProgressMessage with(Date date, double progress, String description) {
+        this.date = date;
+        this.progress = progress;
+        this.description = description;
+        return this;
+    }
+
+    public ParserProgressMessage with(double current, double total, String description) {
+        this.date = new Date();
+        this.progress = this.progress + (((current / total) * 10.0) * (this.distance / 100.0));
+        System.out.println("progress: " + progress);
+        this.description = description;
+        return this;
     }
 }

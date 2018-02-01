@@ -1,7 +1,8 @@
 package com.combine.service;
 
 import com.combine.ParserMessagePostProcessor;
-import com.combine.model.ParserProgressEvent;
+import com.combine.dao.CombineDao;
+import com.combine.model.ParserProgressMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -27,13 +28,21 @@ public class MessageService {
     @Qualifier("parserEventExchange")
     private Exchange exchange;
 
+    @Autowired
+    private CombineDao combineDao;
+
     final MessagePostProcessor messagePostProcessor = new ParserMessagePostProcessor(10000);
 
-    public void sendProgressMessage(ParserProgressEvent parserProgressEvent) {
+    public void sendProgressMessage(ParserProgressMessage parserProgressMessage) {
         try {
-            parserProgressEvent.setUsername("lfallo1");
-            String payload = new ObjectMapper().writeValueAsString(parserProgressEvent);
+            parserProgressMessage.setUsername("lfallo1");
+            String payload = new ObjectMapper().writeValueAsString(parserProgressMessage);
+
+            //add update to message queue
             this.rabbitTemplate.convertAndSend(exchange.getName(), config.getImportProgressRoutingKey(), payload, messagePostProcessor);
+
+            //add update to database
+            combineDao.addParserProgress(parserProgressMessage);
         } catch (JsonProcessingException e) {
             logger.warn("unable to send message: " + e.toString());
         }

@@ -1,8 +1,9 @@
 package com.combine.controller;
 
-import com.combine.model.ParserProgressEvent;
+import com.combine.events.ParserProgressEvent;
+import com.combine.events.ParserProgressEventPublisher;
+import com.combine.model.ParserProgressMessage;
 import com.combine.model.Player;
-import com.combine.service.MessageService;
 import com.combine.service.ParserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class StartImportEventConsumer {
+public class StartImportMessageConsumer {
 
     static final int TYPE_ALL = 0;
     static final int TYPE_DRAFTEK = 1;
@@ -23,35 +24,38 @@ public class StartImportEventConsumer {
     static final int TYPE_WALTERFOOTBALL = 3;
     static final int TYPE_CBSSPORTS = 4;
 
-    private Logger logger = LoggerFactory.getLogger(StartImportEventConsumer.class);
+    private Logger logger = LoggerFactory.getLogger(StartImportMessageConsumer.class);
 
     @Autowired
     private ParserService parserService;
 
     @Autowired
-    private MessageService messageService;
+    private ParserProgressEventPublisher parserProgressEventPublisher;
 
     @RabbitListener(queues = "parserInitializeQueue")
     public void receive(Integer type) {
-        //TODO refactor - setup progress messages inside each individual importer.
+
+        String uuid = UUID.randomUUID().toString();
+
+        //publish initial event
+        ParserProgressMessage progress = new ParserProgressMessage(uuid, "lfallo1", new Date(), 0, "Beginning import", new Date(), null);
+        this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress));
+
         try {
-            String uuid = UUID.randomUUID().toString();
+
             List<Player> players = new ArrayList<>();
             switch (type) {
                 case TYPE_ALL:
-                    this.parserService.refreshAll(uuid, players);
+                    this.parserService.refreshAll(uuid, players, progress);
                     break;
                 case TYPE_DRAFTEK:
-                    this.messageService.sendProgressMessage(new ParserProgressEvent(uuid, new Date(), 50, "Importing from DraftTek"));
-                    this.parserService.loadDraftTek(uuid, players);
+                    this.parserService.loadDraftTek(uuid, players, progress.init(50));
                     break;
                 case TYPE_DRAFTCOUNTDOWN:
-                    this.messageService.sendProgressMessage(new ParserProgressEvent(uuid, new Date(), 50, "Importing from NflDraftCountdown"));
-                    this.parserService.loadNflDraftCountdown(2018, uuid, players);
+                    this.parserService.loadNflDraftCountdown(2018, uuid, players, progress.init(50));
                     break;
                 case TYPE_WALTERFOOTBALL:
-                    this.messageService.sendProgressMessage(new ParserProgressEvent(uuid, new Date(), 50, "Importing from Walter Football"));
-                    this.parserService.loadWalterFootballDraft(uuid, players);
+                    this.parserService.loadWalterFootballDraft(uuid, players, progress.init(50));
                     break;
                 case TYPE_CBSSPORTS:
                     /* Currently disabled */
@@ -59,14 +63,13 @@ public class StartImportEventConsumer {
                     break;
             }
 
-            //insert players
-            this.messageService.sendProgressMessage(new ParserProgressEvent(uuid, new Date(), 75, "Saving records to database"));
-            this.parserService.insertPlayers(players);
+            this.parserService.insertPlayers(players, progress.init(100 - (int) progress.getProgress()));
 
             //send finished message
-            this.messageService.sendProgressMessage(new ParserProgressEvent(uuid, new Date(), 100, "Import complete"));
+            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.finish()));
 
         } catch (IOException e) {
+            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(new Date(), 0, "Import failed")));
             logger.warn("Error executing refresh");
         }
     }
