@@ -63,4 +63,15 @@ public class ServletConfiguration {
         return new StartImportMessageConsumer();
     }
 
+//    @Bean
+//    public ConnectionFactory rabbitMQ() throws NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
+//        ConnectionFactory factory = new ConnectionFactory();
+//        factory.setUri("amqp://ewfchmap:smgvJhVkye4ErlZKBHVQwUC07egmevd4@spider.rmq.cloudamqp.com/ewfchmap");
+//
+//        //Recommended settings
+//        factory.setRequestedHeartbeat(30);
+//        factory.setConnectionTimeout(30000);
+//        return factory;
+//    }
+
 }
