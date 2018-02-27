@@ -4,7 +4,6 @@ import com.combine.dao.CombineDao;
 import com.combine.events.ParserProgressEvent;
 import com.combine.events.ParserProgressEventPublisher;
 import com.combine.model.*;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -410,7 +409,7 @@ public class ParserService {
                 }
                 page++;
             }
-        } catch (InvalidArgumentException e) {
+        } catch (ExceptionInInitializerError e) {
             System.out.println("Unable to parse map: " + e.toString());
         }
     }

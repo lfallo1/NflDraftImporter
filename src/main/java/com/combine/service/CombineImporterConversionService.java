@@ -3,7 +3,6 @@ package com.combine.service;
 import com.combine.dao.CombineDao;
 import com.combine.model.College;
 import com.combine.model.Player;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -282,9 +281,9 @@ public class CombineImporterConversionService {
      * @param <S>
      * @param <T>
      * @return
-     * @throws InvalidArgumentException
+     * @throws ExceptionInInitializerError
      */
-    public <S, T> Map<S, T> mapOf(boolean valueFirst, Object... val) throws InvalidArgumentException {
+    public <S, T> Map<S, T> mapOf(boolean valueFirst, Object... val) throws ExceptionInInitializerError {
         if (val.length % 2 == 0) {
             Map<S, T> map = new HashMap<>();
             for (int i = 0; i < val.length; i += 2) {
@@ -296,7 +295,7 @@ public class CombineImporterConversionService {
             }
             return map;
         }
-        throw new InvalidArgumentException(new String[]{"Invalid number of arguments"});
+        throw new ExceptionInInitializerError("Invalid number of arguments");
     }
 
 }
