@@ -340,11 +340,13 @@ public class ParserService {
 
     public void refreshAll(String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
-        loadNflDraftCountdown(2018, importUUID, players, progress.init(20));
+        loadNflDraftCountdown(2018, importUUID, players, progress.init(15));
 
-        loadDraftTek(importUUID, players, progress.init(20));
+        loadDraftTek(importUUID, players, progress.init(15));
 
-        loadWalterFootballDraft(importUUID, players, progress.init(20));
+        loadWalterFootballDraft(importUUID, players, progress.init(15));
+
+        loadCbsSportsDraft(importUUID, players, progress.init(15));
     }
 
     public void loadNflDraftCountdown(int year, String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
@@ -498,86 +500,64 @@ public class ParserService {
         }
     }
 
-    public void loadCbsSportsDraft(String importUUID, List<Player> players) throws IOException {
+    public void loadCbsSportsDraft(String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
-        for (int year = 2018; year <= 2018; year++) {
+        int NAME_COL_IDX = 2;
+        int COLLEGE_COL_IDX = 3;
+        int CLASS_IDX = 4;
+        int POSITION_IDX = 5;
+        int POSITION_RANK_IDX = 6;
+        int HEIGHT_COL_IDX = 7;
+        int WEIGHT_COL_IDX = 8;
+        String nflDraftCountdownURL = "https://www.cbssports.com/nfl/draft/prospect-rankings/";
+        try {
+            //set user-agent header
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
-            String url = interpolate(CBS_SPORTS_DRAFT, "year", String.valueOf(year));
-            for (String positionCategory : ALL_POSITIONS) {
-                Document doc = Jsoup.connect(interpolate(url.toString(), "pos", positionCategory)).timeout(20 * 1000).get();
-                Element table = doc.getElementById("prospectRankingsTable");
-                List<Element> rows = table.getElementsByTag("tr");
+            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(1, 1, "Importing DraftCountdown")));
 
-                //for the first row, map headers
-                Map<Integer, String> headers = new HashMap<>();
-                for (int i = 0; i < rows.get(0).getElementsByTag("td").size(); i++) {
-                    String header = rows.get(0).getElementsByTag("td").get(i).getElementsByTag("a").html();
-                    headers.put(i, header);
-                }
+            try {
+                //load page
+                ResponseEntity<String> response = restTemplate.exchange(
+                        nflDraftCountdownURL, HttpMethod.GET, entity, String.class);
 
-                //for all other rows, create player from data and add to array list
-                for (int i = 1; i < rows.size(); i++) {
-                    Element row = rows.get(i);
-                    List<Element> tdElements = row.getElementsByTag("td");
+                Document document = Jsoup.parse(response.getBody());
+                Element tableWrapper = document.getElementById("video-playlist");
+                Elements playerRows = tableWrapper.getElementsByTag("tbody")
+                        .get(0).getElementsByTag("tr");
+
+                //setup event object to be used as payload in progress messages
+                for (int i = 0; i < playerRows.size(); i++) {
                     Player player = new Player();
-                    player.setSource("CBS");
-                    for (int j = 0; j < tdElements.size(); j++) {
+                    player.setSource("NFLDraftCountdown");
+                    player.setRank(i + 1);
+                    player.setImportUUID(importUUID);
 
-                        //get value & null check
-                        String value = tdElements.get(j).html();
-                        if (!StringUtils.isEmpty(value)) {
+                    Elements dataElements = playerRows.get(i).getElementsByTag("td");
+                    player.setName(dataElements.get(NAME_COL_IDX).getElementsByTag("a").get(0).html().replaceAll("[\\*’',]", ""));
+                    player.setYearClass(dataElements.get(CLASS_IDX).html().replaceAll("[\\*’',]", ""));
 
-                            //determine what field on the player object should be set to the current value
-                            String currentHeader = headers.get(j);
-                            if ("Rank".equals(headers.get(j))) {
-                                try {
-                                    player.setRank(Integer.parseInt(value));
-                                } catch (NumberFormatException ex) {
-                                    player.setRank(0);
-                                }
-                            } else if ("Player".equals(currentHeader)) {
-                                if (value.contains("href=")) {
-                                    player.setName(tdElements.get(j).getElementsByTag("a").get(0).html().replaceAll("[\\*’',]", ""));
-                                } else if (value.contains("<img")) {
-                                    player.setName(value.substring(0, value.indexOf("<")).replaceAll("[\\*’',]", ""));
-                                } else {
-                                    player.setName(value.replaceAll("[\\*’',]", ""));
-                                }
-                            } else if ("Pos. Rank".equals(currentHeader)) {
-                                try {
-                                    player.setPositionRank(Integer.parseInt(value));
-                                } catch (NumberFormatException ex) {
-                                    player.setPositionRank(0);
-                                }
-                            } else if ("School".equals(currentHeader)) {
-                                player.setCollege(this.combineImporterConversionService.collegeNameToId(value.replace("amp;", "")));
-                                player.setCollegeText(value.replace("amp;", ""));
-                            } else if ("Class".equals(currentHeader)) {
-                                player.setYearClass(value);
-                            } else if ("Ht.".equals(currentHeader)) {
-                                player.setHeight(this.combineImporterConversionService.toRawInches(value));
-                            } else if ("Wt.".equals(currentHeader)) {
-                                player.setWeight(Double.parseDouble(value));
-                            } else if ("Proj. Round".equals(currentHeader)) {
-                                if (value.contains("&#x")) {
-                                    player.setProjectedRound("Undrafted");
-                                } else {
-                                    player.setProjectedRound(value);
-                                }
-                            }
-                        }
-                    }
+                    //position / position rank
+                    player.setPosition(dataElements.get(POSITION_IDX).html().replaceAll("[ \\*’',]", ""));
+                    player.setPositionRank(Integer.parseInt(dataElements.get(POSITION_RANK_IDX).html().replaceAll("[ \\*’',]", "")));
 
-                    //if not a bogus record, add to list
-                    if (!StringUtils.isEmpty(player.getName()) && player.getName().length() > 2) {
-                        player.setYear(year);
-                        player.setPosition(positionCategory);
-                        player.setImportUUID(importUUID);
-                        addToPlayersList(player, players);
-                    }
+                    //college
+                    String collegeText = dataElements.get(COLLEGE_COL_IDX).html();
+                    player.setCollege(this.combineImporterConversionService.collegeNameToId(collegeText));
+                    player.setCollegeText(collegeText);
+
+                    player.setHeight(this.combineImporterConversionService.toRawInches(dataElements.get(HEIGHT_COL_IDX).html()));
+                    player.setWeight(Double.parseDouble(dataElements.get(WEIGHT_COL_IDX).html()));
+                    addToPlayersList(player, players);
 
                 }
+            } catch (HttpClientErrorException e) {
+                System.out.println("error: " + e.toString());
             }
+        } catch (ExceptionInInitializerError e) {
+            System.out.println("Unable to parse map: " + e.toString());
         }
     }
 

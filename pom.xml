@@ -4,7 +4,7 @@
     <groupId>com.nflcombineimport</groupId>
     <artifactId>NflCombineImporter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <build>
         <finalName>NflCombineImporter</finalName>
         <plugins>

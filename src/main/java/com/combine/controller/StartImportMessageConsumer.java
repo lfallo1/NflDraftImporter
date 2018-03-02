@@ -58,8 +58,7 @@ public class StartImportMessageConsumer {
                     this.parserService.loadWalterFootballDraft(uuid, players, progress.init(50));
                     break;
                 case TYPE_CBSSPORTS:
-                    /* Currently disabled */
-//                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>());
+                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>(), progress.init(50));
                     break;
             }
 
