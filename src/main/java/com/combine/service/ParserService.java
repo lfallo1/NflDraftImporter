@@ -33,7 +33,7 @@ public class ParserService {
     private static final int DRAFT_LISTENER_WAIT_TIME = 120000; //2 minutes in ms
     private static final Logger logger = Logger.getLogger(ParserService.class);
 
-    private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2017/";
+    private static final String JSON_URL = "http://www.nfl.com/liveupdate/combine/2018/";
     private static final String PROFILES_URL = "http://www.nfl.com/combine/profiles/";
     private static final String ASP_EXT = ".asp";
     private static final String DRAFT_TEK = "http://www.drafttek.com/Top-100-NFL-Draft-Prospects-2018";
@@ -59,12 +59,12 @@ public class ParserService {
     private ParserProgressEventPublisher parserProgressEventPublisher;
 
     public void parse() {
-        this.playerService.clearDb();
+//        this.playerService.clearDb();
 //		List<Participant> participants = this.retrieveParticipants();
-        List<Participant> participants = new ArrayList<>();
-        List<WorkoutResult> workoutResults = this.getWorkoutResults();
-        this.playerService.addParticipants(participants);
-        this.playerService.addWorkoutResults(workoutResults);
+//        List<Participant> participants = new ArrayList<>();
+//        List<WorkoutResult> workoutResults = this.getWorkoutResults();
+//        this.playerService.addParticipants(participants);
+//        this.playerService.addWorkoutResults(workoutResults);
     }
 
     public void insertColleges() {
@@ -96,12 +96,18 @@ public class ParserService {
     }
 
 
-    private List<WorkoutResult> getWorkoutResults() {
-        List<WorkoutResult> results = new ArrayList<WorkoutResult>();
+    public void getCombineWorkoutResults(ParserProgressMessage progress) {
+
+        List<Position> positions = this.combineDao.getPositions();
         String response = null;
         JSONArray array = null;
         List<Workout> workouts = this.combineDao.getWorkouts();
+        int total = 0;
         for (int j = 0; j < workouts.size(); j++) {
+
+            progress.with((j + 1), workouts.size(), "Updating combine workouts [" + workouts.get(j).getName() + "]");
+            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress));
+
             try {
                 response = this.restTemplate.getForObject(JSON_URL + workouts.get(j).getName() + "/ALL.json",
                         String.class);
@@ -110,17 +116,51 @@ public class ParserService {
                     JSONObject object = null;
                     try {
                         object = array.getJSONObject(i);
-                        WorkoutResult res = new WorkoutResult();
-                        res.setParticipant(object.getInt("id"));
+                        String name = StringUtils.capitalize(object.getString("firstName").toLowerCase()) + " " + StringUtils.capitalize(object.getString("lastName").toLowerCase());
+                        String positionText = object.getString("position");
+                        Integer position = this.playerService.findPositionByName(positionText, positions);
+                        String collegeText = object.getString("college");
+                        Integer college = this.combineImporterConversionService.collegeNameToId(collegeText);
+
+                        Player player = new Player();
+                        player.setName(name);
+                        player.setCollege(college);
+                        player.setCollegeText(collegeText);
+                        player.setYear(2018);
+
+                        Double result = 0.0;
+                        String workout = "";
                         try {
-                            res.setResult(object.getDouble("result"));
+                            result = object.getDouble("result");
+                            workout = object.getString("workoutName");
+
+                            switch (workout) {
+                                case "Bench Press":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "bench_press");
+                                    break;
+                                case "40 Yard Dash":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "forty_yard_dash");
+                                    break;
+                                case "3 Cone Drill":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "three_cone_drill");
+                                    break;
+                                case "20 Yard Shuttle":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "twenty_yard_shuttle");
+                                    break;
+                                case "60 Yard Shuttle":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "sixty_yard_shuttle");
+                                    break;
+                                case "Vertical Jump":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "vertical_jump");
+                                    break;
+                                case "Broad Jump":
+                                    total += this.combineDao.updateWorkoutResults(player, position, result, "broad_jump");
+                                    break;
+                            }
+
                         } catch (Exception e) {
                             logger.warn("unable to load result for " + object.toString() + ". " + e.getMessage());
-                            res.setResult(null);
                         }
-
-                        res.setWorkout(workouts.get(j).getId());
-                        results.add(res);
                     } catch (Exception e) {
                         logger.warn("error retrieving info for " + object.toString() + ". " + e.getMessage());
                     }
@@ -130,7 +170,7 @@ public class ParserService {
                 logger.warn("error reading response for " + workouts.get(j).getName() + ". " + e.getMessage());
             }
         }
-        return results;
+        logger.info("Updated " + total + " combine records");
     }
 
     /**
@@ -143,7 +183,7 @@ public class ParserService {
         try {
 
             //load the doc
-            Document doc = Jsoup.connect("http://www.nfl.com/draft/2017/tracker?icampaign=draft-sub_nav_bar-drafteventpage-tracker").timeout(3000).get();
+            Document doc = Jsoup.connect("http://www.nfl.com/draft/2018/tracker?icampaign=draft-sub_nav_bar-drafteventpage-tracker").timeout(3000).get();
 
             boolean found = false;
             boolean hasNext = true;
@@ -340,14 +380,45 @@ public class ParserService {
 
     public void refreshAll(String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 
-        loadNflDraftCountdown(2018, importUUID, players, progress.init(15));
+//        loadNflCom(importUUID, players, progress.init(10));
 
-        loadDraftTek(importUUID, players, progress.init(15));
+        loadNflDraftCountdown(2018, importUUID, players, progress.init(20));
 
-        loadWalterFootballDraft(importUUID, players, progress.init(15));
+        loadDraftTek(importUUID, players, progress.init(20));
 
-        loadCbsSportsDraft(importUUID, players, progress.init(15));
+        loadWalterFootballDraft(importUUID, players, progress.init(20));
+
+//        loadCbsSportsDraft(importUUID, players, progress.init(10));
     }
+
+    public void updateCombineResults(ParserProgressMessage progress) {
+        this.getCombineWorkoutResults(progress);
+        logger.debug("PAUSE");
+    }
+
+    public void loadNflCom(String importUUID, List<Player> players, ParserProgressMessage init) {
+        List<College> allColleges = this.combineDao.allColleges();
+        Map<String, JSONObject> map = loadDraftPicksJs();
+        JSONObject prospectsJson = map.get("prospects");
+        for (Object prospectId : prospectsJson.keySet()) {
+            Player player = new Player();
+            JSONObject prospectJson = prospectsJson.getJSONObject(prospectId.toString());
+            player.setName(StringUtils.capitalize(prospectJson.getString("firstName").toLowerCase()) + " " + StringUtils.capitalize(prospectJson.getString("lastName").toLowerCase()));
+            player.setCollege(prospectJson.getInt("college"));
+            College college = this.playerService.findCollegeById(player.getCollege(), allColleges);
+            player.setCollegeText(college.getName());
+            Object weight = prospectJson.getDouble("weight");
+            if (null != weight) {
+                player.setWeight(Double.parseDouble(weight.toString()));
+            }
+            Object handSize = prospectJson.get("handSize");
+            if (null != handSize) {
+                player.setHandSize(Double.parseDouble(handSize.toString()));
+            }
+            addToPlayersList(player, players);
+        }
+    }
+
 
     public void loadNflDraftCountdown(int year, String importUUID, List<Player> players, ParserProgressMessage progress) throws IOException {
 

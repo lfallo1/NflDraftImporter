@@ -23,6 +23,8 @@ public class StartImportMessageConsumer {
     static final int TYPE_DRAFTCOUNTDOWN = 2;
     static final int TYPE_WALTERFOOTBALL = 3;
     static final int TYPE_CBSSPORTS = 4;
+    static final int TYPE_NFLCOM = 5;
+    static final int TYPE_COMBINE = 6;
 
     private Logger logger = LoggerFactory.getLogger(StartImportMessageConsumer.class);
 
@@ -58,7 +60,13 @@ public class StartImportMessageConsumer {
                     this.parserService.loadWalterFootballDraft(uuid, players, progress.init(50));
                     break;
                 case TYPE_CBSSPORTS:
-                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>(), progress.init(50));
+//                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>(), progress.init(50));
+                    break;
+                case TYPE_NFLCOM:
+//                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>(), progress.init(50));
+                    break;
+                case TYPE_COMBINE:
+                    this.parserService.updateCombineResults(progress.init(50));
                     break;
             }
 

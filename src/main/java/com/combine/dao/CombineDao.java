@@ -81,6 +81,8 @@ public class CombineDao extends JdbcDaoSupport {
 
     private static final String[] FIND_BY_ATTRIBUTE_QUERIES = new String[]{FIND_PLAYER_BY_FULLNAME_AND_COLLEGE, FIND_PLAYER_BY_NAME, FIND_PLAYER_BY_FIRSTNAME_POSITION_COLLEGE, FIND_PLAYER_BY_LASTNAME_POSITION_COLLEGE, FIND_PLAYER_BY_FIRSTNAME_POSITION_CONFERENCE, FIND_PLAYER_BY_LASTNAME_POSITION_CONFERENCE};
 
+    private static final String UPDATE_WORKOUT_RESULTS_PRE = "UPDATE player set ";
+
     private static final String UPDATE_WORKOUT_RESULTS = "UPDATE player set forty_yard_dash = ?, bench_press = ?, vertical_jump = ?, broad_jump = ?, " +
             "three_cone_drill = ?, twenty_yard_shuttle = ?, sixty_yard_shuttle = ?" +
             "where id = ?;";
@@ -228,6 +230,11 @@ public class CombineDao extends JdbcDaoSupport {
         return null;
     }
 
+    public int updateWorkoutResults(Player player, Integer position, Double result, String fieldName) {
+        String sql = UPDATE_WORKOUT_RESULTS_PRE + fieldName + " = ? where lower(name) = ? and year = ? and position = ?";
+        return getJdbcTemplate().update(sql, new Object[]{result, player.getName().toLowerCase(), player.getYear(), position});
+    }
+
     public int updateWorkoutResults(Player player) {
         return getJdbcTemplate().update(UPDATE_WORKOUT_RESULTS, new Object[]{player.getFortyYardDash(), player.getBenchPress(),
                 player.getVerticalJump(), player.getBroadJump(), player.getThreeConeDrill(), player.getTwentyYardShuttle(),
@@ -293,5 +300,9 @@ public class CombineDao extends JdbcDaoSupport {
             logger.warn("CombinaDao::updateParserProgress -> Error updating parser object: " + e.toString());
             return -1;
         }
+    }
+
+    public List<Conference> getConferences() {
+        return getJdbcTemplate().query("select * from conf", new GenericMapper<Conference>(Conference.class));
     }
 }

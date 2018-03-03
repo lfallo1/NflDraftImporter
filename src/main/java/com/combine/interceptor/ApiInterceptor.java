@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 /**
  * Interceptor designed to allow only logged in users to pass through
@@ -40,7 +39,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 
         try {
 
-            UUID uuid = UUID.fromString(req.getHeader("X-Auth-Token"));
+//            UUID uuid = UUID.fromString(req.getHeader("X-Auth-Token"));
 //            return applicationToken.equals(uuid.toString());
             return true;
 
