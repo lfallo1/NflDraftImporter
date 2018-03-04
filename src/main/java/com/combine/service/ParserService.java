@@ -79,7 +79,14 @@ public class ParserService {
             conferences.add(conf);
         }
 
-        String collegeResponse = this.jsonService.loadJson("colleges.json");
+        List<College> colleges = loadCollegesFromFile("colleges.json");
+
+        this.playerService.addConferences(conferences);
+        this.playerService.addColleges(colleges);
+    }
+
+    public List<College> loadCollegesFromFile(String fileName) {
+        String collegeResponse = this.jsonService.loadJson(fileName);
         List<College> colleges = new ArrayList<>();
         JSONArray collegesArray = new JSONArray(collegeResponse);
         for (int i = 0; i < collegesArray.length(); i++) {
@@ -90,20 +97,19 @@ public class ParserService {
             college.setName(obj.getString("name"));
             colleges.add(college);
         }
-
-        this.playerService.addConferences(conferences);
-        this.playerService.addColleges(colleges);
+        return colleges;
     }
 
 
     public void getCombineWorkoutResults(ParserProgressMessage progress) {
 
-        List<Player> nonAddedPlayers = new ArrayList<>();
-        List<Position> positions = this.combineDao.getPositions();
+        List<College> colleges = this.loadCollegesFromFile("colleges.json");
         String response = null;
         JSONArray array = null;
         List<Workout> workouts = this.combineDao.getWorkouts();
         int total = 0;
+
+        //load workouts
         for (int j = 0; j < workouts.size(); j++) {
 
             progress.with((j + 1), workouts.size(), "Updating combine workouts [" + workouts.get(j).getName() + "]");
@@ -120,9 +126,12 @@ public class ParserService {
                         object = array.getJSONObject(i);
                         String name = (StringUtils.capitalize(object.getString("firstName").toLowerCase()) + " " + StringUtils.capitalize(object.getString("lastName").toLowerCase())).replaceAll("'", "");
                         String positionText = object.getString("position");
-                        Integer position = this.playerService.findPositionByName(positionText, positions);
-                        String collegeText = object.getString("college").replaceAll("St\\.", "State");
-                        Integer college = this.combineImporterConversionService.collegeNameToId(collegeText);
+                        String collegeText = object.getString("college");
+                        Integer college = -1;
+                        College collegeObject = this.playerService.findCollegeByName(collegeText, colleges);
+                        if (collegeObject != null) {
+                            college = collegeObject.getId();
+                        }
 
                         Player player = new Player();
                         player.setName(name);
@@ -162,9 +171,8 @@ public class ParserService {
                                     count = this.combineDao.updateWorkoutResults(player, college, result, "broad_jump");
                                     break;
                             }
-
                             if (count == 0) {
-                                nonAddedPlayers.add(player);
+                                logger.info("Pause");
                             }
                             total += count;
 
@@ -180,7 +188,32 @@ public class ParserService {
                 logger.warn("error reading response for " + workouts.get(j).getName() + ". " + e.getMessage());
             }
         }
+
         logger.info("Updated " + total + " combine records");
+
+        //load armLength / handSize combine results
+        JSONObject nflComPlayerSource = loadDraftPicksJs().get("prospects");
+        for (Object id : nflComPlayerSource.keySet()) {
+            Player player = new Player();
+            JSONObject nflComPlayer = nflComPlayerSource.getJSONObject(id.toString());
+            String name = (StringUtils.capitalize(nflComPlayer.getString("firstName").toLowerCase()) + " " + StringUtils.capitalize(nflComPlayer.getString("lastName").toLowerCase())).replaceAll("'", "");
+            Integer college = -1;
+            try {
+                college = nflComPlayer.getInt("college");
+            } catch (JSONException e) {
+                logger.warn("ERROR PARSING COLLEGE: " + e.toString());
+            }
+            player.setName(name);
+            player.setCollege(college);
+            player.setYear(2018);
+
+            String handSize = nflComPlayer.getString("handSize");
+            String armLength = nflComPlayer.getString("armLength");
+            player.setHandSize(this.combineImporterConversionService.toRawInches(handSize));
+            player.setArmLength(this.combineImporterConversionService.toRawInches(armLength));
+            this.combineDao.updateArmHandsResults(player);
+        }
+
     }
 
     /**

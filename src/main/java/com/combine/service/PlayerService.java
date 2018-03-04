@@ -59,15 +59,16 @@ public class PlayerService {
 
     /**
      * find college by id
+     *
      * @param college
      * @param colleges
      * @return
      */
     public College findCollegeById(Integer college, List<College> colleges) {
-        return colleges.stream().filter(c->c.getId() == college).findFirst().get();
+        return colleges.stream().filter(c -> c.getId() == college).findFirst().get();
     }
 
-//    public void clearPlayersByYear(int year) {
+    //    public void clearPlayersByYear(int year) {
 //        this.combineDao.clearPlayersByYear(year);
 //    }
 //
@@ -76,17 +77,25 @@ public class PlayerService {
     }
 
     public Integer findPositionByName(String positionText, List<Position> positions) {
-        Optional<Position> position = positions.stream().filter(p->p.getName().equalsIgnoreCase(positionText)).findFirst();
-        if(position.isPresent()){
+        Optional<Position> position = positions.stream().filter(p -> p.getName().equalsIgnoreCase(positionText)).findFirst();
+        if (position.isPresent()) {
             return position.get().getId();
         }
         return -1;
     }
 
     public Conference getConferenceByCollegeId(College college, List<Conference> conferences) {
-        Optional<Conference> conference = conferences.stream().filter(c->c.getId() == college.getConf()).findFirst();
-        if(conference.isPresent()){
+        Optional<Conference> conference = conferences.stream().filter(c -> c.getId() == college.getConf()).findFirst();
+        if (conference.isPresent()) {
             return conference.get();
+        }
+        return null;
+    }
+
+    public College findCollegeByName(String collegeText, List<College> colleges) {
+        Optional<College> college = colleges.stream().filter(c -> c.getName().equalsIgnoreCase(collegeText)).findFirst();
+        if (college.isPresent()) {
+            return college.get();
         }
         return null;
     }

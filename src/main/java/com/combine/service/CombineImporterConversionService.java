@@ -5,6 +5,7 @@ import com.combine.model.College;
 import com.combine.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -19,7 +20,7 @@ public class CombineImporterConversionService {
 
     public Double toRawInches(String formattedInches) {
 
-        if (formattedInches == null) {
+        if (StringUtils.isEmpty(formattedInches)) {
             return 0.0;
         }
 

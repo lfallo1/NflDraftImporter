@@ -231,8 +231,8 @@ public class CombineDao extends JdbcDaoSupport {
     }
 
     public int updateWorkoutResults(Player player, Integer college, Double result, String fieldName) {
-        String sql = UPDATE_WORKOUT_RESULTS_PRE + fieldName + " = ? where lower(name) = ? and year = ?";
-        return getJdbcTemplate().update(sql, new Object[]{result, player.getName().toLowerCase(), player.getYear()});
+        String sql = UPDATE_WORKOUT_RESULTS_PRE + fieldName + " = ? where lower(name) = ? and college = ? and year = ?";
+        return getJdbcTemplate().update(sql, new Object[]{result, player.getName().toLowerCase(), college, player.getYear()});
     }
 
     public int updateWorkoutResults(Player player) {
@@ -305,4 +305,15 @@ public class CombineDao extends JdbcDaoSupport {
     public List<Conference> getConferences() {
         return getJdbcTemplate().query("select * from conf", new GenericMapper<Conference>(Conference.class));
     }
+
+    public int updateArmHandsResults(Player player) {
+        try {
+            return getJdbcTemplate().update("update public.player set arm_length = ?, hand_size = ? where lower(name) = ? and year = ? and college = ?",
+                    new Object[]{player.getArmLength(), player.getHandSize(), player.getName().toLowerCase(), player.getYear(), player.getCollege()});
+        } catch (DataAccessException e) {
+            logger.warn("CombinaDao::updateParserProgress -> Error updating parser object: " + e.toString());
+            return -1;
+        }
+    }
+
 }
