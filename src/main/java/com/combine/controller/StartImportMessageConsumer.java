@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +74,8 @@ public class StartImportMessageConsumer {
             //send finished message
             this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.finish()));
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            //if any error bubbles up, "gracefull" error out so that the queue doesn't continue delivering messages
             this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(new Date(), 0, "Import failed")));
             logger.warn("Error executing refresh");
         }

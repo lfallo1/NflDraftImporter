@@ -22,7 +22,7 @@ public class HealthController {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ResponseEntity<Void> checkEndpoint() {
-//        this.parserService.updateCombineResults(new ParserProgressMessage(UUID.randomUUID().toString(), "lfallo1", new Date(), 0, "Beginning import", new Date(), null));
+//        this.parserService.loadColleges();
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

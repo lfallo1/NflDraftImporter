@@ -79,31 +79,42 @@ public class ParserService {
             conferences.add(conf);
         }
 
-        List<College> colleges = loadCollegesFromFile("colleges.json");
+        List<College> colleges = loadColleges();
 
         this.playerService.addConferences(conferences);
         this.playerService.addColleges(colleges);
     }
 
-    public List<College> loadCollegesFromFile(String fileName) {
-        String collegeResponse = this.jsonService.loadJson(fileName);
+    public List<College> loadColleges() {
+
         List<College> colleges = new ArrayList<>();
-        JSONArray collegesArray = new JSONArray(collegeResponse);
-        for (int i = 0; i < collegesArray.length(); i++) {
-            JSONObject obj = collegesArray.getJSONObject(i);
-            College college = new College();
-            college.setId(obj.getInt("id"));
-            college.setConf(obj.getInt("conf"));
-            college.setName(obj.getString("name"));
-            colleges.add(college);
+
+        try {
+            Document doc = Jsoup.connect("http://www.nfl.com/draft/2018/tracker?icampaign=draft-sub_nav_bar-drafteventpage-tracker").timeout(3000).get();
+            int index = doc.toString().indexOf("nfl.global.dt.data.colleges");
+
+            String collegeResponse = doc.toString().substring(index, doc.toString().indexOf(";", index));
+            int start = collegeResponse.indexOf("{") - 1;
+            JSONObject collegesJSON = new JSONObject(collegeResponse.substring(start));
+            for (Object id : collegesJSON.keySet()) {
+                JSONObject obj = collegesJSON.getJSONObject(id.toString());
+                College college = new College();
+                college.setId(obj.getInt("id"));
+                college.setName(obj.getString("name"));
+                colleges.add(college);
+            }
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
+
         return colleges;
     }
 
 
     public void getCombineWorkoutResults(ParserProgressMessage progress) {
 
-        List<College> colleges = this.loadCollegesFromFile("colleges.json");
+        List<College> colleges = this.loadColleges();
         String response = null;
         JSONArray array = null;
         List<Workout> workouts = this.combineDao.getWorkouts();
