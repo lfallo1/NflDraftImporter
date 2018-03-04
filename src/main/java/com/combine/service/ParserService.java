@@ -98,6 +98,7 @@ public class ParserService {
 
     public void getCombineWorkoutResults(ParserProgressMessage progress) {
 
+        List<Player> nonAddedPlayers = new ArrayList<>();
         List<Position> positions = this.combineDao.getPositions();
         String response = null;
         JSONArray array = null;
@@ -114,49 +115,58 @@ public class ParserService {
                 array = new JSONObject(response).getJSONArray("data");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject object = null;
+
                     try {
                         object = array.getJSONObject(i);
-                        String name = StringUtils.capitalize(object.getString("firstName").toLowerCase()) + " " + StringUtils.capitalize(object.getString("lastName").toLowerCase());
+                        String name = (StringUtils.capitalize(object.getString("firstName").toLowerCase()) + " " + StringUtils.capitalize(object.getString("lastName").toLowerCase())).replaceAll("'", "");
                         String positionText = object.getString("position");
                         Integer position = this.playerService.findPositionByName(positionText, positions);
-                        String collegeText = object.getString("college");
+                        String collegeText = object.getString("college").replaceAll("St\\.", "State");
                         Integer college = this.combineImporterConversionService.collegeNameToId(collegeText);
 
                         Player player = new Player();
                         player.setName(name);
                         player.setCollege(college);
                         player.setCollegeText(collegeText);
+                        player.setPosition(positionText);
                         player.setYear(2018);
 
                         Double result = 0.0;
                         String workout = "";
                         try {
+
+                            int count = 0;
                             result = object.getDouble("result");
                             workout = object.getString("workoutName");
 
                             switch (workout) {
                                 case "Bench Press":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "bench_press");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "bench_press");
                                     break;
                                 case "40 Yard Dash":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "forty_yard_dash");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "forty_yard_dash");
                                     break;
                                 case "3 Cone Drill":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "three_cone_drill");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "three_cone_drill");
                                     break;
                                 case "20 Yard Shuttle":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "twenty_yard_shuttle");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "twenty_yard_shuttle");
                                     break;
                                 case "60 Yard Shuttle":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "sixty_yard_shuttle");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "sixty_yard_shuttle");
                                     break;
                                 case "Vertical Jump":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "vertical_jump");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "vertical_jump");
                                     break;
                                 case "Broad Jump":
-                                    total += this.combineDao.updateWorkoutResults(player, position, result, "broad_jump");
+                                    count = this.combineDao.updateWorkoutResults(player, college, result, "broad_jump");
                                     break;
                             }
+
+                            if (count == 0) {
+                                nonAddedPlayers.add(player);
+                            }
+                            total += count;
 
                         } catch (Exception e) {
                             logger.warn("unable to load result for " + object.toString() + ". " + e.getMessage());

@@ -230,9 +230,9 @@ public class CombineDao extends JdbcDaoSupport {
         return null;
     }
 
-    public int updateWorkoutResults(Player player, Integer position, Double result, String fieldName) {
-        String sql = UPDATE_WORKOUT_RESULTS_PRE + fieldName + " = ? where lower(name) = ? and year = ? and position = ?";
-        return getJdbcTemplate().update(sql, new Object[]{result, player.getName().toLowerCase(), player.getYear(), position});
+    public int updateWorkoutResults(Player player, Integer college, Double result, String fieldName) {
+        String sql = UPDATE_WORKOUT_RESULTS_PRE + fieldName + " = ? where lower(name) = ? and year = ?";
+        return getJdbcTemplate().update(sql, new Object[]{result, player.getName().toLowerCase(), player.getYear()});
     }
 
     public int updateWorkoutResults(Player player) {
