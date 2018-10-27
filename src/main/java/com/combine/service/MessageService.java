@@ -1,7 +1,9 @@
 package com.combine.service;
 
 import com.combine.dao.CombineDao;
+import com.combine.model.DraftRefreshPayload;
 import com.combine.model.ParserProgressMessage;
+import com.combine.model.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -10,6 +12,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MessageService {
@@ -40,6 +44,17 @@ public class MessageService {
             //add update to database
             combineDao.addParserProgress(parserProgressMessage);
         } catch (JsonProcessingException e) {
+            logger.warn("unable to send message: " + e.toString());
+        }
+    }
+
+    public void draftPickMessage(List<Player> players){
+        try {
+            DraftRefreshPayload draftRefreshPayload = new DraftRefreshPayload();
+            draftRefreshPayload.setPlayers(players);
+            String payload = new ObjectMapper().writeValueAsString(draftRefreshPayload);
+            this.rabbitTemplate.convertAndSend(exchange.getName(), config.getImportProgressRoutingKey(), payload);
+        } catch(JsonProcessingException e){
             logger.warn("unable to send message: " + e.toString());
         }
     }

@@ -58,6 +58,9 @@ public class ParserService {
     @Autowired
     private ParserProgressEventPublisher parserProgressEventPublisher;
 
+    @Autowired
+    private MessageService messageService;
+
     public void parse() {
 //        this.playerService.clearDb();
 //		List<Participant> participants = this.retrieveParticipants();
@@ -247,7 +250,7 @@ public class ParserService {
             while (!found && hasNext) {
 
                 //find the text nfl.global.dt.data
-                int index = doc.toString().indexOf("nfl.global.dt.data", startIdx);
+                int index = doc.toString().indexOf("__INITIAL_DATA__.instance", startIdx);
 
                 //if not found (hopefully this doesn't happen), then break out
                 if (index < 0) {
@@ -265,7 +268,7 @@ public class ParserService {
 
                         //parse the two objects & break out of the loop
                         prospects = obj.getJSONObject("prospects");
-                        picks = obj.getJSONObject("picks");
+//                        picks = obj.getJSONObject("picks");
                         found = true;
                     } catch (JSONException e) {
                         startIdx = index + 1;
@@ -291,83 +294,81 @@ public class ParserService {
      * Just a convenience method so I don't need to continually run this manually.
      */
     public void updateDraftPicks() {
-        boolean running = true;
-        while (running) {
 
-            //load the draft "picks" json object
-            Map<String, JSONObject> map = loadDraftPicksJs();
-            JSONObject picks = map.get("picks");
-            JSONObject prospects = map.get("prospects");
+        //load the draft "picks" json object
+        Map<String, JSONObject> map = loadDraftPicksJs();
+        JSONObject picks = map.get("picks");
+        JSONObject prospects = map.get("prospects");
 
-            //if not null
-            if (picks != null) {
+        List<Player> players = new ArrayList<>();
 
-                //save the keyset into a list for sorting (allows for prompt exiting... once first empty pick reached, can stop execution)
-                List<Object> listObj = new ArrayList<>(picks.keySet());
-                Collections.sort(listObj, (a, b) -> {
-                    Integer num1 = Integer.parseInt(a.toString());
-                    Integer num2 = Integer.parseInt(b.toString());
-                    return num1 > num2 ? 1 : num1 < num2 ? -1 : 0;
-                });
+        //if not null
+        if (picks != null) {
 
-                //loop over each key (1 through 253 [total number of picks])
-                for (Object key : listObj) {
+            //save the keyset into a list for sorting (allows for prompt exiting... once first empty pick reached, can stop execution)
+            List<Object> listObj = new ArrayList<>(picks.keySet());
+            Collections.sort(listObj, (a, b) -> {
+                Integer num1 = Integer.parseInt(a.toString());
+                Integer num2 = Integer.parseInt(b.toString());
+                return num1 > num2 ? 1 : num1 < num2 ? -1 : 0;
+            });
 
-                    //get the object
-                    JSONObject pick = picks.getJSONObject(key.toString());
+            //loop over each key (1 through 253 [total number of picks])
+            for (Object key : listObj) {
 
-                    try {
+                //get the object
+                JSONObject pick = picks.getJSONObject(key.toString());
 
-                        //try to load the player info for the pick.  this will throw an error if the pick hasn't been made yet, and the app will wait 2 minutes,
-                        //before loading the js file & trying again
-                        String playerId = pick.getString("player");
-                        if (StringUtils.isEmpty(playerId)) {
-                            //note that player should be null (which will result in the catch block being reached.
-                            //but if it's an empty string, this extra check is here
-                            throw new JSONException("Reached current pick: " + key.toString());
-                        }
+                try {
 
-                        //if a player was found, then find the player details via the playerid on the pick object
-                        JSONObject player = this.jsonService.findByKey(prospects, playerId);
-                        if (player != null) {
-
-                            //get the player name, and also set the draft pick info
-                            String firstname = this.jsonService.getStringFromJSON(player, "firstName");
-                            String lastname = this.jsonService.getStringFromJSON(player, "lastName");
-                            Integer roundNumber = pick.getInt("round");
-                            Integer pickNumber = pick.getInt("pick");
-                            String team = pick.getString("team");
-
-                            //lookup the player in the app's draft db
-                            Player p = this.combineImporterConversionService.findPlayerByNflData(firstname, lastname, "", "", "");
-                            if (p != null && (p.getRound() == null || p.getRound() == 0)) {
-
-                                //update the draft fields for the player
-                                p.setRound(roundNumber);
-                                p.setPick(pickNumber);
-                                p.setTeam(team);
-                                if (this.combineDao.updatePick(p) < 1) {
-                                    System.out.println("Unable to find " + pick.toString());
-                                }
-                            }
-                        }
-
-                    } catch (NullPointerException | JSONException e) {
-
-                        //on an error, break out of the loop
-                        logger.warn("Reached current pick: " + key.toString());
-                        break;
+                    //try to load the player info for the pick.  this will throw an error if the pick hasn't been made yet, and the app will wait 2 minutes,
+                    //before loading the js file & trying again
+                    String playerId = pick.getString("player");
+                    if (StringUtils.isEmpty(playerId)) {
+                        //note that player should be null (which will result in the catch block being reached.
+                        //but if it's an empty string, this extra check is here
+                        throw new JSONException("Reached current pick: " + key.toString());
                     }
+
+                    //if a player was found, then find the player details via the playerid on the pick object
+                    JSONObject player = this.jsonService.findByKey(prospects, playerId);
+                    if (player != null) {
+
+                        //get the player name, and also set the draft pick info
+                        String firstname = this.jsonService.getStringFromJSON(player, "firstName");
+                        String lastname = this.jsonService.getStringFromJSON(player, "lastName");
+                        Integer roundNumber = pick.getInt("round");
+                        Integer pickNumber = pick.getInt("pick");
+                        String team = pick.getString("team");
+
+                        //lookup the player in the app's draft db
+                        Player p = this.combineImporterConversionService.findPlayerByNflData(firstname, lastname, "", "", "");
+                        if (p != null && (p.getRound() == null || p.getRound().equals(0))) {
+
+                            //update the draft fields for the player
+                            p.setRound(roundNumber);
+                            p.setPick(pickNumber);
+                            p.setTeam(team);
+                            if (this.combineDao.updatePick(p) < 1) {
+                                logger.warn("Reached current pick: " + key.toString());
+                            }
+                            players.add(p);
+                        }
+                    }
+
+                } catch (NullPointerException | JSONException e) {
+
+                    //on an error, break out of the loop
+                    logger.warn("Reached current pick: " + key.toString());
+                    break;
                 }
             }
-
-            try {
-                Thread.sleep(DRAFT_LISTENER_WAIT_TIME);
-            } catch (InterruptedException e) {
-                running = false;
-                e.printStackTrace();
-            }
         }
+
+        if (players.size() > 0) {
+            this.messageService.draftPickMessage(players);
+        }
+
 
     }
 
@@ -436,7 +437,7 @@ public class ParserService {
 
 //        loadNflCom(importUUID, players, progress.init(10));
 
-        loadNflDraftCountdown(2018, importUUID, players, progress.init(20));
+//        loadNflDraftCountdown(2019, importUUID, players, progress.init(20));
 
         loadDraftTek(importUUID, players, progress.init(20));
 
@@ -560,7 +561,7 @@ public class ParserService {
 
         String walterFootballURL = "http://walterfootball.com/draft";
         String[] walterFootballPositions = new String[]{"QB", "RB", "FB", "WR", "TE", "OT", "OG", "C", "DE", "DT", "NT", "OLB3-4", "DE3-4", "OLB", "ILB", "CB", "S", "K", "P"};
-        for (int year = 2018; year <= 2019; year++) {
+        for (int year = 2019; year <= 2020; year++) {
             for (String position : walterFootballPositions) {
 
                 String url = "";
@@ -746,10 +747,11 @@ public class ParserService {
 
         List<Position> positions = this.combineDao.getPositions();
 
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 1; i <= 3; i++) {
+//        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentYear = 2019;
+        for (int i = 1; i <= 1; i++) {
 
-            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(i, 3, "Importing DraftTek page " + i + " of 3")));
+            this.parserProgressEventPublisher.publish(new ParserProgressEvent(progress.with(i, 1, "Importing DraftTek page " + i + " of 3")));
 
             String url = (i > 1 ? DRAFT_TEK_PAGE + i : DRAFT_TEK) + ASP_EXT;
             Document doc = Jsoup.connect(url).get();

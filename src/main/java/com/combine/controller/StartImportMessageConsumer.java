@@ -52,18 +52,18 @@ public class StartImportMessageConsumer {
                 case TYPE_DRAFTEK:
                     this.parserService.loadDraftTek(uuid, players, progress.init(50));
                     break;
-                case TYPE_DRAFTCOUNTDOWN:
-                    this.parserService.loadNflDraftCountdown(2018, uuid, players, progress.init(50));
-                    break;
+//                case TYPE_DRAFTCOUNTDOWN:
+//                    this.parserService.loadNflDraftCountdown(2019, uuid, players, progress.init(50));
+//                    break;
                 case TYPE_WALTERFOOTBALL:
                     this.parserService.loadWalterFootballDraft(uuid, players, progress.init(50));
                     break;
-                case TYPE_CBSSPORTS:
+//                case TYPE_CBSSPORTS:
 //                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>(), progress.init(50));
-                    break;
-                case TYPE_NFLCOM:
+//                    break;
+//                case TYPE_NFLCOM:
 //                    this.parserService.loadCbsSportsDraft(uuid, new ArrayList<>(), progress.init(50));
-                    break;
+//                    break;
                 case TYPE_COMBINE:
                     this.parserService.updateCombineResults(progress.init(50));
                     break;
